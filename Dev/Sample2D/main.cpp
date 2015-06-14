@@ -9,12 +9,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// DXライブラリの表示方法をウィンドウモードに変更する。
 	ChangeWindowMode(true);
 
-	// DXライブラリを初期化する。
-	if (DxLib_Init() == -1 || SetDrawScreen(DX_SCREEN_BACK) != 0) return -1;
+	//描画先を裏画面に変更する。
+	SetDrawScreen(DX_SCREEN_BACK);
 
-	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
-	// Effekseerを使用する場合は必ず設定する。
-	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
+	// DirectXEx9を使用しないようにする。
+	// Effekseerを使用するには必ず設定する。
+	SetUseDirect3D9Ex(FALSE);
+
+	// DXライブラリを初期化する。
+	if (DxLib_Init() == -1) return -1;
 
 	// Effekseerを初期化する。
 	// 引数には画面に表示する最大パーティクル数を設定する。
@@ -23,6 +26,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		DxLib_End();
 		return -1;
 	}
+
+	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
+	// Effekseerを使用する場合は必ず設定する。
+	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
 
 	// DXライブラリのデバイスロストした時のコールバックを設定する。
 	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
@@ -35,7 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	int effectHandle = LoadEffekseerEffect("test.efk");
 
 	// 何でもいいので画像を読み込む。
-	int grHandle = LoadGraph("Texture/Particle01.png");
+	int grHandle = LoadGraph("Texture/Background.png");
 
 	// 時間を初期化する(定期的にエフェクトを再生するため)
 	int time = 0;
@@ -45,7 +52,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// エフェクトの表示する位置を設定する。
 	float position_x = 100.0f;
-	float position_y = 200.0f;
+	float position_y = -200.0f;
 
 	// 再生中のエフェクトのハンドルを初期化する。
 	int playingEffectHandle = -1;
@@ -66,6 +73,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// エフェクトを再生する。
 			playingEffectHandle = PlayEffekseerEffect(effectHandle);
 
+			// エフェクトの拡大率を設定する。
+			// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大する。
+			SetScalePlayingEffekseerEffect(playingEffectHandle, 20.0f, 20.0f, 20.0f);
+
+			// エフェクトの位置をリセットする。
 			position_x = 100.0f;
 		}
 

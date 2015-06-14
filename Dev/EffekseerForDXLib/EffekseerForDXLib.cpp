@@ -2,6 +2,7 @@
 #include "EffekseerForDXLib.h"
 
 #include <map>
+#include <string>
 
 static ::Effekseer::Manager*				g_manager = NULL;
 static ::EffekseerRendererDX9::Renderer*	g_renderer = NULL;
@@ -83,8 +84,8 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight)
 	// ƒJƒƒ‰s—ñ‚ðÝ’è
 	g_renderer->SetCameraMatrix(
 		::Effekseer::Matrix44().LookAtRH(
-		::Effekseer::Vector3D( - windowWidth / 2.0f, - windowHeight / 2.0f, -20.0f), 
-		::Effekseer::Vector3D( - windowWidth / 2.0f, - windowHeight / 2.0f, 20.0f), 
+		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -20.0f), 
+		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, 20.0f), 
 		::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
 }
 
@@ -160,6 +161,13 @@ int SetPosPlayingEffekseerEffect(int playingEffectHandle, float x, float y, floa
 {
 	if (g_manager == nullptr) return -1;
 	g_manager->SetLocation(playingEffectHandle, ::Effekseer::Vector3D(x, y, z));
+	return 0;
+}
+
+int SetScalePlayingEffekseerEffect(int playingEffectHandle, float x, float y, float z)
+{
+	if (g_manager == nullptr) return -1;
+	g_manager->SetScale(playingEffectHandle, x, y, z);
 	return 0;
 }
 

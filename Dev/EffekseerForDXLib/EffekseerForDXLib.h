@@ -5,34 +5,43 @@
 #include "Effekseer.h"
 #include "EffekseerRendererDX9.h"
 
-#if _MSC_VER == 1800
+#if 1900 > _MSC_VER && _MSC_VER >= 1700
 
 #ifdef _WIN64
 	#error 32bitのみ対応しています。
 #else
 
+// DXライブラリの仕様により2012のライブラリを使用する
+//#if _DEBUG
+//#pragma comment(lib,"Effekseer_vs2013_x86_d.lib")
+//#pragma comment(lib,"EffekseerRendererDX9_vs2013_x86_d.lib")
+//#else
+//#pragma comment(lib,"Effekseer_vs2013_x86.lib")
+//#pragma comment(lib,"EffekseerRendererDX9_vs2013_x86.lib")
+//#endif
+
 #if _DEBUG
-#pragma comment(lib,"Effekseer_vs2013_x86_d.lib")
-#pragma comment(lib,"EffekseerRendererDX9_vs2013_x86_d.lib")
+#pragma comment(lib,"Effekseer_vs2012_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2012_x86_d.lib")
 #else
-#pragma comment(lib,"Effekseer_vs2013_x86.lib")
-#pragma comment(lib,"EffekseerRendererDX9_vs2013_x86.lib")
+#pragma comment(lib,"Effekseer_vs2012_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2012_x86.lib")
 #endif
 
 #pragma comment(lib, "d3d9.lib" )
 
 #ifndef _EFFEKSEER_FOR_DXLIB_LIB
 #if _DEBUG
-#pragma comment(lib,"EffekseerForDXLib_vs2013_x86_d.lib")
+#pragma comment(lib,"EffekseerForDXLib_vs2012_x86_d.lib")
 #else
-#pragma comment(lib,"EffekseerForDXLib_vs2013_x86.lib")
+#pragma comment(lib,"EffekseerForDXLib_vs2012_x86.lib")
 #endif
 #endif
 
 #endif
 
 #else
-#error VisualStudio(C++)2013のみ対応しています。
+#error VisualStudio(C++)2012,2013のみ対応しています。
 #endif
 
 /**
@@ -99,6 +108,18 @@ int PlayEffekseerEffect(int effectHandle);
 	※エフェクトが既に再生終了していても成功を返す。
 */
 int SetPosPlayingEffekseerEffect(int playingEffectHandle, float x, float y, float z);
+
+/**
+	@brief	再生中のエフェクトの拡大率を設定する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@param	x	X方向拡大率
+	@param	y	Y方向拡大率
+	@param	z	Z方向拡大率
+	@return	0:成功、-1:失敗
+	@note
+	※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetScalePlayingEffekseerEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
 	@brief	Effekseerにより再生中のエフェクトを更新する。
