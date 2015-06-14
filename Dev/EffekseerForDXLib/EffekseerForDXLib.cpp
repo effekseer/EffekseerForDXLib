@@ -12,6 +12,8 @@ static std::map<std::wstring, int32_t>			effectFileNameToEffectHandle;
 static std::map<int32_t, std::wstring>			effectHandleToEffectFileName;
 static std::map<int32_t, ::Effekseer::Effect*>	effectHandleToEffect;
 
+static bool		is2DMode = false;
+
 static std::wstring ToWide(const char* pText)
 {
 	int Len = ::MultiByteToWideChar(CP_ACP, 0, pText, -1, NULL, 0);
@@ -79,14 +81,16 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight)
 {
 	// 投影行列を設定を設定する。
 	g_renderer->SetProjectionMatrix(
-		::Effekseer::Matrix44().OrthographicRH(windowWidth, windowHeight, 1.0f, 500.0f));
+		::Effekseer::Matrix44().OrthographicRH(windowWidth, windowHeight, 1.0f, 400.0f));
 
 	// カメラ行列を設定
 	g_renderer->SetCameraMatrix(
 		::Effekseer::Matrix44().LookAtRH(
-		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -20.0f), 
-		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, 20.0f), 
+		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, 200.0f), 
+		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -200.0f), 
 		::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
+
+	is2DMode = true;
 }
 
 /*
@@ -160,7 +164,16 @@ int PlayEffekseerEffect(int effectHandle)
 int SetPosPlayingEffekseerEffect(int playingEffectHandle, float x, float y, float z)
 {
 	if (g_manager == nullptr) return -1;
-	g_manager->SetLocation(playingEffectHandle, ::Effekseer::Vector3D(x, y, z));
+
+	if (is2DMode)
+	{
+		g_manager->SetLocation(playingEffectHandle, ::Effekseer::Vector3D(x, -y, z));
+	}
+	else
+	{
+		g_manager->SetLocation(playingEffectHandle, ::Effekseer::Vector3D(x, y, z));
+	}
+
 	return 0;
 }
 

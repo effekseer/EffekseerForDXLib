@@ -105,6 +105,7 @@ int PlayEffekseerEffect(int effectHandle);
 	@param	z	Z座標
 	@return	0:成功、-1:失敗
 	@note
+	2Dの場合、zには0を設定する。
 	※エフェクトが既に再生終了していても成功を返す。
 */
 int SetPosPlayingEffekseerEffect(int playingEffectHandle, float x, float y, float z);

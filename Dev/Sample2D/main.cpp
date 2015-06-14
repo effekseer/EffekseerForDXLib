@@ -52,7 +52,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// エフェクトの表示する位置を設定する。
 	float position_x = 100.0f;
-	float position_y = -200.0f;
+	float position_y = 200.0f;
 
 	// 再生中のエフェクトのハンドルを初期化する。
 	int playingEffectHandle = -1;
