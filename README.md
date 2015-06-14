@@ -1,0 +1,3 @@
+# EffekseerForDXLib
+
+Wrapper for DXLib
