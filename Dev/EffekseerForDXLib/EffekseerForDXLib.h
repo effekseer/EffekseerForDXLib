@@ -21,6 +21,14 @@
 
 #pragma comment(lib, "d3d9.lib" )
 
+#ifndef _EFFEKSEER_FOR_DXLIB_LIB
+#if _DEBUG
+#pragma comment(lib,"EffekseerForDXLib_vs2013_x86_d.lib")
+#else
+#pragma comment(lib,"EffekseerForDXLib_vs2013_x86.lib")
+#endif
+#endif
+
 #endif
 
 #else
@@ -40,11 +48,69 @@ int Effkseer_Init(int particleMax);
 void Effkseer_End();
 
 /**
+	@brief	DXライブラリのデバイスがロストした時のコールバックを設定する。
+*/
+void Effekseer_SetGraphicsDeviceLostCallbackFunctions();
+
+/**
 	@brief	Effekseerに2D表示の設定をする。
 	@param	windowWidth		画面横幅
 	@param	windowHeight	画面縦幅
 */
 void Effekseer_Set2DSetting(int windowWidth, int windowHeight);
+
+/**
+	@brief	Effekseerのエフェクトをメモリ上に読み込む。
+	@param	fileName	efkファイルへのパス
+	@return	-1以外:エフェクトのハンドル、-1:失敗
+*/
+int LoadEffekseerEffect(const char* fileName);
+
+/**
+	@brief	Effekseerのエフェクトをメモリ上に読み込む。
+	@param	fileName	efkファイルへのパス
+	@return	-1以外:エフェクトのハンドル、-1:失敗
+*/
+int LoadEffekseerEffect(const wchar_t* fileName);
+
+/**
+	@brief	メモリ上からEffekseerのエフェクトを削除する。
+	@param	effectHandle	エフェクトのハンドル
+	@return	0:成功、-1:失敗
+*/
+int DeleteEffekseerEffect(int effectHandle);
+
+/**
+	@brief	メモリ上のEffekseerのエフェクトを再生する。
+	@param	effectHandle	エフェクトのハンドル
+	@return	再生中のエフェクトのハンドル
+	@return	-1以外:再生中のエフェクトのハンドル、-1:失敗
+*/
+int PlayEffekseerEffect(int effectHandle);
+
+/**
+	@brief	再生中のエフェクトの位置を設定する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@param	x	X座標
+	@param	y	Y座標
+	@param	z	Z座標
+	@return	0:成功、-1:失敗
+	@note
+	※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetPosPlayingEffekseerEffect(int playingEffectHandle, float x, float y, float z);
+
+/**
+	@brief	Effekseerにより再生中のエフェクトを更新する。
+	@return	0:成功、-1:失敗
+*/
+int UpdateEffekseer();
+
+/**
+	@brief	Effekseerにより再生中のエフェクトを描画する。
+	@return	0:成功、-1:失敗
+*/
+int DrawEffekseer();
 
 /**
 	@brief	Effekseerのエフェクト管理クラスのインスタンスを取得する。
@@ -61,3 +127,20 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight);
 Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
 ::EffekseerRendererDX9::Renderer* GetEffekseerRenderer();
+
+/**
+	@brief	デバイスロストが発生した時に呼ぶ。
+	@param	Data	コールバックデータ
+	@note
+	Effekseer_SetGraphicsDeviceLostCallbackFunctionsを使用しない時に、
+	この関数を呼び出されるように実装する必要がある。
+*/
+void Effkseer_DeviceLost(void *Data);
+
+/**
+	@brief	デバイスを復帰する時に呼ぶ。
+	@param	Data	コールバックデータ
+	Effekseer_SetGraphicsDeviceLostCallbackFunctionsを使用しない時に、
+	この関数を呼び出されるように実装する必要がある。
+*/
+void Effkseer_DeviceRestore(void *Data);
