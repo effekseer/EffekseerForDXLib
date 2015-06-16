@@ -1,9 +1,9 @@
 ■　EffekseerForDXLib
 現在開発中のDXライブラリでエフェクトを使用するためのラッパーです。
 
-VS2012以降専用です。また、現在x64対応はしておりません。
+VS2012,2013専用です。また、現在x64、DirectX11対応はしておりません。
 
-■　使用方法
+■　環境構築方法
 「プロジェクトに追加すべきファイル_VC用/」 にEffekseerが追加されたDXライブラリが保存されています。
 DXライブラリと同じように「プロジェクトに追加すべきファイル_VC用/」にあるファイルをプロジェクトに追加してください。
 
@@ -14,11 +14,20 @@ DXライブラリと同じように「プロジェクトに追加すべきファイル_VC用/」にあるファイル
 「EffekseerRendererDX9_vs2012_x86.lib」
 「EffekseerForDXLib_vs2012_x86_d.lib」
 「EffekseerForDXLib_vs2012_x86.lib」
+「EffekseerRendererDX9_vs2013_x86_d.lib」
+「EffekseerRendererDX9_vs2013_x86.lib」
+「EffekseerForDXLib_vs2013_x86_d.lib」
+「EffekseerForDXLib_vs2013_x86.lib」
 
 「Effekseer.h」
 「EffekseerRendererDX9.h」
 「EffekseerForDXLib.h」
 のみをコピーしてください。
+
+ただし、「Ver3.14d」(同じ名称で複数バージョンあるため、現在公式ページからダウンロードできる最新バージョン)以外のバージョンを使用している場合、
+上記のlibファイルのコピーでは動作しないかもしれません。
+その場合は、バージョンを一致させるか、「プロジェクトに追加すべきファイル_VC用/」にあるファイルを全てコピーしてください。
+
 
 2D版の使い方は、とりあえずサンプルを見てください。
 
