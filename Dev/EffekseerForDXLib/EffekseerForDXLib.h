@@ -11,15 +11,6 @@
 	#error 32bitのみ対応しています。
 #else
 
-// DXライブラリの仕様により2012のライブラリを使用する
-//#if _DEBUG
-//#pragma comment(lib,"Effekseer_vs2013_x86_d.lib")
-//#pragma comment(lib,"EffekseerRendererDX9_vs2013_x86_d.lib")
-//#else
-//#pragma comment(lib,"Effekseer_vs2013_x86.lib")
-//#pragma comment(lib,"EffekseerRendererDX9_vs2013_x86.lib")
-//#endif
-
 #if _MSC_VER ==1800
 
 #if _DEBUG
@@ -47,11 +38,28 @@
 #pragma comment(lib, "d3d9.lib" )
 
 #ifndef _EFFEKSEER_FOR_DXLIB_LIB
+
+#if _MSC_VER ==1800
+
+#if _DEBUG
+#pragma comment(lib,"EffekseerForDXLib_vs2013_x86_d.lib")
+#else
+#pragma comment(lib,"EffekseerForDXLib_vs2013_x86.lib")
+#endif
+
+#endif
+
+#if _MSC_VER ==1700
+
 #if _DEBUG
 #pragma comment(lib,"EffekseerForDXLib_vs2012_x86_d.lib")
 #else
 #pragma comment(lib,"EffekseerForDXLib_vs2012_x86.lib")
 #endif
+
+#endif
+
+
 #endif
 
 #endif
