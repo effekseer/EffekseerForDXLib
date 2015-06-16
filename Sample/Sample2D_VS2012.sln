@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample2D_VS2012", "Sample2D\Sample2D_VS2012.vcxproj", "{35F2F15B-446C-45A8-B157-24E15BE8A7E7}"
 EndProject
 Global
