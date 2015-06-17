@@ -93,6 +93,11 @@ void Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 void Effekseer_Set2DSetting(int windowWidth, int windowHeight);
 
 /**
+	@brief	Effekseerに3D表示の設定をDXライブラリの3D表示の設定に同期させる。
+*/
+void Effekseer_Sync3DSetting();
+
+/**
 	@brief	Effekseerのエフェクトをメモリ上に読み込む。
 	@param	fileName	efkファイルへのパス
 	@return	-1以外:エフェクトのハンドル、-1:失敗
@@ -114,28 +119,46 @@ int LoadEffekseerEffect(const wchar_t* fileName);
 int DeleteEffekseerEffect(int effectHandle);
 
 /**
-	@brief	メモリ上のEffekseerのエフェクトを再生する。
+	@brief	メモリ上のEffekseerのエフェクトを2D表示で再生する。
 	@param	effectHandle	エフェクトのハンドル
 	@return	再生中のエフェクトのハンドル
 	@return	-1以外:再生中のエフェクトのハンドル、-1:失敗
 */
-int PlayEffekseerEffect(int effectHandle);
+int PlayEffekseer2DEffect(int effectHandle);
 
 /**
-	@brief	再生中のエフェクトの位置を設定する。
+	@brief	メモリ上のEffekseerのエフェクトを3D表示で再生する。
+	@param	effectHandle	エフェクトのハンドル
+	@return	再生中のエフェクトのハンドル
+	@return	-1以外:再生中のエフェクトのハンドル、-1:失敗
+*/
+int PlayEffekseer3DEffect(int effectHandle);
+
+/**
+	@brief	再生中の2D表示のエフェクトの位置を設定する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@param	x	X座標
+	@param	y	Y座標
+	@return	0:成功、-1:失敗
+	@note
+	※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetPosPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z);
+
+/**
+	@brief	再生中の3D表示のエフェクトの位置を設定する。
 	@param	playingEffectHandle	再生中のエフェクトのハンドル
 	@param	x	X座標
 	@param	y	Y座標
 	@param	z	Z座標
 	@return	0:成功、-1:失敗
 	@note
-	2Dの場合、zには0を設定する。
 	※エフェクトが既に再生終了していても成功を返す。
 */
-int SetPosPlayingEffekseerEffect(int playingEffectHandle, float x, float y, float z);
+int SetPosPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
-	@brief	再生中のエフェクトの拡大率を設定する。
+	@brief	再生中の2D表示のエフェクトの拡大率を設定する。
 	@param	playingEffectHandle	再生中のエフェクトのハンドル
 	@param	x	X方向拡大率
 	@param	y	Y方向拡大率
@@ -144,35 +167,75 @@ int SetPosPlayingEffekseerEffect(int playingEffectHandle, float x, float y, floa
 	@note
 	※エフェクトが既に再生終了していても成功を返す。
 */
-int SetScalePlayingEffekseerEffect(int playingEffectHandle, float x, float y, float z);
+int SetScalePlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
-	@brief	Effekseerにより再生中のエフェクトを更新する。
+	@brief	再生中の3D表示のエフェクトの拡大率を設定する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@param	x	X方向拡大率
+	@param	y	Y方向拡大率
+	@param	z	Z方向拡大率
+	@return	0:成功、-1:失敗
+	@note
+	※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetScalePlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z);
+
+/**
+	@brief	Effekseerにより再生中の2Dエフェクトを更新する。
 	@return	0:成功、-1:失敗
 */
-int UpdateEffekseer();
+int UpdateEffekseer2D();
 
 /**
-	@brief	Effekseerにより再生中のエフェクトを描画する。
+	@brief	Effekseerにより再生中の2Dエフェクトを描画する。
 	@return	0:成功、-1:失敗
 */
-int DrawEffekseer();
+int DrawEffekseer2D();
 
 /**
-	@brief	Effekseerのエフェクト管理クラスのインスタンスを取得する。
-	@return	Effekseerのエフェクト管理クラスのインスタンス
+	@brief	Effekseerにより再生中の3Dエフェクトを更新する。
+	@return	0:成功、-1:失敗
+*/
+int UpdateEffekseer3D();
+
+/**
+	@brief	Effekseerにより再生中の3Dエフェクトを描画する。
+	@return	0:成功、-1:失敗
+*/
+int DrawEffekseer3D();
+
+/**
+	@brief	Effekseerの2Dエフェクト管理クラスのインスタンスを取得する。
+	@return	Effekseerの2Dエフェクト管理クラスのインスタンス
 	@note
 	Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
-::Effekseer::Manager* GetEffekseerManager();
+::Effekseer::Manager* GetEffekseer2DManager();
 
 /**
-@brief	Effekseerのエフェクト描画クラスのインスタンスを取得する。
-@return	Effekseerのエフェクト描画クラスのインスタンス
+@brief	Effekseerの2Dエフェクト描画クラスのインスタンスを取得する。
+@return	Effekseerの2Dエフェクト描画クラスのインスタンス
 @note
 Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
-::EffekseerRendererDX9::Renderer* GetEffekseerRenderer();
+::EffekseerRendererDX9::Renderer* GetEffekseer2DRenderer();
+
+/**
+	@brief	Effekseerの3Dエフェクト管理クラスのインスタンスを取得する。
+	@return	Effekseerの3Dエフェクト管理クラスのインスタンス
+	@note
+	Effekseerの機能を直接使用しない限り、この関数は使用しない。
+*/
+::Effekseer::Manager* GetEffekseer3DManager();
+
+/**
+@brief	Effekseerの3Dエフェクト描画クラスのインスタンスを取得する。
+@return	Effekseerの3Dエフェクト描画クラスのインスタンス
+@note
+Effekseerの機能を直接使用しない限り、この関数は使用しない。
+*/
+::EffekseerRendererDX9::Renderer* GetEffekseer3DRenderer();
 
 /**
 	@brief	デバイスロストが発生した時に呼ぶ。

@@ -71,11 +71,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (time % 60 == 0)
 		{
 			// エフェクトを再生する。
-			playingEffectHandle = PlayEffekseerEffect(effectHandle);
+			playingEffectHandle = PlayEffekseer2DEffect(effectHandle);
 
 			// エフェクトの拡大率を設定する。
 			// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大する。
-			SetScalePlayingEffekseerEffect(playingEffectHandle, 20.0f, 20.0f, 20.0f);
+			SetScalePlayingEffekseer2DEffect(playingEffectHandle, 20.0f, 20.0f, 20.0f);
 
 			// エフェクトの位置をリセットする。
 			position_x = 100.0f;
@@ -86,14 +86,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		DrawGraph(0, 0, grHandle, TRUE);
 
 		// 再生中のエフェクトを移動する。
-		SetPosPlayingEffekseerEffect(playingEffectHandle, position_x, position_y, 0);
+		SetPosPlayingEffekseer2DEffect(playingEffectHandle, position_x, position_y, 0);
 		position_x += 2.0f;
 
 		// Effekseerにより再生中のエフェクトを更新する。
-		UpdateEffekseer();
+		UpdateEffekseer2D();
 
 		// Effekseerにより再生中のエフェクトを描画する。
-		DrawEffekseer();
+		DrawEffekseer2D();
 
 		// スクリーンを入れ替える。
 		ScreenFlip();
