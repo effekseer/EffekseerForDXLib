@@ -361,6 +361,38 @@ int DrawEffekseer2D()
 	return 0;
 }
 
+int DrawEffekseer2D_Begin()
+{
+	if (g_manager2d == nullptr) return -1;
+	
+	// 頂点バッファに溜まった頂点データを吐き出す。
+	RenderVertex();
+
+	// エフェクトの描画開始処理を行う。
+	g_renderer2d->BeginRendering();
+	
+	return 0;
+}
+
+int DrawEffekseer2D_Draw(int playingEffectHandle)
+{
+	if (g_manager2d == nullptr) return -1;
+	g_manager2d->DrawHandle(playingEffectHandle);
+}
+
+int DrawEffekseer2D_End()
+{
+	if (g_manager2d == nullptr) return -1;
+	
+	// エフェクトの描画終了処理を行う。
+	g_renderer2d->EndRendering();
+
+	// DXライブラリの設定を戻す。
+	RefreshDxLibDirect3DSetting();
+
+	return 0;
+}
+
 int UpdateEffekseer3D()
 {
 	if (g_manager3d == nullptr) return -1;

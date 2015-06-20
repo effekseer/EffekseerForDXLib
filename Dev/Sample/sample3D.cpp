@@ -4,7 +4,7 @@
 // EffekseerForDXLib.hをインクルードします。
 #include "EffekseerForDXLib.h"
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int sample3D()
 {
 	// DXライブラリの表示方法をウィンドウモードに変更する。
 	ChangeWindowMode(true);
@@ -35,14 +35,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
-	// Effekseerに2D描画の設定をする。
-	Effekseer_Set2DSetting(640, 480);
-
 	// エフェクトを読み込む。
-	int effectHandle = LoadEffekseerEffect("test.efk");
+	int effectHandle = LoadEffekseerEffect("laser.efk");
 
 	// 何でもいいので画像を読み込む。
-	int grHandle = LoadGraph("Texture/Background.png");
+	int grBackgroundHandle = LoadGraph("Texture/Background.png");
+	int grFrontHandle = LoadGraph("Texture/Front.png");
 
 	// 時間を初期化する(定期的にエフェクトを再生するため)
 	int time = 0;
@@ -51,8 +49,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	bool isFullScreen = false;
 
 	// エフェクトの表示する位置を設定する。
-	float position_x = 100.0f;
-	float position_y = 200.0f;
+	float position_x = 0.0f;
+	float position_y = 0.0f;
 
 	// 再生中のエフェクトのハンドルを初期化する。
 	int playingEffectHandle = -1;
@@ -67,33 +65,40 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while (!ProcessMessage() && !ClearDrawScreen() && !CheckHitKey(KEY_INPUT_ESCAPE))
 	{
+		// DXライブラリのカメラを設定する。
+		SetCameraPositionAndTarget_UpVecY(VGet(10,10,-20),VGet(0,0,0));
+		SetupCamera_Perspective( 60.0f * DX_PI_F / 180.0f ) ;
+		SetCameraNearFar(1.0f, 150.0f);
+
+		// DXライブラリのカメラとEffekseerのカメラを同期する。
+		Effekseer_Sync3DSetting();
+
 		// 定期的にエフェクトを再生する
 		if (time % 60 == 0)
 		{
 			// エフェクトを再生する。
-			playingEffectHandle = PlayEffekseerEffect(effectHandle);
-
-			// エフェクトの拡大率を設定する。
-			// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大する。
-			SetScalePlayingEffekseerEffect(playingEffectHandle, 20.0f, 20.0f, 20.0f);
+			playingEffectHandle = PlayEffekseer3DEffect(effectHandle);
 
 			// エフェクトの位置をリセットする。
-			position_x = 100.0f;
+			position_x = 0.0f;
 		}
 
-		// 何でもいいのでTransFragを有効にして画像を描画する。
+		// 何でもいいので画像を描画する。
 		// こうして描画した後でないと、Effekseerは描画できない。
-		DrawGraph(0, 0, grHandle, TRUE);
+		DrawGraph(0, 0, grBackgroundHandle, TRUE);
 
 		// 再生中のエフェクトを移動する。
-		SetPosPlayingEffekseerEffect(playingEffectHandle, position_x, position_y, 0);
-		position_x += 2.0f;
+		SetPosPlayingEffekseer3DEffect(playingEffectHandle, position_x, position_y, 0);
+		position_x += 0.2f;
 
 		// Effekseerにより再生中のエフェクトを更新する。
-		UpdateEffekseer();
+		UpdateEffekseer3D();
 
 		// Effekseerにより再生中のエフェクトを描画する。
-		DrawEffekseer();
+		DrawEffekseer3D();
+
+		// エフェクトの上にも画像を描画できる。
+		DrawGraph(0, 0, grFrontHandle, TRUE);
 
 		// スクリーンを入れ替える。
 		ScreenFlip();
