@@ -14,6 +14,9 @@ DXライブラリと同じように「プロジェクトに追加すべきファイル_VC用/」にあるファイル
 「EffekseerRendererDX9_vs2012_x86.lib」
 「EffekseerForDXLib_vs2012_x86_d.lib」
 「EffekseerForDXLib_vs2012_x86.lib」
+
+「Effekseer_vs2013_x86.lib」
+「Effekseer_vs2013_x86_d.lib」
 「EffekseerRendererDX9_vs2013_x86_d.lib」
 「EffekseerRendererDX9_vs2013_x86.lib」
 「EffekseerForDXLib_vs2013_x86_d.lib」
