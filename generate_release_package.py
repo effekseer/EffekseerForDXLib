@@ -12,6 +12,8 @@ utils.cdToScript()
 utils.rmdir(targetDir)
 utils.mkdir(targetDir)
 
+utils.copytree('Help/', targetDir+'Help/')
+
 utils.copytree(dxlibDir+'プロジェクトに追加すべきファイル_VC用/', targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
 utils.copy(effekseerVSDir+'include/Effekseer.h', targetDir+'プロジェクトに追加すべきファイル_VC用/')
