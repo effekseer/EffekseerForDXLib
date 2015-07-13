@@ -12,9 +12,9 @@ int sample3D()
 	//描画先を裏画面に変更する。
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// DirectXEx9を使用しないようにする。
+	// DirectX9を使用するようにする。
 	// Effekseerを使用するには必ず設定する。
-	SetUseDirect3D9Ex(FALSE);
+	SetUseDirect3DVersion(DX_DIRECT3D_9);
 
 	// DXライブラリを初期化する。
 	if (DxLib_Init() == -1) return -1;
