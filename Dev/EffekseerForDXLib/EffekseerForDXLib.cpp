@@ -318,6 +318,24 @@ int SetPosPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, fl
 	return 0;
 }
 
+int SetRotationPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z)
+{
+	if (g_manager2d == nullptr) return -1;
+
+	g_manager2d->SetRotation(playingEffectHandle, -x, -y, -z);
+
+	return 0;
+}
+
+int SetRotationPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z)
+{
+	if (g_manager3d == nullptr) return -1;
+
+	g_manager3d->SetRotation(playingEffectHandle, x, y, z);
+
+	return 0;
+}
+
 int SetScalePlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z)
 {
 	if (g_manager2d == nullptr) return -1;
@@ -378,6 +396,8 @@ int DrawEffekseer2D_Draw(int playingEffectHandle)
 {
 	if (g_manager2d == nullptr) return -1;
 	g_manager2d->DrawHandle(playingEffectHandle);
+
+	return 0;
 }
 
 int DrawEffekseer2D_End()

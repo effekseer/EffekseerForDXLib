@@ -158,6 +158,34 @@ int SetPosPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, fl
 int SetPosPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
+@brief	再生中の2D表示のエフェクトの角度を設定する。
+@param	playingEffectHandle	再生中のエフェクトのハンドル
+@param	x	X軸角度(ラジアン)
+@param	y	Y軸角度(ラジアン)
+@param	y	Y軸角度(ラジアン)
+@return	0:成功、-1:失敗
+@note
+回転の方向は時計回りである。
+回転の順番は Z軸回転 → X軸回転 → Y軸回転である。
+※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetRotationPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z);
+
+/**
+@brief	再生中の3D表示のエフェクトの角度を設定する。
+@param	playingEffectHandle	再生中のエフェクトのハンドル
+@param	x	X軸角度(ラジアン)
+@param	y	Y軸角度(ラジアン)
+@param	y	Y軸角度(ラジアン)
+@return	0:成功、-1:失敗
+@note
+回転の方向は時計回りである。
+回転の順番は Z軸回転 → X軸回転 → Y軸回転である。
+※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetRotationPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z);
+
+/**
 	@brief	再生中の2D表示のエフェクトの拡大率を設定する。
 	@param	playingEffectHandle	再生中のエフェクトのハンドル
 	@param	x	X方向拡大率
