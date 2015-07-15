@@ -300,6 +300,20 @@ int PlayEffekseer3DEffect(int effectHandle)
 	return -1;
 }
 
+int IsEffekseer2DEffectPlaying(int effectHandle)
+{
+	if (g_manager2d == nullptr) return -1;
+	
+	return g_manager2d->Exists(effectHandle) ? 0 : -1;
+}
+
+int IsEffekseer3DEffectPlaying(int effectHandle)
+{
+	if (g_manager3d == nullptr) return -1;
+	
+	return g_manager3d->Exists(effectHandle) ? 0 : -1;
+}
+
 int SetPosPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z)
 {
 	if (g_manager2d == nullptr) return -1;

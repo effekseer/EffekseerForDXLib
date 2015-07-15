@@ -121,7 +121,6 @@ int DeleteEffekseerEffect(int effectHandle);
 /**
 	@brief	メモリ上のEffekseerのエフェクトを2D表示で再生する。
 	@param	effectHandle	エフェクトのハンドル
-	@return	再生中のエフェクトのハンドル
 	@return	-1以外:再生中のエフェクトのハンドル、-1:失敗
 */
 int PlayEffekseer2DEffect(int effectHandle);
@@ -129,10 +128,25 @@ int PlayEffekseer2DEffect(int effectHandle);
 /**
 	@brief	メモリ上のEffekseerのエフェクトを3D表示で再生する。
 	@param	effectHandle	エフェクトのハンドル
-	@return	再生中のエフェクトのハンドル
 	@return	-1以外:再生中のエフェクトのハンドル、-1:失敗
 */
 int PlayEffekseer3DEffect(int effectHandle);
+
+/**
+	@brief	2D表示のエフェクトが再生中か取得する。
+	@param	effectHandle	エフェクトのハンドル
+	@return	再生中かどうか?
+	@return	0:再生中、-1:再生されていない、もしくは再生終了
+*/
+int IsEffekseer2DEffectPlaying(int effectHandle);
+
+/**
+	@brief	3D表示のエフェクトが再生中か取得する。
+	@param	effectHandle	エフェクトのハンドル
+	@return	再生中かどうか?
+	@return	0:再生中、-1:再生されていない、もしくは再生終了
+*/
+int IsEffekseer3DEffectPlaying(int effectHandle);
 
 /**
 	@brief	再生中の2D表示のエフェクトの位置を設定する。

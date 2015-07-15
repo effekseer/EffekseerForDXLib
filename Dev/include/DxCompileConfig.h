@@ -183,7 +183,7 @@
 
 #ifdef __PSVITA
 #define DX_NON_MOVIE
-#define DX_NON_FILTER
+//#define DX_NON_FILTER
 #define DX_NON_2DDRAW
 #define DX_NON_ACM
 #define DX_NON_MASK
