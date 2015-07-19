@@ -5,6 +5,8 @@
 #include "Effekseer.h"
 #include "EffekseerRendererDX9.h"
 
+#include <string>
+
 #if 1900 > _MSC_VER && _MSC_VER >= 1700
 
 #ifdef _WIN64
@@ -68,12 +70,62 @@
 #error VisualStudio(C++)2012,2013のみ対応しています。
 #endif
 
+// ================================================================================================================================ //
+// 内部処理用
+// ================================================================================================================================ //
+
+#ifdef _UNICODE
+inline int __Effekseer_FileRead_open(const char* filePath) {
+	int Len = ::MultiByteToWideChar(CP_ACP, 0, filePath, -1, NULL, 0);
+
+	wchar_t* pOut = new wchar_t[Len + 1];
+	::MultiByteToWideChar(CP_ACP, 0, filePath, -1, pOut, Len);
+	std::wstring Out(pOut);
+	delete [] pOut;
+
+	return FileRead_open(Out.c_str(), 0);
+}
+
+inline LONGLONG	__Effekseer_FileRead_size(const char *filePath) {
+	int Len = ::MultiByteToWideChar(CP_ACP, 0, filePath, -1, NULL, 0);
+
+	wchar_t* pOut = new wchar_t[Len + 1];
+	::MultiByteToWideChar(CP_ACP, 0, filePath, -1, pOut, Len);
+	std::wstring Out(pOut);
+	delete [] pOut;
+
+	return FileRead_size(Out.c_str());
+}
+#else
+inline int __Effekseer_FileRead_open(const char* filePath)
+{
+	return FileRead_open(filePath, 0);
+}
+
+inline LONGLONG	__Effekseer_FileRead_size(const char *FilePath)
+{
+	return FileRead_size(FilePath);
+}
+#endif
+
+typedef int(*EffekseerFileOpenFunc) (const char* filePath);
+typedef LONGLONG(*EffekseerFileReadSizeFunc) (const char* filePath);
+
+// ================================================================================================================================ //
+// ここまで
+// ================================================================================================================================ //
+
+
 /**
 	@brief	Effekseerを初期化する。
 	@param	particleMax	画面に表示可能な最大パーティクル数
+	@param	openFunc	内部処理用(文字コード処理用)のための引数。必ずデフォルト引数を使用する。
+	@param	readSizeFunc 	内部処理用(文字コード処理用)のための引数。必ずデフォルト引数を使用する。
 	@return	成功した場合は0、失敗した場合は-1を返す。
 */
-int Effkseer_Init(int particleMax);
+int Effkseer_Init(int particleMax, 
+	EffekseerFileOpenFunc openFunc = __Effekseer_FileRead_open,
+	EffekseerFileReadSizeFunc readSizeFunc = __Effekseer_FileRead_size);
 
 /**
 	@brief	Effekseerを終了する。

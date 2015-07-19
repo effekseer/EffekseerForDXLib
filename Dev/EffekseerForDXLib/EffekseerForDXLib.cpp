@@ -18,6 +18,9 @@ static std::map<int32_t, ::Effekseer::Effect*>	effectHandleToEffect;
 
 Effekseer::FileInterface*					g_effectFile = nullptr;
 
+static EffekseerFileOpenFunc					g_openFunc = nullptr;
+static EffekseerFileReadSizeFunc				g_readSizeFunc = nullptr;
+
 static std::wstring ToWide(const char* pText)
 {
 	int Len = ::MultiByteToWideChar(CP_ACP, 0, pText, -1, NULL, 0);
@@ -94,11 +97,12 @@ public:
 	Effekseer::FileReader* OpenRead( const EFK_CHAR* path ) 
 	{
 		auto path_ = ToMulti((wchar_t*)path);
-		auto fileHandle = FileRead_open(path_.c_str());
+		
+		auto fileHandle = g_openFunc(path_.c_str());
 
 		if(fileHandle == 0) return 0;
-
-		auto size = FileRead_size(path_.c_str());
+		
+		auto size = g_readSizeFunc(path_.c_str());
 		std::vector<uint8_t> data;
 		data.resize(size);
 		FileRead_read(data.data(), size, fileHandle);
@@ -113,10 +117,15 @@ public:
 	}
 };
 
-int Effkseer_Init(int particleMax)
+int Effkseer_Init(int particleMax, 
+	EffekseerFileOpenFunc openFunc,
+	EffekseerFileReadSizeFunc readSizeFunc)
 {
 	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
 	if (device == NULL) return -1;
+
+	g_openFunc = openFunc;
+	g_readSizeFunc = readSizeFunc;
 
 	g_effectFile = new EffekseerFile();
 

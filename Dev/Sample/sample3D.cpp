@@ -39,8 +39,8 @@ int sample3D()
 	int effectHandle = LoadEffekseerEffect("laser.efk");
 
 	// 何でもいいので画像を読み込む。
-	int grBackgroundHandle = LoadGraph("Texture/Background.png");
-	int grFrontHandle = LoadGraph("Texture/Front.png");
+	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
+	int grFrontHandle = LoadGraph(_T("Texture/Front.png"));
 
 	// 時間を初期化する(定期的にエフェクトを再生するため)
 	int time = 0;
