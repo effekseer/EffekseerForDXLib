@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.14d
+//				Ver 3.15a
 //
 // ----------------------------------------------------------------------------
 
@@ -182,22 +182,14 @@
 #endif
 
 #ifdef __PSVITA
-#define DX_NON_MOVIE
-//#define DX_NON_FILTER
 #define DX_NON_2DDRAW
 #define DX_NON_ACM
-#define DX_NON_MASK
 #define DX_NON_DSHOW_MP3
 #define DX_NON_DSHOW_MOVIE
 #define DX_NON_KEYEX
 #define DX_NON_INPUTSTRING
 #define DX_NON_NETWORK
-#define DX_NON_OGGVORBIS
-#define DX_NON_OGGTHEORA
-#define DX_NON_MODEL
-#define DX_NON_BULLET_PHYSICS
 #define DX_NON_STOPTASKSWITCH
-#define DX_NON_SAVEFUNCTION
 #define DX_NON_DIRECT3D11
 #define DX_NON_DIRECT3D9
 #endif
