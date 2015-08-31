@@ -24,11 +24,18 @@ utils.copy(effekseerVSDir+'lib/VS2012/Debug/EffekseerRendererDX9.lib', targetDir
 utils.copy(effekseerVSDir+'lib/VS2013/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2013_x86_d.lib')
 utils.copy(effekseerVSDir+'lib/VS2013/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2013_x86_d.lib')
 
+utils.copy(effekseerVSDir+'lib/VS2015/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2015_x86_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2015/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2015_x86_d.lib')
+
 utils.copy(effekseerVSDir+'lib/VS2012/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2012_x86.lib')
 utils.copy(effekseerVSDir+'lib/VS2012/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2012_x86.lib')
 
 utils.copy(effekseerVSDir+'lib/VS2013/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2013_x86.lib')
 utils.copy(effekseerVSDir+'lib/VS2013/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2013_x86.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2015/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2015_x86.lib')
+utils.copy(effekseerVSDir+'lib/VS2015/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2015_x86.lib')
+
 
 
 

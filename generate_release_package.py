@@ -25,12 +25,17 @@ utils.copy(effekseerVSDir+'lib/VS2012/Debug/EffekseerRendererDX9.lib', targetDir
 utils.copy(effekseerVSDir+'lib/VS2012/Release/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2012_x86.lib')
 utils.copy(effekseerVSDir+'lib/VS2012/Release/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2012_x86.lib')
 
-
 utils.copy(effekseerVSDir+'lib/VS2013/Debug/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2013_x86_d.lib')
 utils.copy(effekseerVSDir+'lib/VS2013/Debug/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2013_x86_d.lib')
 
 utils.copy(effekseerVSDir+'lib/VS2013/Release/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2013_x86.lib')
 utils.copy(effekseerVSDir+'lib/VS2013/Release/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2013_x86.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2015/Debug/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2015_x86_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2015/Debug/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2015_x86_d.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2015/Release/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2015_x86.lib')
+utils.copy(effekseerVSDir+'lib/VS2015/Release/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2015_x86.lib')
 
 
 utils.copy('readme.txt',targetDir)
@@ -45,6 +50,8 @@ utils.copy('Dev/lib/EffekseerForDXLib_vs2012_x86.lib',targetDir+'プロジェク
 utils.copy('Dev/lib/EffekseerForDXLib_vs2013_x86_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy('Dev/lib/EffekseerForDXLib_vs2013_x86.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
+utils.copy('Dev/lib/EffekseerForDXLib_vs2015_x86_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
+utils.copy('Dev/lib/EffekseerForDXLib_vs2015_x86.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
 
 
