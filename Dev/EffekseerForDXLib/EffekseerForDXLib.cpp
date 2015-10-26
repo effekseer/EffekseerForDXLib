@@ -485,6 +485,16 @@ int DrawEffekseer3D()
 	return g_renderer3d;
 }
 
+::Effekseer::Effect* GetEffekseerEffect(int effectHandle)
+{
+	if (effectHandleToEffect.count(effectHandle) > 0)
+	{
+		return effectHandleToEffect[effectHandle];
+	}
+
+	return NULL;
+}
+
 void Effkseer_DeviceLost(void* data)
 {
 	// デバイスロストが発生した時に呼ぶ。

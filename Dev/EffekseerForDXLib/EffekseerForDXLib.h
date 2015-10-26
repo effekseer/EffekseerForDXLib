@@ -388,6 +388,13 @@ Effekseerの機能を直接使用しない限り、この関数は使用しない。
 ::EffekseerRendererDX9::Renderer* GetEffekseer3DRenderer();
 
 /**
+@brief	Effekseerのエフェクトクラスのインスタンスを取得する。
+@param	effectHandle	エフェクトのハンドル
+@return	Effekseerのエフェクトクラスのインスタンス
+*/
+::Effekseer::Effect* GetEffekseerEffect(int effectHandle);
+
+/**
 	@brief	デバイスロストが発生した時に呼ぶ。
 	@param	Data	コールバックデータ
 	@note
