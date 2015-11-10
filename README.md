@@ -6,7 +6,7 @@ DXƒ‰ƒCƒuƒ‰ƒŠŒü‚¯Effekseer‚Ìƒ‰ƒbƒp[‚Å‚·B
 
 ### ŠÂ‹«\’z
 
-VisaulStudio2012,2013‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
+VisaulStudio2012,2013,2015‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
 
 python‚Ì3Œn—ñ‚ğƒCƒ“ƒXƒg[ƒ‹‚µ‚Ü‚·B
 
@@ -35,7 +35,7 @@ DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌÅV”Å‚ğƒ_ƒEƒ“ƒ[ƒh‚µ‚Ä‰ğ“€‚µAEffekseerForDXLib‚Ì’¼‰º‚É”z’u‚µ‚Ü‚
 Effekseer‚ğƒRƒ“ƒpƒCƒ‹‚µ‚Ü‚·B
 
 ```
-(Root)/Effekseer/VisualStudio_Library.bat
+(Root)/Effekseer/release.bat
 ```
 
 ‚ğÀs‚µ‚Ü‚·B
