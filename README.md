@@ -41,6 +41,12 @@ Effekseerをコンパイルします。
 を実行します。
 
 ```
+(Root)/EffekseerForDXLib/copy_package.py
+```
+
+を実行します。
+
+```
 (Root)/EffekseerForDXLib/generate_release_package.py
 ```
 
