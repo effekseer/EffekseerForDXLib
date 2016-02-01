@@ -11,10 +11,17 @@ static ::EffekseerRendererDX9::Renderer*	g_renderer2d = NULL;
 static ::Effekseer::Manager*				g_manager3d = NULL;
 static ::EffekseerRendererDX9::Renderer*	g_renderer3d = NULL;
 
+static ::Effekseer::Server*					g_server = NULL;
+
 static int32_t nextEffectHandle = 0;
 static std::map<std::wstring, int32_t>			effectFileNameToEffectHandle;
 static std::map<int32_t, std::wstring>			effectHandleToEffectFileName;
 static std::map<int32_t, ::Effekseer::Effect*>	effectHandleToEffect;
+
+static int32_t								g_backgroundWidth = 0;
+static int32_t								g_backgroundHeight = 0;
+static IDirect3DSurface9*					g_backgroundSurface = nullptr;
+static IDirect3DTexture9*					g_backgroundTexture = nullptr;
 
 Effekseer::FileInterface*					g_effectFile = nullptr;
 
@@ -117,6 +124,111 @@ public:
 	}
 };
 
+static bool CopyRenderTargetToBackground()
+{
+	bool ret = false;
+
+	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
+	if (device == NULL) return nullptr;
+
+	HRESULT hr;
+	IDirect3DSurface9* tempRender = nullptr;
+	IDirect3DSurface9* tempDepth = nullptr;
+
+	hr = device->GetRenderTarget(0, &tempRender);
+	if (FAILED(hr))
+	{
+		goto Exit;
+	}
+
+	hr = device->GetDepthStencilSurface(&tempDepth);
+	if (FAILED(hr))
+	{
+		goto Exit;
+	}
+
+	device->SetRenderTarget(0, g_backgroundSurface);
+	device->SetDepthStencilSurface(nullptr);
+
+	D3DSURFACE_DESC desc;
+	tempRender->GetDesc(&desc);
+	const bool isSame = (desc.Width == g_backgroundWidth && desc.Height == g_backgroundHeight);
+
+	device->StretchRect(
+		tempRender,
+		nullptr,
+		g_backgroundSurface,
+		nullptr,
+		(isSame ? D3DTEXF_POINT : D3DTEXF_LINEAR)
+		);
+
+	device->SetRenderTarget(0, tempRender);
+	device->SetDepthStencilSurface(tempDepth);
+	
+	ret = true;
+
+Exit:;
+	ES_SAFE_RELEASE(tempRender);
+	ES_SAFE_RELEASE(tempDepth);
+
+	return ret;
+}
+
+class DistortingCallback2D
+	: public EffekseerRenderer::DistortingCallback
+{
+public:
+	DistortingCallback2D()
+	{
+
+	}
+
+	virtual ~DistortingCallback2D()
+	{
+
+	}
+
+	void OnDistorting() override
+	{
+		if (g_backgroundTexture == NULL)
+		{
+			g_renderer2d->SetBackground(NULL);
+			return;
+		}
+
+		CopyRenderTargetToBackground();
+		g_renderer2d->SetBackground(g_backgroundTexture);
+	}
+};
+
+class DistortingCallback3D
+	: public EffekseerRenderer::DistortingCallback
+{
+public:
+	DistortingCallback3D()
+	{
+
+	}
+
+	virtual ~DistortingCallback3D()
+	{
+
+	}
+
+	void OnDistorting() override
+	{
+		if (g_backgroundTexture == NULL)
+		{
+			g_renderer3d->SetBackground(NULL);
+			return;
+		}
+
+		CopyRenderTargetToBackground();
+		g_renderer3d->SetBackground(g_backgroundTexture);
+	}
+};
+
+
 int Effkseer_Init(int particleMax, 
 	EffekseerFileOpenFunc openFunc,
 	EffekseerFileReadSizeFunc readSizeFunc)
@@ -131,6 +243,7 @@ int Effkseer_Init(int particleMax,
 
 	// レンダラー(2D)を生成する。
 	g_renderer2d = ::EffekseerRendererDX9::Renderer::Create(device, particleMax);
+	g_renderer2d->SetDistortingCallback(new DistortingCallback2D());
 
 	// マネージャー(2D)を生成する。
 	g_manager2d = ::Effekseer::Manager::Create(particleMax);
@@ -139,6 +252,7 @@ int Effkseer_Init(int particleMax,
 
 	// レンダラー(3D)を生成する。
 	g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(device, particleMax);
+	g_renderer3d->SetDistortingCallback(new DistortingCallback3D());
 
 	// マネージャー(3D)を生成する。
 	g_manager3d = ::Effekseer::Manager::Create(particleMax);
@@ -172,8 +286,67 @@ int Effkseer_Init(int particleMax,
 	return 0;
 }
 
+int Effkseer_InitServer(int port)
+{
+	if (g_server != NULL) return -1;
+	g_server = Effekseer::Server::Create();
+	if (!g_server->Start(port))
+	{
+		ES_SAFE_DELETE(g_server);
+		return -1;
+	}
+
+	return 0;
+}
+
+int Effekseer_InitDistortion(float scale)
+{
+	int sizeX, sizeY, colorBitDepth;
+
+	if (GetScreenState(&sizeX, &sizeY, &colorBitDepth) != 0) return -1;
+
+	sizeX *= scale;
+	sizeY *= scale;
+
+	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
+	if (device == NULL) return -1;
+
+	ES_SAFE_RELEASE(g_backgroundTexture);
+	ES_SAFE_RELEASE(g_backgroundSurface);
+
+	HRESULT hr;
+
+	hr = device->CreateTexture(
+		sizeX,
+		sizeY,
+		1,
+		D3DUSAGE_RENDERTARGET,
+		D3DFMT_A8R8G8B8,
+		D3DPOOL_DEFAULT,
+		&g_backgroundTexture,
+		NULL
+		);
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	g_backgroundWidth = sizeX;
+	g_backgroundHeight = sizeY;
+	g_backgroundTexture->GetSurfaceLevel(0, &g_backgroundSurface);
+
+	return true;
+}
+
 void Effkseer_End()
 {
+	// サーバーを停止する
+	if (g_server != NULL)
+	{
+		g_server->Stop();
+		ES_SAFE_DELETE(g_server);
+	}
+
 	// 読み込まれたエフェクトを削除する。
 	for (auto e : effectHandleToEffect)
 	{
@@ -264,6 +437,16 @@ int LoadEffekseerEffect(const wchar_t* fileName)
 	effectHandleToEffectFileName[handle] = fileName;
 	effectHandleToEffect[handle] = effect;
 
+	if (g_server != nullptr)
+	{
+		wchar_t _dir[_MAX_DIR];
+		wchar_t _drive[_MAX_DRIVE];
+		wchar_t _fileName[_MAX_FNAME];
+		wchar_t _ext[_MAX_EXT];
+		_wsplitpath_s(fileName, _drive, _dir, _fileName, _ext);
+		g_server->Regist((const EFK_CHAR*) _fileName, effect);
+	}
+
 	return handle;
 }
 
@@ -276,6 +459,11 @@ int DeleteEffekseerEffect(int effectHandle)
 		effectFileNameToEffectHandle.erase(fileName);
 		effectHandleToEffect.erase(effectHandle);
 		effectHandleToEffectFileName.erase(effectHandle);
+
+		if (g_server != nullptr)
+		{
+			g_server->Unregist(effect);
+		}
 
 		ES_SAFE_RELEASE(effect);
 	}
@@ -375,6 +563,11 @@ int SetScalePlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, 
 
 int UpdateEffekseer2D()
 {
+	if (g_server != nullptr)
+	{
+		g_server->Update();
+	}
+
 	if (g_manager2d == nullptr) return -1;
 	g_manager2d->Update();
 	return 0;
@@ -438,6 +631,11 @@ int DrawEffekseer2D_End()
 
 int UpdateEffekseer3D()
 {
+	if (g_server != nullptr)
+	{
+		g_server->Update();
+	}
+
 	if (g_manager3d == nullptr) return -1;
 	g_manager3d->Update();
 	return 0;

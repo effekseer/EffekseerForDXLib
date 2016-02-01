@@ -150,6 +150,22 @@ int Effkseer_Init(int particleMax,
 	EffekseerFileReadSizeFunc readSizeFunc = __Effekseer_FileRead_size);
 
 /**
+	@brief	Effekseerのネットワーク機能を初期化する。
+	@param	port	使用するポート
+	@return	成功した場合は0、失敗した場合は-1を返す。
+	@note
+	ネットワーク機能を有効にすると、DXライブラリの起動中にEffekseerのツールからエフェクトを変更できるようになる。
+*/
+int Effkseer_InitServer(int port);
+
+/**
+@brief	Effekseerの歪み機能を初期化する。
+@param	scale	ウインドウサイズに対する歪みに使用するバッファの拡大率(1.0がデフォルト)
+@return	成功した場合は0、失敗した場合は-1を返す。
+*/
+int Effekseer_InitDistortion(float scale = 1.0f);
+
+/**
 	@brief	Effekseerを終了する。
 */
 void Effkseer_End();
