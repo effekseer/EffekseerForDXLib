@@ -2,7 +2,7 @@
 // 
 // 		ＤＸライブラリ		データタイプ定義ヘッダファイル
 // 
-// 				Ver 3.15a
+// 				Ver 3.16 
 // 
 // -------------------------------------------------------------------------------
 
@@ -17,11 +17,11 @@
 #include "DxDataTypeWin.h"
 #endif
 
-#ifdef __PSVITA
+#ifdef __psp2__
 #include "DxDataTypePSVita.h"
 #endif
 
-#ifdef __PS4
+#ifdef __ORBIS__
 #include "DxDataTypePS4.h"
 #endif
 
@@ -29,12 +29,12 @@
 #include "DxDataTypeAndroid.h"
 #endif
 
-#ifdef DX_USE_NAMESPACE
+#ifndef DX_NON_NAMESPACE
 
 namespace DxLib
 {
 
-#endif // DX_USE_NAMESPACE
+#endif // DX_NON_NAMESPACE
 
 // マクロ定義 --------------------------------------------------------------------
 
@@ -58,10 +58,10 @@ struct RGBCOLOR
 
 // 関数プロトタイプ宣言-----------------------------------------------------------
 
-#ifdef DX_USE_NAMESPACE
+#ifndef DX_NON_NAMESPACE
 
 }
 
-#endif // DX_USE_NAMESPACE
+#endif // DX_NON_NAMESPACE
 
 #endif // __DXDATATYPE_H__

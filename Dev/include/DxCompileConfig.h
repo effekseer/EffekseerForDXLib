@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.15a
+//				Ver 3.16 
 //
 // ----------------------------------------------------------------------------
 
@@ -18,8 +18,11 @@
 
 // スタティックライブラリ生成時ライブラリ機能制限用定義 -----------------------
 
-// namespace DxLib を使用する場合は次のコメントを外してください
-#define DX_USE_NAMESPACE
+// namespace DxLib を使用しない場合は次のコメントを外してください
+//#define DX_NON_NAMESPACE
+
+// DxLib.h に書かれている using namespace DxLib ; を使用しない場合は次のコメントを外してください
+//#define DX_NON_USING_NAMESPACE_DXLIB
 
 // インラインアセンブラを使用しないソースコードでコンパイルする場合は以下のコメントアウトを外してください
 //#define DX_NON_INLINE_ASM
@@ -62,6 +65,9 @@
 
 // 通常描画にプログラマブルシェーダーを使用しない方は次のコメントを外してください
 //#define DX_NON_NORMAL_DRAW_SHADER
+
+// グラフィックス処理がいらない方は次のコメントを外してください
+//#define DX_NON_GRAPHICS
 
 // ソフトウエア２Ｄ描画がいらない方は次のコメントを外してください
 //#define DX_NON_2DDRAW
@@ -158,7 +164,7 @@
 // 軽量バージョンのＤＸライブラリを生成する場合は次のコメントを外してください
 //#define DX_LIB_LITEVER
 
-#if !defined( __ANDROID ) && !defined( __PSVITA ) && !defined( __PS4 )
+#if !defined( __ANDROID ) && !defined( __psp2__ ) && !defined( __ORBIS__ )
 #define __WINDOWS__
 #endif
 
@@ -181,7 +187,7 @@
 	#undef DX_THREAD_SAFE_NETWORK_ONLY
 #endif
 
-#ifdef __PSVITA
+#if defined( __psp2__ ) || defined( __ORBIS__ )
 #define DX_NON_2DDRAW
 #define DX_NON_ACM
 #define DX_NON_DSHOW_MP3
@@ -207,6 +213,20 @@
 #define DX_NON_OGGVORBIS
 #define DX_NON_MODEL
 #endif
+
+#ifdef DX_NON_GRAPHICS
+	#define DX_NON_MOVIE
+	#define DX_NON_FILTER
+	#define DX_NON_2DDRAW
+	#define DX_NON_MASK
+	#define DX_NON_MODEL
+	#define DX_NON_BULLET_PHYSICS
+	#define DX_NON_PRINTF_DX
+	#define DX_NON_KEYEX
+	#define DX_NON_DIRECT3D11
+	#define DX_NON_DIRECT3D9
+	#define DX_NOTUSE_DRAWFUNCTION
+#endif // DX_NON_GRAPHICS
 
 #ifdef DX_NON_MULTITHREAD
 	#ifndef DX_NON_ASYNCLOAD
@@ -263,11 +283,11 @@
 	#endif
 #endif
 
-#if defined( _WIN64 ) || defined( __PS4 )
+#if defined( _WIN64 ) || defined( __ORBIS__ )
 	#define __64BIT__
 #endif
 
-#if defined( _WIN64 ) || defined( __PSVITA ) || defined( __PS4 )
+#if defined( _WIN64 ) || defined( __psp2__ ) || defined( __ORBIS__ )
 	#ifndef DX_NON_INLINE_ASM
 		#define DX_NON_INLINE_ASM
 	#endif
