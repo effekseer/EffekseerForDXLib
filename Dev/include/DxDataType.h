@@ -2,7 +2,7 @@
 // 
 // 		ＤＸライブラリ		データタイプ定義ヘッダファイル
 // 
-// 				Ver 3.16 
+// 				Ver 3.16b
 // 
 // -------------------------------------------------------------------------------
 
@@ -25,7 +25,7 @@
 #include "DxDataTypePS4.h"
 #endif
 
-#ifdef __ANDROID
+#ifdef __ANDROID__
 #include "DxDataTypeAndroid.h"
 #endif
 

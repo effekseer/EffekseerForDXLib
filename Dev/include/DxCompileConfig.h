@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.16 
+//				Ver 3.16b
 //
 // ----------------------------------------------------------------------------
 
@@ -101,7 +101,11 @@
 // ※DxUseCLib.lib も再コンパイルする必要があります
 //#define DX_NON_OGGTHEORA
 
-// 乱数発生器に Mersenne Twister を使用されない場合は以下のコメントを外して下さい
+// Opus データを使用しない方は次のコメントをはずしてください
+// ※DxUseCLib.lib も再コンパイルする必要があります
+//#define DX_NON_OPUS
+
+// 乱数発生器に Mersenne Twister を使用しない場合は以下のコメントを外して下さい
 // ※DxUseCLib.lib も再コンパイルする必要があります
 //#define DX_NON_MERSENNE_TWISTER
 
@@ -164,7 +168,7 @@
 // 軽量バージョンのＤＸライブラリを生成する場合は次のコメントを外してください
 //#define DX_LIB_LITEVER
 
-#if !defined( __ANDROID ) && !defined( __psp2__ ) && !defined( __ORBIS__ )
+#if !defined( __ANDROID__ ) && !defined( __psp2__ ) && !defined( __ORBIS__ )
 #define __WINDOWS__
 #endif
 
@@ -183,11 +187,11 @@
 	#endif // DX_NON_DSHOW_MOVIE
 #endif // __WINDOWS__
 
-#if defined( __ANDROID )
+#if defined( __ANDROID__ )
 	#undef DX_THREAD_SAFE_NETWORK_ONLY
 #endif
 
-#if defined( __psp2__ ) || defined( __ORBIS__ )
+#if defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ )
 #define DX_NON_2DDRAW
 #define DX_NON_ACM
 #define DX_NON_DSHOW_MP3
@@ -211,6 +215,7 @@
 #define DX_NON_PNGREAD
 #define DX_NON_BEEP
 #define DX_NON_OGGVORBIS
+#define DX_NON_OPUS
 #define DX_NON_MODEL
 #endif
 
@@ -227,6 +232,30 @@
 	#define DX_NON_DIRECT3D9
 	#define DX_NOTUSE_DRAWFUNCTION
 #endif // DX_NON_GRAPHICS
+
+#ifdef DX_NON_SOUND
+	#ifndef DX_NON_OPUS
+		#define DX_NON_OPUS
+	#endif
+	#ifndef DX_NON_OGGVORBIS
+		#define DX_NON_OGGVORBIS
+	#endif
+	#ifndef DX_NON_OGGTHEORA
+		#define DX_NON_OGGTHEORA
+	#endif
+	#ifndef DX_NON_ACM
+		#define DX_NON_ACM
+	#endif
+	#ifndef DX_NON_DSHOW_MP3
+		#define DX_NON_DSHOW_MP3
+	#endif
+	#ifndef DX_NON_DSHOW_MOVIE
+		#define DX_NON_DSHOW_MOVIE
+	#endif
+	#ifndef DX_NON_MOVIE
+		#define DX_NON_MOVIE
+	#endif
+#endif // DX_NON_SOUND
 
 #ifdef DX_NON_MULTITHREAD
 	#ifndef DX_NON_ASYNCLOAD
@@ -287,7 +316,7 @@
 	#define __64BIT__
 #endif
 
-#if defined( _WIN64 ) || defined( __psp2__ ) || defined( __ORBIS__ )
+#if defined( _WIN64 ) || defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ )
 	#ifndef DX_NON_INLINE_ASM
 		#define DX_NON_INLINE_ASM
 	#endif
