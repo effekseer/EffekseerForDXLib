@@ -39,8 +39,8 @@ int sample3D()
 	int effectHandle = LoadEffekseerEffect("laser.efk");
 
 	// 何でもいいので画像を読み込む。
-	int grBackgroundHandle = LoadGraph("Texture/Background.png");
-	int grFrontHandle = LoadGraph("Texture/Front.png");
+	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
+	int grFrontHandle = LoadGraph(_T("Texture/Front.png"));
 
 	// 時間を初期化する(定期的にエフェクトを再生するため)
 	int time = 0;
@@ -93,6 +93,9 @@ int sample3D()
 
 		// Effekseerにより再生中のエフェクトを更新する。
 		UpdateEffekseer3D();
+
+		// 3Dを表示する。
+		DrawCapsule3D(VGet(0.0f, 100.0f, 0.0f), VGet(0.0f, -100.0f, 0.0f), 6.0f, 16, GetColor(100, 100, 100), GetColor(255, 255, 255), TRUE);
 
 		// Effekseerにより再生中のエフェクトを描画する。
 		DrawEffekseer3D();

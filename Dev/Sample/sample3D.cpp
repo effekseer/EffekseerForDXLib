@@ -94,6 +94,9 @@ int sample3D()
 		// Effekseerにより再生中のエフェクトを更新する。
 		UpdateEffekseer3D();
 
+		// 3Dを表示する。
+		DrawCapsule3D(VGet(0.0f, 100.0f, 0.0f), VGet(0.0f, -100.0f, 0.0f), 6.0f, 16, GetColor(100, 100, 100), GetColor(255, 255, 255), TRUE);
+
 		// Effekseerにより再生中のエフェクトを描画する。
 		DrawEffekseer3D();
 
