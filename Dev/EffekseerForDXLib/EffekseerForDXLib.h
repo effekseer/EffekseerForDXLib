@@ -89,7 +89,7 @@
 #endif
 
 #else
-#error VisualStudio(C++)2012,2013のみ対応しています。
+#error VisualStudio(C++)2012,2013,2015のみ対応しています。
 #endif
 
 // ================================================================================================================================ //
@@ -237,6 +237,23 @@ int IsEffekseer2DEffectPlaying(int effectHandle);
 	@return	0:再生中、-1:再生されていない、もしくは再生終了
 */
 int IsEffekseer3DEffectPlaying(int effectHandle);
+
+/**
+	@brief	2D表示のエフェクトを停止する。
+	@param	effectHandle	エフェクトのハンドル
+	@return	成否
+	@return	0:成功、-1:失敗
+*/
+int StopEffekseer2DEffect(int effectHandle);
+
+/**
+	@brief	3D表示のエフェクトを停止する。
+	@param	effectHandle	エフェクトのハンドル
+	@return	成否
+	@return	0:成功、-1:失敗
+*/
+int StopEffekseer3DEffect(int effectHandle);
+
 
 /**
 	@brief	再生中の2D表示のエフェクトの位置を設定する。

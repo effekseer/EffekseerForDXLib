@@ -68,10 +68,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\lib\</OutDir>
     <TargetName>EffekseerForDXLib_vs2013_x86_d</TargetName>
+    <IntDir>..\Intermediate\$(ProjectName)\$(PlatformToolset)\$(PlatformName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\lib\</OutDir>
     <TargetName>EffekseerForDXLib_vs2013_x86</TargetName>
+    <IntDir>..\Intermediate\$(ProjectName)\$(PlatformToolset)\$(PlatformName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>..\Intermediate\$(ProjectName)\$(PlatformToolset)\$(PlatformName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

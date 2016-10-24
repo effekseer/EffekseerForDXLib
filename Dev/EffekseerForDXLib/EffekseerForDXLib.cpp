@@ -511,6 +511,24 @@ int IsEffekseer3DEffectPlaying(int effectHandle)
 	return g_manager3d->Exists(effectHandle) ? 0 : -1;
 }
 
+int StopEffekseer2DEffect(int effectHandle)
+{
+		if (g_manager2d == nullptr) return -1;
+	
+		g_manager2d->StopEffect(effectHandle);
+
+		return 0;
+}
+
+int StopEffekseer3DEffect(int effectHandle)
+{
+		if (g_manager3d == nullptr) return -1;
+	
+		g_manager3d->StopEffect(effectHandle);
+
+		return 0;
+}
+
 int SetPosPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z)
 {
 	if (g_manager2d == nullptr) return -1;
