@@ -6,10 +6,10 @@
 #include <vector>
 
 static ::Effekseer::Manager*				g_manager2d = NULL;
-static ::EffekseerRendererDX9::Renderer*	g_renderer2d = NULL;
+static ::EffekseerRenderer::Renderer*		g_renderer2d = NULL;
 
 static ::Effekseer::Manager*				g_manager3d = NULL;
-static ::EffekseerRendererDX9::Renderer*	g_renderer3d = NULL;
+static ::EffekseerRenderer::Renderer*		g_renderer3d = NULL;
 
 static ::Effekseer::Server*					g_server = NULL;
 
@@ -188,16 +188,21 @@ public:
 
 	}
 
-	void OnDistorting() override
+	bool OnDistorting() override
 	{
+		if(GetUseDirect3DDevice9() == NULL) return false;
+		auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
+
 		if (g_backgroundTexture == NULL)
 		{
-			g_renderer2d->SetBackground(NULL);
-			return;
+			renderer2d->SetBackground(NULL);
+			return false;
 		}
 
 		CopyRenderTargetToBackground();
-		g_renderer2d->SetBackground(g_backgroundTexture);
+		renderer2d->SetBackground(g_backgroundTexture);
+
+		return true;
 	}
 };
 
@@ -215,16 +220,21 @@ public:
 
 	}
 
-	void OnDistorting() override
+	bool OnDistorting() override
 	{
+		if(GetUseDirect3DDevice9() == NULL) return false;
+		auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
+
 		if (g_backgroundTexture == NULL)
 		{
-			g_renderer3d->SetBackground(NULL);
-			return;
+			renderer3d->SetBackground(NULL);
+			return false;
 		}
 
 		CopyRenderTargetToBackground();
-		g_renderer3d->SetBackground(g_backgroundTexture);
+		renderer3d->SetBackground(g_backgroundTexture);
+
+		return true;
 	}
 };
 
@@ -233,8 +243,11 @@ int Effkseer_Init(int particleMax,
 	EffekseerFileOpenFunc openFunc,
 	EffekseerFileReadSizeFunc readSizeFunc)
 {
-	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
-	if (device == NULL) return -1;
+	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
+	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
+	ID3D11DeviceContext* dx11_device_context = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
+
+	if (dx9_device == NULL && dx11_device == NULL) return -1;
 
 	g_openFunc = openFunc;
 	g_readSizeFunc = readSizeFunc;
@@ -242,7 +255,15 @@ int Effkseer_Init(int particleMax,
 	g_effectFile = new EffekseerFile();
 
 	// レンダラー(2D)を生成する。
-	g_renderer2d = ::EffekseerRendererDX9::Renderer::Create(device, particleMax);
+	if(dx9_device != NULL)
+	{
+		g_renderer2d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
+	}
+	else
+	{
+		g_renderer2d = ::EffekseerRendererDX11::Renderer::Create(dx11_device, dx11_device_context, particleMax);
+	}
+
 	g_renderer2d->SetDistortingCallback(new DistortingCallback2D());
 
 	// マネージャー(2D)を生成する。
@@ -251,7 +272,14 @@ int Effkseer_Init(int particleMax,
 	g_manager2d->SetEffectLoader(Effekseer::Effect::CreateEffectLoader(g_effectFile));
 
 	// レンダラー(3D)を生成する。
-	g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(device, particleMax);
+	if(dx9_device != NULL)
+	{
+		g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
+	}
+	else
+	{
+		g_renderer3d = ::EffekseerRendererDX11::Renderer::Create(dx11_device, dx11_device_context, particleMax);
+	}
 	g_renderer3d->SetDistortingCallback(new DistortingCallback3D());
 
 	// マネージャー(3D)を生成する。
@@ -361,9 +389,9 @@ void Effkseer_End()
 	g_manager3d->Destroy();
 
 	// 描画用インスタンスを破棄する。
-	g_renderer2d->Destory();
+	g_renderer2d->Destroy();
 
-	g_renderer3d->Destory();
+	g_renderer3d->Destroy();
 
 	ES_SAFE_DELETE(g_effectFile);
 }
@@ -686,7 +714,7 @@ int DrawEffekseer3D()
 	return g_manager2d;
 }
 
-::EffekseerRendererDX9::Renderer* GetEffekseer2DRenderer()
+::EffekseerRenderer::Renderer* GetEffekseer2DRenderer()
 {
 	return g_renderer2d;
 }
@@ -696,7 +724,7 @@ int DrawEffekseer3D()
 	return g_manager3d;
 }
 
-::EffekseerRendererDX9::Renderer* GetEffekseer3DRenderer()
+::EffekseerRenderer::Renderer* GetEffekseer3DRenderer()
 {
 	return g_renderer3d;
 }
@@ -713,6 +741,8 @@ int DrawEffekseer3D()
 
 void Effkseer_DeviceLost(void* data)
 {
+	if(GetUseDirect3DDevice9() == NULL) return;
+
 	// デバイスロストが発生した時に呼ぶ。
 	g_renderer2d->OnLostDevice();
 	g_renderer3d->OnLostDevice();
@@ -725,16 +755,23 @@ void Effkseer_DeviceLost(void* data)
 	}
 
 	// DXライブラリは内部でデバイス自体を消去しているのでNULLを設定する。
-	g_renderer2d->ChangeDevice(NULL);
-	g_renderer3d->ChangeDevice(NULL);
+	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
+	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
+	renderer2d->ChangeDevice(NULL);
+	renderer3d->ChangeDevice(NULL);
 }
 
 void Effkseer_DeviceRestore(void* data)
 {
+	if(GetUseDirect3DDevice9() == NULL) return;
+
 	// DXライブラリは回復時に内部でデバイスを再生成するので新しく設定する。
 	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
-	g_renderer2d->ChangeDevice(device);
-	g_renderer3d->ChangeDevice(device);
+	
+	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
+	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
+	renderer2d->ChangeDevice(device);
+	renderer3d->ChangeDevice(device);
 
 	// エフェクトのリソースを再読み込みする。
 	for (auto e : effectHandleToEffect)

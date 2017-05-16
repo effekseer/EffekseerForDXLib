@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.16d
+//				Ver 3.18a
 //
 // ----------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@
 #define DX_THREAD_SAFE_NETWORK_ONLY
 
 // ＤＸアーカイブがいらない方は次のコメントを外してください
-// ( ＤＸアーカイブを無効にすると、ＤＸアーカイブを内部で使っている関係上 DX_NON_MODEL と DX_NON_FILTER と DX_NON_NORMAL_DRAW_SHADER も有効になります )
+// ( ＤＸアーカイブを無効にすると、ＤＸアーカイブを内部で使っている関係上 DX_NON_MODEL と DX_NON_FILTER と DX_NON_MOVIE と DX_NON_NORMAL_DRAW_SHADER も有効になります )
 //#define DX_NON_DXA
 
 // ムービー機能がいらない方は次のコメントを外してください
@@ -123,7 +123,7 @@
 //#define DX_LOAD_FBX_MODEL
 
 // ビープ音機能がいらない方は次のコメントを外してください
-#define DX_NON_BEEP
+//#define DX_NON_BEEP
 
 // タスクスイッチをＯＦＦにする機能がいらない方は次のコメントを外してください
 // ( タスクスイッチＯＦＦ機能は使用不可です )
@@ -186,10 +186,6 @@
 		#define DX_NON_DSHOW_MOVIE
 	#endif // DX_NON_DSHOW_MOVIE
 #endif // __WINDOWS__
-
-#if defined( __ANDROID__ )
-	#undef DX_THREAD_SAFE_NETWORK_ONLY
-#endif
 
 #if defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ )
 #define DX_NON_2DDRAW
@@ -272,13 +268,6 @@
 	#endif
 #endif
 
-#ifdef DX_NON_MOVIE
-	#ifndef DX_NON_OGGTHEORA
-		#define DX_NON_OGGTHEORA
-	#endif
-#endif
-
-
 #ifdef DX_NON_DXA
 	#ifndef DX_NON_NORMAL_DRAW_SHADER
 		#define DX_NON_NORMAL_DRAW_SHADER
@@ -288,6 +277,15 @@
 	#endif
 	#ifndef DX_NON_FILTER
 		#define DX_NON_FILTER
+	#endif
+	#ifndef DX_NON_MOVIE
+		#define DX_NON_MOVIE
+	#endif
+#endif
+
+#ifdef DX_NON_MOVIE
+	#ifndef DX_NON_OGGTHEORA
+		#define DX_NON_OGGTHEORA
 	#endif
 #endif
 

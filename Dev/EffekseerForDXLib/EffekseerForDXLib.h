@@ -4,6 +4,7 @@
 #include "DxLib.h"
 #include "Effekseer.h"
 #include "EffekseerRendererDX9.h"
+#include "EffekseerRendererDX11.h"
 
 #include <string>
 
@@ -13,14 +14,16 @@
 	#error 32bitのみ対応しています。
 #else
 
-#if _MSC_VER ==1900
+#if _MSC_VER >=1900
 
 #if _DEBUG
 #pragma comment(lib,"Effekseer_vs2015_x86_d.lib")
 #pragma comment(lib,"EffekseerRendererDX9_vs2015_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86_d.lib")
 #else
 #pragma comment(lib,"Effekseer_vs2015_x86.lib")
 #pragma comment(lib,"EffekseerRendererDX9_vs2015_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86.lib")
 #endif
 
 #endif
@@ -30,9 +33,11 @@
 #if _DEBUG
 #pragma comment(lib,"Effekseer_vs2013_x86_d.lib")
 #pragma comment(lib,"EffekseerRendererDX9_vs2013_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2013_x86_d.lib")
 #else
 #pragma comment(lib,"Effekseer_vs2013_x86.lib")
 #pragma comment(lib,"EffekseerRendererDX9_vs2013_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2013_x86.lib")
 #endif
 
 #endif
@@ -42,9 +47,11 @@
 #if _DEBUG
 #pragma comment(lib,"Effekseer_vs2012_x86_d.lib")
 #pragma comment(lib,"EffekseerRendererDX9_vs2012_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2012_x86_d.lib")
 #else
 #pragma comment(lib,"Effekseer_vs2012_x86.lib")
 #pragma comment(lib,"EffekseerRendererDX9_vs2012_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2012_x86.lib")
 #endif
 
 #endif
@@ -402,7 +409,7 @@ int DrawEffekseer3D();
 @note
 Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
-::EffekseerRendererDX9::Renderer* GetEffekseer2DRenderer();
+::EffekseerRenderer::Renderer* GetEffekseer2DRenderer();
 
 /**
 	@brief	Effekseerの3Dエフェクト管理クラスのインスタンスを取得する。
@@ -418,7 +425,7 @@ Effekseerの機能を直接使用しない限り、この関数は使用しない。
 @note
 Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
-::EffekseerRendererDX9::Renderer* GetEffekseer3DRenderer();
+::EffekseerRenderer::Renderer* GetEffekseer3DRenderer();
 
 /**
 @brief	Effekseerのエフェクトクラスのインスタンスを取得する。
