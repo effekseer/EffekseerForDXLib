@@ -15,8 +15,8 @@
 		<p>
 		DXライブラリとの連携について説明します。<br>
 		DXライブラリにEffekseerのラッパーのlibを追加することで、お手軽にEffekseerをDXライブラリで使用できるようにしています。<br>
-		現在、VS2012,2013,2015専用です。また、現在x64、DirectX11対応はしておりません。<br>
-		Ver3.14d以降のバージョンで動作確認はしていますが、他のバージョンで動作するかは確認しておりません。
+		現在、VS2012,2013,2015,2017専用です。また、現在x64対応はしておりません。<br>
+		Ver3.18a以降のバージョンで動作確認はしていますが、他のバージョンで動作するかは確認しておりません。
 		</p>
 		<br>
 		<p>
@@ -24,6 +24,7 @@
 		</p>
 
 		<h2>更新履歴</h2>
+<p>1.30(17/05/xx) Effekseerを1.30に更新、DXライブラリを3.18aに更新、DirectX11に対応</p>
 <p>1.10b(16/06/24) Effekseerを1.20に更新、DXライブラリを3.16dに更新</p>
 <p>1.10b(16/05/23) DXライブラリを3.16bに更新、リソースファイルが深度に対応していなかった不具合を修正</p>
 <p>1.10(16/02/28) Effekseerを1.10に更新、DXライブラリを3.16に更新、歪とネットワークに対応</p>
@@ -45,6 +46,8 @@ DXライブラリと同じように「プロジェクトに追加すべきファ
 <li>「Effekseer_vs2012_x86_d.lib」</li>
 <li>「EffekseerRendererDX9_vs2012_x86_d.lib」</li>
 <li>「EffekseerRendererDX9_vs2012_x86.lib」</li>
+<li>「EffekseerRendererDX11_vs2012_x86_d.lib」</li>
+<li>「EffekseerRendererDX11_vs2012_x86.lib」</li>
 <li>「EffekseerForDXLib_vs2012_x86_d.lib」</li>
 <li>「EffekseerForDXLib_vs2012_x86.lib」</li>
 </ul>
@@ -54,6 +57,8 @@ DXライブラリと同じように「プロジェクトに追加すべきファ
 <li>「Effekseer_vs2013_x86_d.lib」</li>
 <li>「EffekseerRendererDX9_vs2013_x86_d.lib」</li>
 <li>「EffekseerRendererDX9_vs2013_x86.lib」</li>
+<li>「EffekseerRendererDX11_vs2013_x86_d.lib」</li>
+<li>「EffekseerRendererDX11_vs2013_x86.lib」</li>
 <li>「EffekseerForDXLib_vs2013_x86_d.lib」</li>
 <li>「EffekseerForDXLib_vs2013_x86.lib」</li>
 </ul>
@@ -63,6 +68,8 @@ DXライブラリと同じように「プロジェクトに追加すべきファ
 <li>「Effekseer_vs2015_x86_d.lib」</li>
 <li>「EffekseerRendererDX9_vs2015_x86_d.lib」</li>
 <li>「EffekseerRendererDX9_vs2015_x86.lib」</li>
+<li>「EffekseerRendererDX11_vs2015_x86_d.lib」</li>
+<li>「EffekseerRendererDX11_vs2015_x86.lib」</li>
 <li>「EffekseerForDXLib_vs2015_x86_d.lib」</li>
 <li>「EffekseerForDXLib_vs2015_x86.lib」</li>
 </ul>
@@ -70,6 +77,7 @@ DXライブラリと同じように「プロジェクトに追加すべきファ
 <ul>
 <li>「Effekseer.h」</li>
 <li>「EffekseerRendererDX9.h」</li>
+<li>「EffekseerRendererDX11.h」</li>
 <li>「EffekseerForDXLib.h」</li>
 </ul>
 <p>
@@ -77,7 +85,7 @@ DXライブラリと同じように「プロジェクトに追加すべきファ
 </p>
 
 <p>
-ただし、「Ver3.14d」以外のバージョンを使用している場合、
+ただし、「Ver3.18a」以外のバージョンを使用している場合、
 上記のlibファイルのコピーでは動作しないかもしれません。
 その場合は、バージョンを一致させるか、「プロジェクトに追加すべきファイル_VC用/」にあるファイルを全てコピーしてください。
 </p>
@@ -95,7 +103,6 @@ DXライブラリと同じように「プロジェクトに追加すべきファ
 
 		<h2>Todo</h2>
 <ul>
-<li>DirectX11対応</li>
 <li>x64対応</li>
 </ul>
 
