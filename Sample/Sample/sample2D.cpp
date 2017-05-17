@@ -12,7 +12,7 @@ int sample2D()
 	//描画先を裏画面に変更する。
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// DirectX9を使用するようにする。
+	// DirectX9を使用するようにする。(DirectX11も可)
 	// Effekseerを使用するには必ず設定する。
 	SetUseDirect3DVersion(DX_DIRECT3D_9);
 
@@ -33,6 +33,7 @@ int sample2D()
 
 	// DXライブラリのデバイスロストした時のコールバックを設定する。
 	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
+	// ただし、DirectX11を使用する場合は実行する必要はない。
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 	// Effekseerに2D描画の設定をする。
@@ -42,8 +43,8 @@ int sample2D()
 	int effectHandle = LoadEffekseerEffect("laser.efk");
 
 	// 何でもいいので画像を読み込む。
-	int grBackgroundHandle = LoadGraph("Texture/Background.png");
-	int grFrontHandle = LoadGraph("Texture/Front.png");
+	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
+	int grFrontHandle = LoadGraph(_T("Texture/Front.png"));
 
 	// 時間を初期化する(定期的にエフェクトを再生するため)
 	int time = 0;

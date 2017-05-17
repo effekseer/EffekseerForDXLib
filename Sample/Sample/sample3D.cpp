@@ -12,7 +12,7 @@ int sample3D()
 	//描画先を裏画面に変更する。
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// DirectX9を使用するようにする。
+	// DirectX9を使用するようにする。(DirectX11も可)
 	// Effekseerを使用するには必ず設定する。
 	SetUseDirect3DVersion(DX_DIRECT3D_9);
 
@@ -33,6 +33,7 @@ int sample3D()
 
 	// DXライブラリのデバイスロストした時のコールバックを設定する。
 	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
+	// ただし、DirectX11を使用する場合は実行する必要はない。
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 	// エフェクトを読み込む。
