@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset=utf-8>
+	<title>Effekseer For DX library</title>
+	<link href="base.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div class="main">
+		<h1>Effekseer For DX library</h1>
+		
+		<h2>Overview</h2>
+		<p>
+		I describe the linkage with the DX library.<br>
+		By adding Effekseer's wrapper lib to the DX library, you can easily use Effekseer with the DX library.<br>
+		It is currently dedicated to VS 2012, 2013, 2015, 2017. Moreover, it does not correspond to the distortion of x64 and DirectX 11 now.<br>
+		Although the operation is checked with version 3.18c or later version, we have not confirmed whether it work with other versions.
+		</p>
+		<br>
+		<p>
+		For samples, please check the Sample directory.
+		</p>
+
+		<h2>Change log</h2>
+<p>1.30(17/06/xx) Update Effekseer to 1.30, update DX library to 3.18c, support DirectX 11</p>
+
+		<h2>How to install</h2>
+		<p>
+The DX library which contains Effekseer is saved in「プロジェクトに追加すべきファイル_VC用/」.
+Please add files in 「プロジェクトに追加すべきファイル_VC用/」 to the project just like DX library.
+		</p>
+
+<p>
+If you already use the DX library, please copy the following files.
+</p>
+<ul>
+<li>「Effekseer_vs2012_x86.lib」</li>
+<li>「Effekseer_vs2012_x86_d.lib」</li>
+<li>「EffekseerRendererDX9_vs2012_x86_d.lib」</li>
+<li>「EffekseerRendererDX9_vs2012_x86.lib」</li>
+<li>「EffekseerRendererDX11_vs2012_x86_d.lib」</li>
+<li>「EffekseerRendererDX11_vs2012_x86.lib」</li>
+<li>「EffekseerForDXLib_vs2012_x86_d.lib」</li>
+<li>「EffekseerForDXLib_vs2012_x86.lib」</li>
+</ul>
+
+<ul>
+<li>「Effekseer_vs2013_x86.lib」</li>
+<li>「Effekseer_vs2013_x86_d.lib」</li>
+<li>「EffekseerRendererDX9_vs2013_x86_d.lib」</li>
+<li>「EffekseerRendererDX9_vs2013_x86.lib」</li>
+<li>「EffekseerRendererDX11_vs2013_x86_d.lib」</li>
+<li>「EffekseerRendererDX11_vs2013_x86.lib」</li>
+<li>「EffekseerForDXLib_vs2013_x86_d.lib」</li>
+<li>「EffekseerForDXLib_vs2013_x86.lib」</li>
+</ul>
+
+<ul>
+<li>「Effekseer_vs2015_x86.lib」</li>
+<li>「Effekseer_vs2015_x86_d.lib」</li>
+<li>「EffekseerRendererDX9_vs2015_x86_d.lib」</li>
+<li>「EffekseerRendererDX9_vs2015_x86.lib」</li>
+<li>「EffekseerRendererDX11_vs2015_x86_d.lib」</li>
+<li>「EffekseerRendererDX11_vs2015_x86.lib」</li>
+<li>「EffekseerForDXLib_vs2015_x86_d.lib」</li>
+<li>「EffekseerForDXLib_vs2015_x86.lib」</li>
+</ul>
+
+<ul>
+<li>「Effekseer.h」</li>
+<li>「EffekseerRendererDX9.h」</li>
+<li>「EffekseerRendererDX11.h」</li>
+<li>「EffekseerForDXLib.h」</li>
+</ul>
+
+<p>
+However, if you are using a version other than "Ver 3.18a"
+It may not work with the copy of the above lib files.
+In that case, please make the version match or copy all the files in 「プロジェクトに追加すべきファイル_VC用/」.
+</p>
+
+		<h2>How to use</h2>
+<p>
+Basically, please read sample and EffekseerForDXLib.h.
+</p>
+<p>
+The sample is in 2D and 3D, the shortest source code to display and display one effect is described.
+</p>
+
+<img src="img/ss.jpg"/>
+
+
+		<h2>Todo</h2>
+<ul>
+<li>Distortion in DirectX11</li>
+<li>x64</li>
+</ul>
+
+		<h2>License</h2>
+
+<p>
+To use the DX library with Effekseer, you need to add the following text to help etc.
+</p>
+
+<pre>
+-DX Library
+DX Library Copyright (C) 2001-2015 Takumi Yamada.
+
+-Effekseer
+
+The MIT License (MIT)
+
+Copyright (c) 2011 Effekseer Project
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+DirectX Tool Kit
+https://directxtk.codeplex.com/
+Microsoft Public License (Ms-PL)
+
+</pre>
+
+	</div>
+</body>
+
+</html>
