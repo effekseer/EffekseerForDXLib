@@ -2,7 +2,7 @@
 // 
 // 		ＤＸライブラリ		データタイプ定義ヘッダファイル
 // 
-// 				Ver 3.18c
+// 				Ver 3.18e
 // 
 // -------------------------------------------------------------------------------
 
@@ -29,6 +29,10 @@
 #include "DxDataTypeAndroid.h"
 #endif
 
+#ifdef NN_NINTENDO_SDK
+#include "DxDataTypeNSW.h"
+#endif
+
 #ifndef DX_NON_NAMESPACE
 
 namespace DxLib
@@ -43,6 +47,18 @@ namespace DxLib
 	( Dest ).top    = Top ;\
 	( Dest ).right  = Right ;\
 	( Dest ).bottom = Bottom ;
+
+#ifdef __USE_ULL__
+#define ULL_NUM( x )				( x##ULL )
+#define LL_NUM( x )					( x##LL  )
+#define ULL_PARAM( x )				x##ULL
+#define LL_PARAM( x )				x##LL
+#else
+#define ULL_NUM( x )				( ( ULONGLONG )x )
+#define LL_NUM( x )					(  ( LONGLONG )x )
+#define ULL_PARAM( x )				x
+#define LL_PARAM( x )				x
+#endif
 
 // 構造体定義 --------------------------------------------------------------------
 

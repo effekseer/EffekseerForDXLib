@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.18c
+//				Ver 3.18e
 //
 // ----------------------------------------------------------------------------
 
@@ -80,6 +80,9 @@
 
 // DirectShow を使用した動画ファイルのデコードを行わない場合は次のコメントをはずしてください
 //#define DX_NON_DSHOW_MOVIE
+
+// Media Foundation を使用した動画ファイルのデコードを行わない場合は次のコメントをはずしてください
+//#define DX_NON_MEDIA_FOUNDATION
 
 // キーボードの基本的な入力機能以外はいらない方は次のコメントを外してください
 //#define DX_NON_KEYEX
@@ -168,8 +171,12 @@
 // 軽量バージョンのＤＸライブラリを生成する場合は次のコメントを外してください
 //#define DX_LIB_LITEVER
 
-#if !defined( __ANDROID__ ) && !defined( __psp2__ ) && !defined( __ORBIS__ )
+#if !defined( __ANDROID__ ) && !defined( __psp2__ ) && !defined( __ORBIS__ ) && !defined( NN_NINTENDO_SDK )
 #define __WINDOWS__
+#endif
+
+#if defined( DX_GCC_COMPILE ) || defined( __ANDROID__ ) || defined( NN_NINTENDO_SDK ) || defined( __BCC2 )
+#define __USE_ULL__
 #endif
 
 #ifndef __WINDOWS__
@@ -185,13 +192,17 @@
 	#ifndef DX_NON_DSHOW_MOVIE
 		#define DX_NON_DSHOW_MOVIE
 	#endif // DX_NON_DSHOW_MOVIE
+	#ifndef DX_NON_MEDIA_FOUNDATION
+		#define DX_NON_MEDIA_FOUNDATION
+	#endif // DX_NON_MEDIA_FOUNDATION
 #endif // __WINDOWS__
 
-#if defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ )
+#if defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ ) || defined( NN_NINTENDO_SDK )
 #define DX_NON_2DDRAW
 #define DX_NON_ACM
 #define DX_NON_DSHOW_MP3
 #define DX_NON_DSHOW_MOVIE
+#define DX_NON_MEDIA_FOUNDATION
 #define DX_NON_KEYEX
 #define DX_NON_INPUTSTRING
 #define DX_NON_NETWORK
@@ -216,17 +227,39 @@
 #endif
 
 #ifdef DX_NON_GRAPHICS
-	#define DX_NON_MOVIE
-	#define DX_NON_FILTER
-	#define DX_NON_2DDRAW
-	#define DX_NON_MASK
-	#define DX_NON_MODEL
-	#define DX_NON_BULLET_PHYSICS
-	#define DX_NON_PRINTF_DX
-	#define DX_NON_KEYEX
-	#define DX_NON_DIRECT3D11
-	#define DX_NON_DIRECT3D9
-	#define DX_NOTUSE_DRAWFUNCTION
+	#ifndef DX_NON_MOVIE
+		#define DX_NON_MOVIE
+	#endif
+	#ifndef DX_NON_FILTER
+		#define DX_NON_FILTER
+	#endif
+	#ifndef DX_NON_2DDRAW
+		#define DX_NON_2DDRAW
+	#endif
+	#ifndef DX_NON_MASK
+		#define DX_NON_MASK
+	#endif
+	#ifndef DX_NON_MODEL
+		#define DX_NON_MODEL
+	#endif
+	#ifndef DX_NON_BULLET_PHYSICS
+		#define DX_NON_BULLET_PHYSICS
+	#endif
+	#ifndef DX_NON_PRINTF_DX
+		#define DX_NON_PRINTF_DX
+	#endif
+	#ifndef DX_NON_KEYEX
+		#define DX_NON_KEYEX
+	#endif
+	#ifndef DX_NON_DIRECT3D11
+		#define DX_NON_DIRECT3D11
+	#endif
+	#ifndef DX_NON_DIRECT3D9
+		#define DX_NON_DIRECT3D9
+	#endif
+	#ifndef DX_NOTUSE_DRAWFUNCTION
+		#define DX_NOTUSE_DRAWFUNCTION
+	#endif
 #endif // DX_NON_GRAPHICS
 
 #ifdef DX_NON_SOUND
@@ -247,6 +280,9 @@
 	#endif
 	#ifndef DX_NON_DSHOW_MOVIE
 		#define DX_NON_DSHOW_MOVIE
+	#endif
+	#ifndef DX_NON_MEDIA_FOUNDATION
+		#define DX_NON_MEDIA_FOUNDATION
 	#endif
 	#ifndef DX_NON_MOVIE
 		#define DX_NON_MOVIE
@@ -314,7 +350,7 @@
 	#define __64BIT__
 #endif
 
-#if defined( _WIN64 ) || defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ )
+#if defined( _WIN64 ) || defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ ) || defined( NN_NINTENDO_SDK )
 	#ifndef DX_NON_INLINE_ASM
 		#define DX_NON_INLINE_ASM
 	#endif
