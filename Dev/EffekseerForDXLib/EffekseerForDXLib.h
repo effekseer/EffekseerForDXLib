@@ -389,6 +389,40 @@ int DrawEffekseer2D_End();
 */
 int UpdateEffekseer3D();
 
+
+/**
+@brief	Effekseerにより再生中の3Dエフェクトの描画を開始する。
+@return	0:成功、-1:失敗
+@note
+特定のエフェクトのみを描画したい時に使用する。
+エフェクトの描画開始処理を行う。
+この関数を実行してからDrawEffekseer3D_Endが実行されるまで、DrawEffekseer3D_Drawを実行できる。
+DrawEffekseer3Dとは併用できない。
+*/
+int DrawEffekseer3D_Begin();
+
+/**
+@brief	指定されたEffekseerにより再生中の3Dエフェクトを描画する。
+@param	playingEffectHandle	再生中のエフェクトのハンドル
+@return	0:成功、-1:失敗
+@note
+特定のエフェクトのみを描画したい時に使用する。
+特定のエフェクトを描画する。
+DrawEffekseer3Dとは併用できない。
+*/
+int DrawEffekseer3D_Draw(int playingEffectHandle);
+
+/**
+@brief	Effekseerにより再生中の3Dエフェクトの描画を終了する。
+@return	0:成功、-1:失敗
+@note
+特定のエフェクトのみを描画したい時に使用する。
+エフェクトの描画終了処理を行う。
+DrawEffekseer3D_Beginを実行してからがこの関数が実行されるまで、DrawEffekseer3D_Drawを実行できる。
+DrawEffekseer3Dとは併用できない。
+*/
+int DrawEffekseer3D_End();
+
 /**
 	@brief	Effekseerにより再生中の3Dエフェクトを全て描画する。
 	@return	0:成功、-1:失敗
