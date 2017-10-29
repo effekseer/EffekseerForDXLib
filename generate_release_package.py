@@ -9,6 +9,8 @@ effekseerVSDir = effekseerDir + 'EffekseerRuntime130/Compiled/'
 
 utils.cdToScript()
 
+utils.call('call compile.bat')
+
 utils.rmdir(targetDir)
 utils.mkdir(targetDir)
 
