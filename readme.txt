@@ -1,13 +1,29 @@
-���@EffekseerForDX���C�u����
-DX���C�u�����ŃG�t�F�N�g���g�p���邽�߂̃��b�p�[�ł��B
+﻿# EffekseerForDXLibrary
 
-�܂��́ASample�����s���Ă݂܂��傤�B
+This is a wrapper to play effects in DXLibrary
 
-�E�v���W�F�N�g�ɒǉ����ׂ��t�@�C��_VC�p
-EffekseerForDX���C�u�������g�p���鎞�Ɏg��lib���ۑ�����Ă��܂��B
+At first, please execute Sample.
 
-�EHelp
-EffekseerForDX���C�u�����̎g�������ۑ�����Ă��܂��B
+- プロジェクトに追加すべきファイル_VC用
+This directory contains lib files to use EffekseerForDXLibrary
 
-�ESample
-EffekseerForDX���C�u�����̃T���v�����ۑ�����Ă��܂��B
+- Help
+This directory contains help about EffekseerForDXLibrary
+
+- Sample
+This directory contains samples ofEffekseerForDXLibrary
+
+■　EffekseerForDXライブラリ
+
+DXライブラリでエフェクトを使用するためのラッパーです。
+
+まずは、Sampleを実行してみましょう。
+
+・プロジェクトに追加すべきファイル_VC用
+EffekseerForDXライブラリを使用する時に使うlibが保存されています。
+
+・Help
+EffekseerForDXライブラリの使い方が保存されています。
+
+・Sample
+EffekseerForDXライブラリのサンプルが保存されています。
