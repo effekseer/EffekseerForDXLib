@@ -1,4 +1,4 @@
-
+ï»¿
 #include "EffekseerForDXLib.h"
 
 #include <map>
@@ -276,28 +276,28 @@ static void Effekseer_Distort()
 		dx11_device_context->OMGetRenderTargets(1, &renderTargetView, nullptr);
 		renderTargetView->GetResource(reinterpret_cast<ID3D11Resource**>(&renderTexture));
 
-		// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgî•ñ‚ðŽæ“¾
+		// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæƒ…å ±ã‚’å–å¾—
 		D3D11_TEXTURE2D_DESC renderTextureDesc;
 		renderTexture->GetDesc(&renderTextureDesc);
 
-		// ƒVƒUƒŠƒ“ƒO”ÍˆÍ‚ðŽæ“¾
+		// ã‚·ã‚¶ãƒªãƒ³ã‚°ç¯„å›²ã‚’å–å¾—
 		UINT numScissorRects = 1;
 		D3D11_RECT scissorRect;
 		dx11_device_context->RSGetScissorRects(&numScissorRects, &scissorRect);
 
-		// •`‰æ”ÍˆÍ‚ðŒvŽZ
+		// æç”»ç¯„å›²ã‚’è¨ˆç®—
 		uint32_t width = g_backgroundWidth;
 		uint32_t height = g_backgroundHeight;
 
 		if (width == renderTextureDesc.Width &&
 			height == renderTextureDesc.Height)
 		{
-			// ”wŒiƒeƒNƒXƒ`ƒƒ‚ÖƒRƒs[
+			// èƒŒæ™¯ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¸ã‚³ãƒ”ãƒ¼
 			dx11_device_context->CopyResource(g_dx11_backGroundTexture, renderTexture);
 		}
 		else
 		{
-			// ”wŒiƒeƒNƒXƒ`ƒƒ‚Ö•”•ª“IƒRƒs[
+			// èƒŒæ™¯ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¸éƒ¨åˆ†çš„ã‚³ãƒ”ãƒ¼
 			D3D11_BOX srcBox;
 			srcBox.left = scissorRect.left;
 			srcBox.top = scissorRect.top;
@@ -308,7 +308,7 @@ static void Effekseer_Distort()
 			dx11_device_context->CopySubresourceRegion(g_dx11_backGroundTexture, 0, 0, 0, 0, renderTexture, 0, &srcBox);
 		}
 
-		// Žæ“¾‚µ‚½ƒŠƒ\[ƒX‚ÌŽQÆƒJƒEƒ“ƒ^‚ð‰º‚°‚é
+		// å–å¾—ã—ãŸãƒªã‚½ãƒ¼ã‚¹ã®å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ä¸‹ã’ã‚‹
 		ES_SAFE_RELEASE(renderTexture);
 		ES_SAFE_RELEASE(renderTargetView);
 
@@ -333,7 +333,7 @@ int Effkseer_Init(int particleMax,
 
 	g_effectFile = new EffekseerFile();
 
-	// ƒŒƒ“ƒ_ƒ‰[(2D)‚ð¶¬‚·‚éB
+	// ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼(2D)ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	if(dx9_device != NULL)
 	{
 		g_renderer2d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
@@ -343,12 +343,12 @@ int Effkseer_Init(int particleMax,
 		g_renderer2d = ::EffekseerRendererDX11::Renderer::Create(dx11_device, dx11_device_context, particleMax);
 	}
 
-	// ƒ}ƒl[ƒWƒƒ[(2D)‚ð¶¬‚·‚éB
+	// ãƒžãƒãƒ¼ã‚¸ãƒ£ãƒ¼(2D)ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	g_manager2d = ::Effekseer::Manager::Create(particleMax);
 	g_manager2d->SetCoordinateSystem(Effekseer::CoordinateSystem::LH);
 	g_manager2d->SetEffectLoader(Effekseer::Effect::CreateEffectLoader(g_effectFile));
 
-	// ƒŒƒ“ƒ_ƒ‰[(3D)‚ð¶¬‚·‚éB
+	// ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼(3D)ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	if(dx9_device != NULL)
 	{
 		g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
@@ -358,32 +358,32 @@ int Effkseer_Init(int particleMax,
 		g_renderer3d = ::EffekseerRendererDX11::Renderer::Create(dx11_device, dx11_device_context, particleMax);
 	}
 	
-	// ƒ}ƒl[ƒWƒƒ[(3D)‚ð¶¬‚·‚éB
+	// ãƒžãƒãƒ¼ã‚¸ãƒ£ãƒ¼(3D)ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	g_manager3d = ::Effekseer::Manager::Create(particleMax);
 	g_manager3d->SetCoordinateSystem(Effekseer::CoordinateSystem::LH);
 	g_manager3d->SetEffectLoader(Effekseer::Effect::CreateEffectLoader(g_effectFile));
 
-	// •`‰æ•û–@‚ðÝ’è‚·‚éB(2D)
+	// æç”»æ–¹æ³•ã‚’è¨­å®šã™ã‚‹ã€‚(2D)
 	g_manager2d->SetSpriteRenderer(g_renderer2d->CreateSpriteRenderer());
 	g_manager2d->SetRibbonRenderer(g_renderer2d->CreateRibbonRenderer());
 	g_manager2d->SetRingRenderer(g_renderer2d->CreateRingRenderer());
 	g_manager2d->SetModelRenderer(g_renderer2d->CreateModelRenderer());
 	g_manager2d->SetTrackRenderer(g_renderer2d->CreateTrackRenderer());
 
-	// •`‰æ•û–@‚ðÝ’è‚·‚éB(3D)
+	// æç”»æ–¹æ³•ã‚’è¨­å®šã™ã‚‹ã€‚(3D)
 	g_manager3d->SetSpriteRenderer(g_renderer3d->CreateSpriteRenderer());
 	g_manager3d->SetRibbonRenderer(g_renderer3d->CreateRibbonRenderer());
 	g_manager3d->SetRingRenderer(g_renderer3d->CreateRingRenderer());
 	g_manager3d->SetModelRenderer(g_renderer3d->CreateModelRenderer());
 	g_manager3d->SetTrackRenderer(g_renderer3d->CreateTrackRenderer());
 
-	// •`‰æ—pƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çƒeƒNƒXƒ`ƒƒ‚Ì“Çž‹@”\‚ðÝ’è‚·‚éB(2D)
-	// “ÆŽ©Šg’£‰Â”\AŒ»Ý‚Íƒtƒ@ƒCƒ‹‚©‚ç“Ç‚Ýž‚ñ‚Å‚¢‚éB
+	// æç”»ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­è¾¼æ©Ÿèƒ½ã‚’è¨­å®šã™ã‚‹ã€‚(2D)
+	// ç‹¬è‡ªæ‹¡å¼µå¯èƒ½ã€ç¾åœ¨ã¯ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚“ã§ã„ã‚‹ã€‚
 	g_manager2d->SetTextureLoader(g_renderer2d->CreateTextureLoader(g_effectFile));
 	g_manager2d->SetModelLoader(g_renderer2d->CreateModelLoader(g_effectFile));
 
-	// •`‰æ—pƒCƒ“ƒXƒ^ƒ“ƒX‚©‚çƒeƒNƒXƒ`ƒƒ‚Ì“Çž‹@”\‚ðÝ’è‚·‚éB(3D)
-	// “ÆŽ©Šg’£‰Â”\AŒ»Ý‚Íƒtƒ@ƒCƒ‹‚©‚ç“Ç‚Ýž‚ñ‚Å‚¢‚éB
+	// æç”»ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‹ã‚‰ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­è¾¼æ©Ÿèƒ½ã‚’è¨­å®šã™ã‚‹ã€‚(3D)
+	// ç‹¬è‡ªæ‹¡å¼µå¯èƒ½ã€ç¾åœ¨ã¯ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿è¾¼ã‚“ã§ã„ã‚‹ã€‚
 	g_manager3d->SetTextureLoader(g_renderer3d->CreateTextureLoader(g_effectFile));
 	g_manager3d->SetModelLoader(g_renderer3d->CreateModelLoader(g_effectFile));
 
@@ -456,14 +456,14 @@ int Effekseer_InitDistortion(float scale)
 
 void Effkseer_End()
 {
-	// ƒT[ƒo[‚ð’âŽ~‚·‚é
+	// ã‚µãƒ¼ãƒãƒ¼ã‚’åœæ­¢ã™ã‚‹
 	if (g_server != NULL)
 	{
 		g_server->Stop();
 		ES_SAFE_DELETE(g_server);
 	}
 
-	// “Ç‚Ýž‚Ü‚ê‚½ƒGƒtƒFƒNƒg‚ðíœ‚·‚éB
+	// èª­ã¿è¾¼ã¾ã‚ŒãŸã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
 	for (auto e : effectHandleToEffect)
 	{
 		auto effect = e.second;
@@ -471,12 +471,12 @@ void Effkseer_End()
 	}
 	effectHandleToEffect.clear();
 
-	// ƒGƒtƒFƒNƒgŠÇ——pƒCƒ“ƒXƒ^ƒ“ƒX‚ð”jŠü‚·‚éB
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç®¡ç†ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç ´æ£„ã™ã‚‹ã€‚
 	g_manager2d->Destroy();
 
 	g_manager3d->Destroy();
 
-	// •`‰æ—pƒCƒ“ƒXƒ^ƒ“ƒX‚ð”jŠü‚·‚éB
+	// æç”»ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç ´æ£„ã™ã‚‹ã€‚
 	g_renderer2d->Destroy();
 
 	g_renderer3d->Destroy();
@@ -492,7 +492,7 @@ void Effkseer_End()
 
 void Effekseer_SetGraphicsDeviceLostCallbackFunctions()
 {
-	// ƒfƒoƒCƒXƒƒXƒgŽž‚ÌƒR[ƒ‹ƒoƒbƒN‚ðÝ’è‚·‚éB(ƒtƒ‹ƒXƒNƒŠ[ƒ“ƒEƒCƒ“ƒhƒEØ‚è‘Ö‚¦‚Ì‚½‚ß‚É•K—v)
+	// ãƒ‡ãƒã‚¤ã‚¹ãƒ­ã‚¹ãƒˆæ™‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’è¨­å®šã™ã‚‹ã€‚(ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦åˆ‡ã‚Šæ›¿ãˆã®ãŸã‚ã«å¿…è¦)
 	SetGraphicsDeviceLostCallbackFunction(Effkseer_DeviceLost, NULL);
 	SetGraphicsDeviceRestoreCallbackFunction(Effkseer_DeviceRestore, NULL);
 }
@@ -502,11 +502,11 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight)
 {
 	if(g_renderer2d == nullptr) return;
 
-	// “Š‰es—ñ‚ðÝ’è‚ðÝ’è‚·‚éB
+	// æŠ•å½±è¡Œåˆ—ã‚’è¨­å®šã‚’è¨­å®šã™ã‚‹ã€‚
 	g_renderer2d->SetProjectionMatrix(
 		::Effekseer::Matrix44().OrthographicLH(windowWidth, windowHeight, 1.0f, 400.0f));
 
-	// ƒJƒƒ‰s—ñ‚ðÝ’è
+	// ã‚«ãƒ¡ãƒ©è¡Œåˆ—ã‚’è¨­å®š
 	g_renderer2d->SetCameraMatrix(
 		::Effekseer::Matrix44().LookAtLH(
 		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -200.0f), 
@@ -717,25 +717,25 @@ int DrawEffekseer2D()
 {
 	if (g_manager2d == nullptr) return -1;
 	
-	// ’¸“_ƒoƒbƒtƒ@‚É—­‚Ü‚Á‚½’¸“_ƒf[ƒ^‚ð“f‚«o‚·B
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã«æºœã¾ã£ãŸé ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’åãå‡ºã™ã€‚
 	RenderVertex();
 
-	// ˜c‚Ý‚Ìˆ—‚ðs‚¤
+	// æ­ªã¿ã®å‡¦ç†ã‚’è¡Œã†
 	if (g_isDistortionEnabled)
 	{
 		Effekseer_Distort();
 	}
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æŠJŽnˆ—‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»é–‹å§‹å‡¦ç†ã‚’è¡Œã†ã€‚
 	g_renderer2d->BeginRendering();
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æ‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»ã‚’è¡Œã†ã€‚
 	g_manager2d->Draw();
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æI—¹ˆ—‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»çµ‚äº†å‡¦ç†ã‚’è¡Œã†ã€‚
 	g_renderer2d->EndRendering();
 
-	// DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌÝ’è‚ð–ß‚·B
+	// DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®è¨­å®šã‚’æˆ»ã™ã€‚
 	RefreshDxLibDirect3DSetting();
 
 	return 0;
@@ -745,16 +745,16 @@ int DrawEffekseer2D_Begin()
 {
 	if (g_manager2d == nullptr) return -1;
 	
-	// ’¸“_ƒoƒbƒtƒ@‚É—­‚Ü‚Á‚½’¸“_ƒf[ƒ^‚ð“f‚«o‚·B
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã«æºœã¾ã£ãŸé ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’åãå‡ºã™ã€‚
 	RenderVertex();
 
-	// ˜c‚Ý‚Ìˆ—‚ðs‚¤
+	// æ­ªã¿ã®å‡¦ç†ã‚’è¡Œã†
 	if (g_isDistortionEnabled)
 	{
 		Effekseer_Distort();
 	}
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æŠJŽnˆ—‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»é–‹å§‹å‡¦ç†ã‚’è¡Œã†ã€‚
 	g_renderer2d->BeginRendering();
 	
 	return 0;
@@ -772,10 +772,10 @@ int DrawEffekseer2D_End()
 {
 	if (g_manager2d == nullptr) return -1;
 	
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æI—¹ˆ—‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»çµ‚äº†å‡¦ç†ã‚’è¡Œã†ã€‚
 	g_renderer2d->EndRendering();
 
-	// DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌÝ’è‚ð–ß‚·B
+	// DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®è¨­å®šã‚’æˆ»ã™ã€‚
 	RefreshDxLibDirect3DSetting();
 
 	return 0;
@@ -797,25 +797,25 @@ int DrawEffekseer3D()
 {
 	if (g_manager3d == nullptr) return -1;
 	
-	// ’¸“_ƒoƒbƒtƒ@‚É—­‚Ü‚Á‚½’¸“_ƒf[ƒ^‚ð“f‚«o‚·B
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã«æºœã¾ã£ãŸé ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’åãå‡ºã™ã€‚
 	RenderVertex();
 
-	// ˜c‚Ý‚Ìˆ—‚ðs‚¤
+	// æ­ªã¿ã®å‡¦ç†ã‚’è¡Œã†
 	if (g_isDistortionEnabled)
 	{
 		Effekseer_Distort();
 	}
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æŠJŽnˆ—‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»é–‹å§‹å‡¦ç†ã‚’è¡Œã†ã€‚
 	g_renderer3d->BeginRendering();
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æ‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»ã‚’è¡Œã†ã€‚
 	g_manager3d->Draw();
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æI—¹ˆ—‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»çµ‚äº†å‡¦ç†ã‚’è¡Œã†ã€‚
 	g_renderer3d->EndRendering();
 
-	// DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌÝ’è‚ð–ß‚·B
+	// DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®è¨­å®šã‚’æˆ»ã™ã€‚
 	RefreshDxLibDirect3DSetting();
 
 	return 0;
@@ -825,16 +825,16 @@ int DrawEffekseer3D_Begin()
 {
 	if (g_manager3d == nullptr) return -1;
 
-	// ’¸“_ƒoƒbƒtƒ@‚É—­‚Ü‚Á‚½’¸“_ƒf[ƒ^‚ð“f‚«o‚·B
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã«æºœã¾ã£ãŸé ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’åãå‡ºã™ã€‚
 	RenderVertex();
 
-	// ˜c‚Ý‚Ìˆ—‚ðs‚¤
+	// æ­ªã¿ã®å‡¦ç†ã‚’è¡Œã†
 	if (g_isDistortionEnabled)
 	{
 		Effekseer_Distort();
 	}
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æŠJŽnˆ—‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»é–‹å§‹å‡¦ç†ã‚’è¡Œã†ã€‚
 	g_renderer3d->BeginRendering();
 
 	return 0;
@@ -852,10 +852,10 @@ int DrawEffekseer3D_End()
 {
 	if (g_manager3d == nullptr) return -1;
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æI—¹ˆ—‚ðs‚¤B
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»çµ‚äº†å‡¦ç†ã‚’è¡Œã†ã€‚
 	g_renderer3d->EndRendering();
 
-	// DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌÝ’è‚ð–ß‚·B
+	// DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®è¨­å®šã‚’æˆ»ã™ã€‚
 	RefreshDxLibDirect3DSetting();
 
 	return 0;
@@ -895,18 +895,18 @@ void Effkseer_DeviceLost(void* data)
 {
 	if(GetUseDirect3DDevice9() == NULL) return;
 
-	// ƒfƒoƒCƒXƒƒXƒg‚ª”­¶‚µ‚½Žž‚ÉŒÄ‚ÔB
+	// ãƒ‡ãƒã‚¤ã‚¹ãƒ­ã‚¹ãƒˆãŒç™ºç”Ÿã—ãŸæ™‚ã«å‘¼ã¶ã€‚
 	g_renderer2d->OnLostDevice();
 	g_renderer3d->OnLostDevice();
 
-	// “Ç‚Ýž‚ñ‚¾ƒGƒtƒFƒNƒg‚ÌƒŠƒ\[ƒX‚Í‘S‚Ä”jŠü‚·‚éB
+	// èª­ã¿è¾¼ã‚“ã ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒªã‚½ãƒ¼ã‚¹ã¯å…¨ã¦ç ´æ£„ã™ã‚‹ã€‚
 	for (auto e : effectHandleToEffect)
 	{
 		auto effect = e.second;
 		effect->UnloadResources();
 	}
 
-	// DXƒ‰ƒCƒuƒ‰ƒŠ‚Í“à•”‚ÅƒfƒoƒCƒXŽ©‘Ì‚ðÁ‹Ž‚µ‚Ä‚¢‚é‚Ì‚ÅNULL‚ðÝ’è‚·‚éB
+	// DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¯å†…éƒ¨ã§ãƒ‡ãƒã‚¤ã‚¹è‡ªä½“ã‚’æ¶ˆåŽ»ã—ã¦ã„ã‚‹ã®ã§NULLã‚’è¨­å®šã™ã‚‹ã€‚
 	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
 	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
 	renderer2d->ChangeDevice(NULL);
@@ -917,7 +917,7 @@ void Effkseer_DeviceRestore(void* data)
 {
 	if(GetUseDirect3DDevice9() == NULL) return;
 
-	// DXƒ‰ƒCƒuƒ‰ƒŠ‚Í‰ñ•œŽž‚É“à•”‚ÅƒfƒoƒCƒX‚ðÄ¶¬‚·‚é‚Ì‚ÅV‚µ‚­Ý’è‚·‚éB
+	// DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¯å›žå¾©æ™‚ã«å†…éƒ¨ã§ãƒ‡ãƒã‚¤ã‚¹ã‚’å†ç”Ÿæˆã™ã‚‹ã®ã§æ–°ã—ãè¨­å®šã™ã‚‹ã€‚
 	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
 	
 	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
@@ -925,14 +925,14 @@ void Effkseer_DeviceRestore(void* data)
 	renderer2d->ChangeDevice(device);
 	renderer3d->ChangeDevice(device);
 
-	// ƒGƒtƒFƒNƒg‚ÌƒŠƒ\[ƒX‚ðÄ“Ç‚Ýž‚Ý‚·‚éB
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒªã‚½ãƒ¼ã‚¹ã‚’å†èª­ã¿è¾¼ã¿ã™ã‚‹ã€‚
 	for (auto e : effectHandleToEffect)
 	{
 		auto effect = e.second;
 		effect->ReloadResources();
 	}
 
-	// ƒfƒoƒCƒX‚ª•œ‹A‚·‚é‚Æ‚«‚ÉŒÄ‚Ô
+	// ãƒ‡ãƒã‚¤ã‚¹ãŒå¾©å¸°ã™ã‚‹ã¨ãã«å‘¼ã¶
 	g_renderer2d->OnResetDevice();
 	g_renderer3d->OnResetDevice();
 }

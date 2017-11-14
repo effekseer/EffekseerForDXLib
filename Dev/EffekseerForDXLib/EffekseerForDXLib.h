@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "DxLib.h"
@@ -11,7 +11,7 @@
 #if _MSC_VER >= 1700
 
 #ifdef _WIN64
-	#error 32bit‚Ì‚İ‘Î‰‚µ‚Ä‚¢‚Ü‚·B
+	#error 32bitã®ã¿å¯¾å¿œã—ã¦ã„ã¾ã™ã€‚
 #else
 
 #if _MSC_VER >=1900
@@ -60,7 +60,7 @@
 
 #ifndef _EFFEKSEER_FOR_DXLIB_LIB
 
-#if _MSC_VER ==1900
+#if _MSC_VER >=1900
 
 #if _DEBUG
 #pragma comment(lib,"EffekseerForDXLib_vs2015_x86_d.lib")
@@ -96,11 +96,11 @@
 #endif
 
 #else
-#error VisualStudio(C++)2012,2013,2015‚Ì‚İ‘Î‰‚µ‚Ä‚¢‚Ü‚·B
+#error VisualStudio(C++)2012,2013,2015ã®ã¿å¯¾å¿œã—ã¦ã„ã¾ã™ã€‚
 #endif
 
 // ================================================================================================================================ //
-// “à•”ˆ——p
+// å†…éƒ¨å‡¦ç†ç”¨
 // ================================================================================================================================ //
 
 #ifdef _UNICODE
@@ -141,346 +141,346 @@ typedef int(*EffekseerFileOpenFunc) (const char* filePath);
 typedef LONGLONG(*EffekseerFileReadSizeFunc) (const char* filePath);
 
 // ================================================================================================================================ //
-// ‚±‚±‚Ü‚Å
+// ã“ã“ã¾ã§
 // ================================================================================================================================ //
 
 
 /**
-	@brief	Effekseer‚ğ‰Šú‰»‚·‚éB
-	@param	particleMax	‰æ–Ê‚É•\¦‰Â”\‚ÈÅ‘åƒp[ƒeƒBƒNƒ‹”
-	@param	openFunc	“à•”ˆ——p(•¶šƒR[ƒhˆ——p)‚Ì‚½‚ß‚Ìˆø”B•K‚¸ƒfƒtƒHƒ‹ƒgˆø”‚ğg—p‚·‚éB
-	@param	readSizeFunc 	“à•”ˆ——p(•¶šƒR[ƒhˆ——p)‚Ì‚½‚ß‚Ìˆø”B•K‚¸ƒfƒtƒHƒ‹ƒgˆø”‚ğg—p‚·‚éB
-	@return	¬Œ÷‚µ‚½ê‡‚Í0A¸”s‚µ‚½ê‡‚Í-1‚ğ•Ô‚·B
+	@brief	Effekseerã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+	@param	particleMax	ç”»é¢ã«è¡¨ç¤ºå¯èƒ½ãªæœ€å¤§ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«æ•°
+	@param	openFunc	å†…éƒ¨å‡¦ç†ç”¨(æ–‡å­—ã‚³ãƒ¼ãƒ‰å‡¦ç†ç”¨)ã®ãŸã‚ã®å¼•æ•°ã€‚å¿…ãšãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå¼•æ•°ã‚’ä½¿ç”¨ã™ã‚‹ã€‚
+	@param	readSizeFunc 	å†…éƒ¨å‡¦ç†ç”¨(æ–‡å­—ã‚³ãƒ¼ãƒ‰å‡¦ç†ç”¨)ã®ãŸã‚ã®å¼•æ•°ã€‚å¿…ãšãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå¼•æ•°ã‚’ä½¿ç”¨ã™ã‚‹ã€‚
+	@return	æˆåŠŸã—ãŸå ´åˆã¯0ã€å¤±æ•—ã—ãŸå ´åˆã¯-1ã‚’è¿”ã™ã€‚
 */
 int Effkseer_Init(int particleMax, 
 	EffekseerFileOpenFunc openFunc = __Effekseer_FileRead_open,
 	EffekseerFileReadSizeFunc readSizeFunc = __Effekseer_FileRead_size);
 
 /**
-	@brief	Effekseer‚Ìƒlƒbƒgƒ[ƒN‹@”\‚ğ‰Šú‰»‚·‚éB
-	@param	port	g—p‚·‚éƒ|[ƒg
-	@return	¬Œ÷‚µ‚½ê‡‚Í0A¸”s‚µ‚½ê‡‚Í-1‚ğ•Ô‚·B
+	@brief	Effekseerã®ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯æ©Ÿèƒ½ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+	@param	port	ä½¿ç”¨ã™ã‚‹ãƒãƒ¼ãƒˆ
+	@return	æˆåŠŸã—ãŸå ´åˆã¯0ã€å¤±æ•—ã—ãŸå ´åˆã¯-1ã‚’è¿”ã™ã€‚
 	@note
-	ƒlƒbƒgƒ[ƒN‹@”\‚ğ—LŒø‚É‚·‚é‚ÆADXƒ‰ƒCƒuƒ‰ƒŠ‚Ì‹N“®’†‚ÉEffekseer‚Ìƒc[ƒ‹‚©‚çƒGƒtƒFƒNƒg‚ğ•ÏX‚Å‚«‚é‚æ‚¤‚É‚È‚éB
+	ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯æ©Ÿèƒ½ã‚’æœ‰åŠ¹ã«ã™ã‚‹ã¨ã€DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®èµ·å‹•ä¸­ã«Effekseerã®ãƒ„ãƒ¼ãƒ«ã‹ã‚‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å¤‰æ›´ã§ãã‚‹ã‚ˆã†ã«ãªã‚‹ã€‚
 */
 int Effkseer_InitServer(int port);
 
 /**
-@brief	Effekseer‚Ì˜c‚İ‹@”\‚ğ‰Šú‰»‚·‚éB
-@param	scale	ƒEƒCƒ“ƒhƒEƒTƒCƒY‚É‘Î‚·‚é˜c‚İ‚Ég—p‚·‚éƒoƒbƒtƒ@‚ÌŠg‘å—¦(1.0‚ªƒfƒtƒHƒ‹ƒg)
-@return	¬Œ÷‚µ‚½ê‡‚Í0A¸”s‚µ‚½ê‡‚Í-1‚ğ•Ô‚·B
+@brief	Effekseerã®æ­ªã¿æ©Ÿèƒ½ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+@param	scale	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºã«å¯¾ã™ã‚‹æ­ªã¿ã«ä½¿ç”¨ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã®æ‹¡å¤§ç‡(1.0ãŒãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)
+@return	æˆåŠŸã—ãŸå ´åˆã¯0ã€å¤±æ•—ã—ãŸå ´åˆã¯-1ã‚’è¿”ã™ã€‚
 */
 int Effekseer_InitDistortion(float scale = 1.0f);
 
 /**
-	@brief	Effekseer‚ğI—¹‚·‚éB
+	@brief	Effekseerã‚’çµ‚äº†ã™ã‚‹ã€‚
 */
 void Effkseer_End();
 
 /**
-	@brief	DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒfƒoƒCƒX‚ªƒƒXƒg‚µ‚½‚ÌƒR[ƒ‹ƒoƒbƒN‚ğİ’è‚·‚éB
+	@brief	DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒ‡ãƒã‚¤ã‚¹ãŒãƒ­ã‚¹ãƒˆã—ãŸæ™‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã‚’è¨­å®šã™ã‚‹ã€‚
 */
 void Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 /**
-	@brief	Effekseer‚É2D•\¦‚Ìİ’è‚ğ‚·‚éB
-	@param	windowWidth		‰æ–Ê‰¡•
-	@param	windowHeight	‰æ–Êc•
+	@brief	Effekseerã«2Dè¡¨ç¤ºã®è¨­å®šã‚’ã™ã‚‹ã€‚
+	@param	windowWidth		ç”»é¢æ¨ªå¹…
+	@param	windowHeight	ç”»é¢ç¸¦å¹…
 */
 void Effekseer_Set2DSetting(int windowWidth, int windowHeight);
 
 /**
-	@brief	Effekseer‚É3D•\¦‚Ìİ’è‚ğDXƒ‰ƒCƒuƒ‰ƒŠ‚Ì3D•\¦‚Ìİ’è‚É“¯Šú‚³‚¹‚éB
+	@brief	Effekseerã«3Dè¡¨ç¤ºã®è¨­å®šã‚’DXãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®3Dè¡¨ç¤ºã®è¨­å®šã«åŒæœŸã•ã›ã‚‹ã€‚
 */
 void Effekseer_Sync3DSetting();
 
 /**
-	@brief	Effekseer‚ÌƒGƒtƒFƒNƒg‚ğƒƒ‚ƒŠã‚É“Ç‚İ‚ŞB
-	@param	fileName	efkƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX
-	@return	-1ˆÈŠO:ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹A-1:¸”s
+	@brief	Effekseerã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ãƒ¡ãƒ¢ãƒªä¸Šã«èª­ã¿è¾¼ã‚€ã€‚
+	@param	fileName	efkãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®ãƒ‘ã‚¹
+	@return	-1ä»¥å¤–:ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«ã€-1:å¤±æ•—
 */
 int LoadEffekseerEffect(const char* fileName);
 
 /**
-	@brief	Effekseer‚ÌƒGƒtƒFƒNƒg‚ğƒƒ‚ƒŠã‚É“Ç‚İ‚ŞB
-	@param	fileName	efkƒtƒ@ƒCƒ‹‚Ö‚ÌƒpƒX
-	@return	-1ˆÈŠO:ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹A-1:¸”s
+	@brief	Effekseerã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ãƒ¡ãƒ¢ãƒªä¸Šã«èª­ã¿è¾¼ã‚€ã€‚
+	@param	fileName	efkãƒ•ã‚¡ã‚¤ãƒ«ã¸ã®ãƒ‘ã‚¹
+	@return	-1ä»¥å¤–:ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«ã€-1:å¤±æ•—
 */
 int LoadEffekseerEffect(const wchar_t* fileName);
 
 /**
-	@brief	ƒƒ‚ƒŠã‚©‚çEffekseer‚ÌƒGƒtƒFƒNƒg‚ğíœ‚·‚éB
-	@param	effectHandle	ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	ãƒ¡ãƒ¢ãƒªä¸Šã‹ã‚‰Effekseerã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹ã€‚
+	@param	effectHandle	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 */
 int DeleteEffekseerEffect(int effectHandle);
 
 /**
-	@brief	ƒƒ‚ƒŠã‚ÌEffekseer‚ÌƒGƒtƒFƒNƒg‚ğ2D•\¦‚ÅÄ¶‚·‚éB
-	@param	effectHandle	ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@return	-1ˆÈŠO:Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹A-1:¸”s
+	@brief	ãƒ¡ãƒ¢ãƒªä¸Šã®Effekseerã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’2Dè¡¨ç¤ºã§å†ç”Ÿã™ã‚‹ã€‚
+	@param	effectHandle	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	-1ä»¥å¤–:å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«ã€-1:å¤±æ•—
 */
 int PlayEffekseer2DEffect(int effectHandle);
 
 /**
-	@brief	ƒƒ‚ƒŠã‚ÌEffekseer‚ÌƒGƒtƒFƒNƒg‚ğ3D•\¦‚ÅÄ¶‚·‚éB
-	@param	effectHandle	ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@return	-1ˆÈŠO:Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹A-1:¸”s
+	@brief	ãƒ¡ãƒ¢ãƒªä¸Šã®Effekseerã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’3Dè¡¨ç¤ºã§å†ç”Ÿã™ã‚‹ã€‚
+	@param	effectHandle	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	-1ä»¥å¤–:å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«ã€-1:å¤±æ•—
 */
 int PlayEffekseer3DEffect(int effectHandle);
 
 /**
-	@brief	2D•\¦‚ÌƒGƒtƒFƒNƒg‚ªÄ¶’†‚©æ“¾‚·‚éB
-	@param	effectHandle	ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@return	Ä¶’†‚©‚Ç‚¤‚©?
-	@return	0:Ä¶’†A-1:Ä¶‚³‚ê‚Ä‚¢‚È‚¢A‚à‚µ‚­‚ÍÄ¶I—¹
+	@brief	2Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒå†ç”Ÿä¸­ã‹å–å¾—ã™ã‚‹ã€‚
+	@param	effectHandle	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	å†ç”Ÿä¸­ã‹ã©ã†ã‹?
+	@return	0:å†ç”Ÿä¸­ã€-1:å†ç”Ÿã•ã‚Œã¦ã„ãªã„ã€ã‚‚ã—ãã¯å†ç”Ÿçµ‚äº†
 */
 int IsEffekseer2DEffectPlaying(int effectHandle);
 
 /**
-	@brief	3D•\¦‚ÌƒGƒtƒFƒNƒg‚ªÄ¶’†‚©æ“¾‚·‚éB
-	@param	effectHandle	ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@return	Ä¶’†‚©‚Ç‚¤‚©?
-	@return	0:Ä¶’†A-1:Ä¶‚³‚ê‚Ä‚¢‚È‚¢A‚à‚µ‚­‚ÍÄ¶I—¹
+	@brief	3Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒå†ç”Ÿä¸­ã‹å–å¾—ã™ã‚‹ã€‚
+	@param	effectHandle	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	å†ç”Ÿä¸­ã‹ã©ã†ã‹?
+	@return	0:å†ç”Ÿä¸­ã€-1:å†ç”Ÿã•ã‚Œã¦ã„ãªã„ã€ã‚‚ã—ãã¯å†ç”Ÿçµ‚äº†
 */
 int IsEffekseer3DEffectPlaying(int effectHandle);
 
 /**
-	@brief	2D•\¦‚ÌƒGƒtƒFƒNƒg‚ğ’â~‚·‚éB
-	@param	effectHandle	ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@return	¬”Û
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	2Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’åœæ­¢ã™ã‚‹ã€‚
+	@param	effectHandle	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	æˆå¦
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 */
 int StopEffekseer2DEffect(int effectHandle);
 
 /**
-	@brief	3D•\¦‚ÌƒGƒtƒFƒNƒg‚ğ’â~‚·‚éB
-	@param	effectHandle	ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@return	¬”Û
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	3Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’åœæ­¢ã™ã‚‹ã€‚
+	@param	effectHandle	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	æˆå¦
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 */
 int StopEffekseer3DEffect(int effectHandle);
 
 
 /**
-	@brief	Ä¶’†‚Ì2D•\¦‚ÌƒGƒtƒFƒNƒg‚ÌˆÊ’u‚ğİ’è‚·‚éB
-	@param	playingEffectHandle	Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@param	x	XÀ•W
-	@param	y	YÀ•W
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	å†ç”Ÿä¸­ã®2Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’è¨­å®šã™ã‚‹ã€‚
+	@param	playingEffectHandle	å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@param	x	Xåº§æ¨™
+	@param	y	Yåº§æ¨™
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 	@note
-	¦ƒGƒtƒFƒNƒg‚ªŠù‚ÉÄ¶I—¹‚µ‚Ä‚¢‚Ä‚à¬Œ÷‚ğ•Ô‚·B
+	â€»ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒæ—¢ã«å†ç”Ÿçµ‚äº†ã—ã¦ã„ã¦ã‚‚æˆåŠŸã‚’è¿”ã™ã€‚
 */
 int SetPosPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
-	@brief	Ä¶’†‚Ì3D•\¦‚ÌƒGƒtƒFƒNƒg‚ÌˆÊ’u‚ğİ’è‚·‚éB
-	@param	playingEffectHandle	Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@param	x	XÀ•W
-	@param	y	YÀ•W
-	@param	z	ZÀ•W
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	å†ç”Ÿä¸­ã®3Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’è¨­å®šã™ã‚‹ã€‚
+	@param	playingEffectHandle	å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@param	x	Xåº§æ¨™
+	@param	y	Yåº§æ¨™
+	@param	z	Zåº§æ¨™
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 	@note
-	¦ƒGƒtƒFƒNƒg‚ªŠù‚ÉÄ¶I—¹‚µ‚Ä‚¢‚Ä‚à¬Œ÷‚ğ•Ô‚·B
+	â€»ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒæ—¢ã«å†ç”Ÿçµ‚äº†ã—ã¦ã„ã¦ã‚‚æˆåŠŸã‚’è¿”ã™ã€‚
 */
 int SetPosPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
-@brief	Ä¶’†‚Ì2D•\¦‚ÌƒGƒtƒFƒNƒg‚ÌŠp“x‚ğİ’è‚·‚éB
-@param	playingEffectHandle	Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-@param	x	X²Šp“x(ƒ‰ƒWƒAƒ“)
-@param	y	Y²Šp“x(ƒ‰ƒWƒAƒ“)
-@param	y	Y²Šp“x(ƒ‰ƒWƒAƒ“)
-@return	0:¬Œ÷A-1:¸”s
+@brief	å†ç”Ÿä¸­ã®2Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è§’åº¦ã‚’è¨­å®šã™ã‚‹ã€‚
+@param	playingEffectHandle	å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+@param	x	Xè»¸è§’åº¦(ãƒ©ã‚¸ã‚¢ãƒ³)
+@param	y	Yè»¸è§’åº¦(ãƒ©ã‚¸ã‚¢ãƒ³)
+@param	y	Yè»¸è§’åº¦(ãƒ©ã‚¸ã‚¢ãƒ³)
+@return	0:æˆåŠŸã€-1:å¤±æ•—
 @note
-‰ñ“]‚Ì•ûŒü‚ÍŒv‰ñ‚è‚Å‚ ‚éB
-‰ñ“]‚Ì‡”Ô‚Í Z²‰ñ“] ¨ X²‰ñ“] ¨ Y²‰ñ“]‚Å‚ ‚éB
-¦ƒGƒtƒFƒNƒg‚ªŠù‚ÉÄ¶I—¹‚µ‚Ä‚¢‚Ä‚à¬Œ÷‚ğ•Ô‚·B
+å›è»¢ã®æ–¹å‘ã¯æ™‚è¨ˆå›ã‚Šã§ã‚ã‚‹ã€‚
+å›è»¢ã®é †ç•ªã¯ Zè»¸å›è»¢ â†’ Xè»¸å›è»¢ â†’ Yè»¸å›è»¢ã§ã‚ã‚‹ã€‚
+â€»ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒæ—¢ã«å†ç”Ÿçµ‚äº†ã—ã¦ã„ã¦ã‚‚æˆåŠŸã‚’è¿”ã™ã€‚
 */
 int SetRotationPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
-@brief	Ä¶’†‚Ì3D•\¦‚ÌƒGƒtƒFƒNƒg‚ÌŠp“x‚ğİ’è‚·‚éB
-@param	playingEffectHandle	Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-@param	x	X²Šp“x(ƒ‰ƒWƒAƒ“)
-@param	y	Y²Šp“x(ƒ‰ƒWƒAƒ“)
-@param	y	Y²Šp“x(ƒ‰ƒWƒAƒ“)
-@return	0:¬Œ÷A-1:¸”s
+@brief	å†ç”Ÿä¸­ã®3Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è§’åº¦ã‚’è¨­å®šã™ã‚‹ã€‚
+@param	playingEffectHandle	å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+@param	x	Xè»¸è§’åº¦(ãƒ©ã‚¸ã‚¢ãƒ³)
+@param	y	Yè»¸è§’åº¦(ãƒ©ã‚¸ã‚¢ãƒ³)
+@param	y	Yè»¸è§’åº¦(ãƒ©ã‚¸ã‚¢ãƒ³)
+@return	0:æˆåŠŸã€-1:å¤±æ•—
 @note
-‰ñ“]‚Ì•ûŒü‚ÍŒv‰ñ‚è‚Å‚ ‚éB
-‰ñ“]‚Ì‡”Ô‚Í Z²‰ñ“] ¨ X²‰ñ“] ¨ Y²‰ñ“]‚Å‚ ‚éB
-¦ƒGƒtƒFƒNƒg‚ªŠù‚ÉÄ¶I—¹‚µ‚Ä‚¢‚Ä‚à¬Œ÷‚ğ•Ô‚·B
+å›è»¢ã®æ–¹å‘ã¯æ™‚è¨ˆå›ã‚Šã§ã‚ã‚‹ã€‚
+å›è»¢ã®é †ç•ªã¯ Zè»¸å›è»¢ â†’ Xè»¸å›è»¢ â†’ Yè»¸å›è»¢ã§ã‚ã‚‹ã€‚
+â€»ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒæ—¢ã«å†ç”Ÿçµ‚äº†ã—ã¦ã„ã¦ã‚‚æˆåŠŸã‚’è¿”ã™ã€‚
 */
 int SetRotationPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
-	@brief	Ä¶’†‚Ì2D•\¦‚ÌƒGƒtƒFƒNƒg‚ÌŠg‘å—¦‚ğİ’è‚·‚éB
-	@param	playingEffectHandle	Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@param	x	X•ûŒüŠg‘å—¦
-	@param	y	Y•ûŒüŠg‘å—¦
-	@param	z	Z•ûŒüŠg‘å—¦
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	å†ç”Ÿä¸­ã®2Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æ‹¡å¤§ç‡ã‚’è¨­å®šã™ã‚‹ã€‚
+	@param	playingEffectHandle	å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@param	x	Xæ–¹å‘æ‹¡å¤§ç‡
+	@param	y	Yæ–¹å‘æ‹¡å¤§ç‡
+	@param	z	Zæ–¹å‘æ‹¡å¤§ç‡
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 	@note
-	¦ƒGƒtƒFƒNƒg‚ªŠù‚ÉÄ¶I—¹‚µ‚Ä‚¢‚Ä‚à¬Œ÷‚ğ•Ô‚·B
+	â€»ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒæ—¢ã«å†ç”Ÿçµ‚äº†ã—ã¦ã„ã¦ã‚‚æˆåŠŸã‚’è¿”ã™ã€‚
 */
 int SetScalePlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
-	@brief	Ä¶’†‚Ì3D•\¦‚ÌƒGƒtƒFƒNƒg‚ÌŠg‘å—¦‚ğİ’è‚·‚éB
-	@param	playingEffectHandle	Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@param	x	X•ûŒüŠg‘å—¦
-	@param	y	Y•ûŒüŠg‘å—¦
-	@param	z	Z•ûŒüŠg‘å—¦
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	å†ç”Ÿä¸­ã®3Dè¡¨ç¤ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æ‹¡å¤§ç‡ã‚’è¨­å®šã™ã‚‹ã€‚
+	@param	playingEffectHandle	å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@param	x	Xæ–¹å‘æ‹¡å¤§ç‡
+	@param	y	Yæ–¹å‘æ‹¡å¤§ç‡
+	@param	z	Zæ–¹å‘æ‹¡å¤§ç‡
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 	@note
-	¦ƒGƒtƒFƒNƒg‚ªŠù‚ÉÄ¶I—¹‚µ‚Ä‚¢‚Ä‚à¬Œ÷‚ğ•Ô‚·B
+	â€»ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒæ—¢ã«å†ç”Ÿçµ‚äº†ã—ã¦ã„ã¦ã‚‚æˆåŠŸã‚’è¿”ã™ã€‚
 */
 int SetScalePlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
-	@brief	Effekseer‚É‚æ‚èÄ¶’†‚Ì2DƒGƒtƒFƒNƒg‚ğXV‚·‚éB
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	Effekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æ›´æ–°ã™ã‚‹ã€‚
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 */
 int UpdateEffekseer2D();
 
 /**
-	@brief	Effekseer‚É‚æ‚èÄ¶’†‚Ì2DƒGƒtƒFƒNƒg‚ğ‘S‚Ä•`‰æ‚·‚éB
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	Effekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å…¨ã¦æç”»ã™ã‚‹ã€‚
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 	@note
-	DrawEffekseer2D_BeginADrawEffekseer2D_DrawADrawEffekseer2D_End‚Æ‚Í•¹—p‚Å‚«‚È‚¢B
+	DrawEffekseer2D_Beginã€DrawEffekseer2D_Drawã€DrawEffekseer2D_Endã¨ã¯ä½µç”¨ã§ããªã„ã€‚
 */
 int DrawEffekseer2D();
 
 /**
-	@brief	Effekseer‚É‚æ‚èÄ¶’†‚Ì2DƒGƒtƒFƒNƒg‚Ì•`‰æ‚ğŠJn‚·‚éB
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	Effekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»ã‚’é–‹å§‹ã™ã‚‹ã€‚
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 	@note
-	“Á’è‚ÌƒGƒtƒFƒNƒg‚Ì‚İ‚ğ•`‰æ‚µ‚½‚¢‚Ég—p‚·‚éB
-	ƒGƒtƒFƒNƒg‚Ì•`‰æŠJnˆ—‚ğs‚¤B
-	‚±‚ÌŠÖ”‚ğÀs‚µ‚Ä‚©‚çDrawEffekseer2D_End‚ªÀs‚³‚ê‚é‚Ü‚ÅADrawEffekseer2D_Draw‚ğÀs‚Å‚«‚éB
-	DrawEffekseer2D‚Æ‚Í•¹—p‚Å‚«‚È‚¢B
+	ç‰¹å®šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ã¿ã‚’æç”»ã—ãŸã„æ™‚ã«ä½¿ç”¨ã™ã‚‹ã€‚
+	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»é–‹å§‹å‡¦ç†ã‚’è¡Œã†ã€‚
+	ã“ã®é–¢æ•°ã‚’å®Ÿè¡Œã—ã¦ã‹ã‚‰DrawEffekseer2D_EndãŒå®Ÿè¡Œã•ã‚Œã‚‹ã¾ã§ã€DrawEffekseer2D_Drawã‚’å®Ÿè¡Œã§ãã‚‹ã€‚
+	DrawEffekseer2Dã¨ã¯ä½µç”¨ã§ããªã„ã€‚
 */
 int DrawEffekseer2D_Begin();
 
 /**
-	@brief	w’è‚³‚ê‚½Effekseer‚É‚æ‚èÄ¶’†‚Ì2DƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚éB
-	@param	playingEffectHandle	Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	æŒ‡å®šã•ã‚ŒãŸEffekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹ã€‚
+	@param	playingEffectHandle	å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 	@note
-	“Á’è‚ÌƒGƒtƒFƒNƒg‚Ì‚İ‚ğ•`‰æ‚µ‚½‚¢‚Ég—p‚·‚éB
-	“Á’è‚ÌƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚éB
-	DrawEffekseer2D‚Æ‚Í•¹—p‚Å‚«‚È‚¢B
+	ç‰¹å®šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ã¿ã‚’æç”»ã—ãŸã„æ™‚ã«ä½¿ç”¨ã™ã‚‹ã€‚
+	ç‰¹å®šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹ã€‚
+	DrawEffekseer2Dã¨ã¯ä½µç”¨ã§ããªã„ã€‚
 */
 int DrawEffekseer2D_Draw(int playingEffectHandle);
 
 /**
-	@brief	Effekseer‚É‚æ‚èÄ¶’†‚Ì2DƒGƒtƒFƒNƒg‚Ì•`‰æ‚ğI—¹‚·‚éB
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	Effekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»ã‚’çµ‚äº†ã™ã‚‹ã€‚
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 	@note
-	“Á’è‚ÌƒGƒtƒFƒNƒg‚Ì‚İ‚ğ•`‰æ‚µ‚½‚¢‚Ég—p‚·‚éB
-	ƒGƒtƒFƒNƒg‚Ì•`‰æI—¹ˆ—‚ğs‚¤B
-	DrawEffekseer2D_Begin‚ğÀs‚µ‚Ä‚©‚ç‚ª‚±‚ÌŠÖ”‚ªÀs‚³‚ê‚é‚Ü‚ÅADrawEffekseer2D_Draw‚ğÀs‚Å‚«‚éB
-	DrawEffekseer2D‚Æ‚Í•¹—p‚Å‚«‚È‚¢B
+	ç‰¹å®šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ã¿ã‚’æç”»ã—ãŸã„æ™‚ã«ä½¿ç”¨ã™ã‚‹ã€‚
+	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»çµ‚äº†å‡¦ç†ã‚’è¡Œã†ã€‚
+	DrawEffekseer2D_Beginã‚’å®Ÿè¡Œã—ã¦ã‹ã‚‰ãŒã“ã®é–¢æ•°ãŒå®Ÿè¡Œã•ã‚Œã‚‹ã¾ã§ã€DrawEffekseer2D_Drawã‚’å®Ÿè¡Œã§ãã‚‹ã€‚
+	DrawEffekseer2Dã¨ã¯ä½µç”¨ã§ããªã„ã€‚
 */
 int DrawEffekseer2D_End();
 /**
-	@brief	Effekseer‚É‚æ‚èÄ¶’†‚Ì3DƒGƒtƒFƒNƒg‚ğXV‚·‚éB
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	Effekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æ›´æ–°ã™ã‚‹ã€‚
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 */
 int UpdateEffekseer3D();
 
 
 /**
-@brief	Effekseer‚É‚æ‚èÄ¶’†‚Ì3DƒGƒtƒFƒNƒg‚Ì•`‰æ‚ğŠJn‚·‚éB
-@return	0:¬Œ÷A-1:¸”s
+@brief	Effekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»ã‚’é–‹å§‹ã™ã‚‹ã€‚
+@return	0:æˆåŠŸã€-1:å¤±æ•—
 @note
-“Á’è‚ÌƒGƒtƒFƒNƒg‚Ì‚İ‚ğ•`‰æ‚µ‚½‚¢‚Ég—p‚·‚éB
-ƒGƒtƒFƒNƒg‚Ì•`‰æŠJnˆ—‚ğs‚¤B
-‚±‚ÌŠÖ”‚ğÀs‚µ‚Ä‚©‚çDrawEffekseer3D_End‚ªÀs‚³‚ê‚é‚Ü‚ÅADrawEffekseer3D_Draw‚ğÀs‚Å‚«‚éB
-DrawEffekseer3D‚Æ‚Í•¹—p‚Å‚«‚È‚¢B
+ç‰¹å®šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ã¿ã‚’æç”»ã—ãŸã„æ™‚ã«ä½¿ç”¨ã™ã‚‹ã€‚
+ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»é–‹å§‹å‡¦ç†ã‚’è¡Œã†ã€‚
+ã“ã®é–¢æ•°ã‚’å®Ÿè¡Œã—ã¦ã‹ã‚‰DrawEffekseer3D_EndãŒå®Ÿè¡Œã•ã‚Œã‚‹ã¾ã§ã€DrawEffekseer3D_Drawã‚’å®Ÿè¡Œã§ãã‚‹ã€‚
+DrawEffekseer3Dã¨ã¯ä½µç”¨ã§ããªã„ã€‚
 */
 int DrawEffekseer3D_Begin();
 
 /**
-@brief	w’è‚³‚ê‚½Effekseer‚É‚æ‚èÄ¶’†‚Ì3DƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚éB
-@param	playingEffectHandle	Ä¶’†‚ÌƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-@return	0:¬Œ÷A-1:¸”s
+@brief	æŒ‡å®šã•ã‚ŒãŸEffekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹ã€‚
+@param	playingEffectHandle	å†ç”Ÿä¸­ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+@return	0:æˆåŠŸã€-1:å¤±æ•—
 @note
-“Á’è‚ÌƒGƒtƒFƒNƒg‚Ì‚İ‚ğ•`‰æ‚µ‚½‚¢‚Ég—p‚·‚éB
-“Á’è‚ÌƒGƒtƒFƒNƒg‚ğ•`‰æ‚·‚éB
-DrawEffekseer3D‚Æ‚Í•¹—p‚Å‚«‚È‚¢B
+ç‰¹å®šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ã¿ã‚’æç”»ã—ãŸã„æ™‚ã«ä½¿ç”¨ã™ã‚‹ã€‚
+ç‰¹å®šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æç”»ã™ã‚‹ã€‚
+DrawEffekseer3Dã¨ã¯ä½µç”¨ã§ããªã„ã€‚
 */
 int DrawEffekseer3D_Draw(int playingEffectHandle);
 
 /**
-@brief	Effekseer‚É‚æ‚èÄ¶’†‚Ì3DƒGƒtƒFƒNƒg‚Ì•`‰æ‚ğI—¹‚·‚éB
-@return	0:¬Œ÷A-1:¸”s
+@brief	Effekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»ã‚’çµ‚äº†ã™ã‚‹ã€‚
+@return	0:æˆåŠŸã€-1:å¤±æ•—
 @note
-“Á’è‚ÌƒGƒtƒFƒNƒg‚Ì‚İ‚ğ•`‰æ‚µ‚½‚¢‚Ég—p‚·‚éB
-ƒGƒtƒFƒNƒg‚Ì•`‰æI—¹ˆ—‚ğs‚¤B
-DrawEffekseer3D_Begin‚ğÀs‚µ‚Ä‚©‚ç‚ª‚±‚ÌŠÖ”‚ªÀs‚³‚ê‚é‚Ü‚ÅADrawEffekseer3D_Draw‚ğÀs‚Å‚«‚éB
-DrawEffekseer3D‚Æ‚Í•¹—p‚Å‚«‚È‚¢B
+ç‰¹å®šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ã¿ã‚’æç”»ã—ãŸã„æ™‚ã«ä½¿ç”¨ã™ã‚‹ã€‚
+ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»çµ‚äº†å‡¦ç†ã‚’è¡Œã†ã€‚
+DrawEffekseer3D_Beginã‚’å®Ÿè¡Œã—ã¦ã‹ã‚‰ãŒã“ã®é–¢æ•°ãŒå®Ÿè¡Œã•ã‚Œã‚‹ã¾ã§ã€DrawEffekseer3D_Drawã‚’å®Ÿè¡Œã§ãã‚‹ã€‚
+DrawEffekseer3Dã¨ã¯ä½µç”¨ã§ããªã„ã€‚
 */
 int DrawEffekseer3D_End();
 
 /**
-	@brief	Effekseer‚É‚æ‚èÄ¶’†‚Ì3DƒGƒtƒFƒNƒg‚ğ‘S‚Ä•`‰æ‚·‚éB
-	@return	0:¬Œ÷A-1:¸”s
+	@brief	Effekseerã«ã‚ˆã‚Šå†ç”Ÿä¸­ã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å…¨ã¦æç”»ã™ã‚‹ã€‚
+	@return	0:æˆåŠŸã€-1:å¤±æ•—
 */
 int DrawEffekseer3D();
 
 /**
-	@brief	Effekseer‚Ì2DƒGƒtƒFƒNƒgŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
-	@return	Effekseer‚Ì2DƒGƒtƒFƒNƒgŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	@brief	Effekseerã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+	@return	Effekseerã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	@note
-	Effekseer‚Ì‹@”\‚ğ’¼Úg—p‚µ‚È‚¢ŒÀ‚èA‚±‚ÌŠÖ”‚Íg—p‚µ‚È‚¢B
+	Effekseerã®æ©Ÿèƒ½ã‚’ç›´æ¥ä½¿ç”¨ã—ãªã„é™ã‚Šã€ã“ã®é–¢æ•°ã¯ä½¿ç”¨ã—ãªã„ã€‚
 */
 ::Effekseer::Manager* GetEffekseer2DManager();
 
 /**
-@brief	Effekseer‚Ì2DƒGƒtƒFƒNƒg•`‰æƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
-@return	Effekseer‚Ì2DƒGƒtƒFƒNƒg•`‰æƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+@brief	Effekseerã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆæç”»ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+@return	Effekseerã®2Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆæç”»ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 @note
-Effekseer‚Ì‹@”\‚ğ’¼Úg—p‚µ‚È‚¢ŒÀ‚èA‚±‚ÌŠÖ”‚Íg—p‚µ‚È‚¢B
+Effekseerã®æ©Ÿèƒ½ã‚’ç›´æ¥ä½¿ç”¨ã—ãªã„é™ã‚Šã€ã“ã®é–¢æ•°ã¯ä½¿ç”¨ã—ãªã„ã€‚
 */
 ::EffekseerRenderer::Renderer* GetEffekseer2DRenderer();
 
 /**
-	@brief	Effekseer‚Ì3DƒGƒtƒFƒNƒgŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
-	@return	Effekseer‚Ì3DƒGƒtƒFƒNƒgŠÇ—ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	@brief	Effekseerã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+	@return	Effekseerã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	@note
-	Effekseer‚Ì‹@”\‚ğ’¼Úg—p‚µ‚È‚¢ŒÀ‚èA‚±‚ÌŠÖ”‚Íg—p‚µ‚È‚¢B
+	Effekseerã®æ©Ÿèƒ½ã‚’ç›´æ¥ä½¿ç”¨ã—ãªã„é™ã‚Šã€ã“ã®é–¢æ•°ã¯ä½¿ç”¨ã—ãªã„ã€‚
 */
 ::Effekseer::Manager* GetEffekseer3DManager();
 
 /**
-@brief	Effekseer‚Ì3DƒGƒtƒFƒNƒg•`‰æƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
-@return	Effekseer‚Ì3DƒGƒtƒFƒNƒg•`‰æƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+@brief	Effekseerã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆæç”»ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+@return	Effekseerã®3Dã‚¨ãƒ•ã‚§ã‚¯ãƒˆæç”»ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 @note
-Effekseer‚Ì‹@”\‚ğ’¼Úg—p‚µ‚È‚¢ŒÀ‚èA‚±‚ÌŠÖ”‚Íg—p‚µ‚È‚¢B
+Effekseerã®æ©Ÿèƒ½ã‚’ç›´æ¥ä½¿ç”¨ã—ãªã„é™ã‚Šã€ã“ã®é–¢æ•°ã¯ä½¿ç”¨ã—ãªã„ã€‚
 */
 ::EffekseerRenderer::Renderer* GetEffekseer3DRenderer();
 
 /**
-@brief	Effekseer‚ÌƒGƒtƒFƒNƒgƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éB
-@param	effectHandle	ƒGƒtƒFƒNƒg‚Ìƒnƒ“ƒhƒ‹
-@return	Effekseer‚ÌƒGƒtƒFƒNƒgƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+@brief	Effekseerã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹ã€‚
+@param	effectHandle	ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+@return	Effekseerã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 */
 ::Effekseer::Effect* GetEffekseerEffect(int effectHandle);
 
 /**
-	@brief	ƒfƒoƒCƒXƒƒXƒg‚ª”­¶‚µ‚½‚ÉŒÄ‚ÔB
-	@param	Data	ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^
+	@brief	ãƒ‡ãƒã‚¤ã‚¹ãƒ­ã‚¹ãƒˆãŒç™ºç”Ÿã—ãŸæ™‚ã«å‘¼ã¶ã€‚
+	@param	Data	ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ‡ãƒ¼ã‚¿
 	@note
-	Effekseer_SetGraphicsDeviceLostCallbackFunctions‚ğg—p‚µ‚È‚¢‚ÉA
-	‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚³‚ê‚é‚æ‚¤‚ÉÀ‘•‚·‚é•K—v‚ª‚ ‚éB
+	Effekseer_SetGraphicsDeviceLostCallbackFunctionsã‚’ä½¿ç”¨ã—ãªã„æ™‚ã«ã€
+	ã“ã®é–¢æ•°ã‚’å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚ˆã†ã«å®Ÿè£…ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
 */
 void Effkseer_DeviceLost(void *Data);
 
 /**
-	@brief	ƒfƒoƒCƒX‚ğ•œ‹A‚·‚é‚ÉŒÄ‚ÔB
-	@param	Data	ƒR[ƒ‹ƒoƒbƒNƒf[ƒ^
-	Effekseer_SetGraphicsDeviceLostCallbackFunctions‚ğg—p‚µ‚È‚¢‚ÉA
-	‚±‚ÌŠÖ”‚ğŒÄ‚Ño‚³‚ê‚é‚æ‚¤‚ÉÀ‘•‚·‚é•K—v‚ª‚ ‚éB
+	@brief	ãƒ‡ãƒã‚¤ã‚¹ã‚’å¾©å¸°ã™ã‚‹æ™‚ã«å‘¼ã¶ã€‚
+	@param	Data	ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ãƒ‡ãƒ¼ã‚¿
+	Effekseer_SetGraphicsDeviceLostCallbackFunctionsã‚’ä½¿ç”¨ã—ãªã„æ™‚ã«ã€
+	ã“ã®é–¢æ•°ã‚’å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚ˆã†ã«å®Ÿè£…ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
 */
 void Effkseer_DeviceRestore(void *Data);
