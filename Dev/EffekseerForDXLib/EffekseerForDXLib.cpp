@@ -130,6 +130,161 @@ public:
 	}
 };
 
+
+class CachedModelLoader
+	: public ::Effekseer::ModelLoader
+{
+private:
+	struct CachedModel
+	{
+		void*						DataPtr;
+		int32_t						Count;
+
+		CachedModel()
+		{
+			DataPtr = NULL;
+			Count = 1;
+		}
+	};
+
+	::Effekseer::ModelLoader*		modelLoader;
+	std::map<std::basic_string<EFK_CHAR>, CachedModel>	cache;
+	std::map<void*, std::basic_string<EFK_CHAR>>	data2key;
+
+public:
+
+	CachedModelLoader(::Effekseer::ModelLoader* modelLoader)
+	{
+		this->modelLoader = modelLoader;
+	}
+
+	virtual ~CachedModelLoader()
+	{
+		ES_SAFE_DELETE(modelLoader);
+	}
+
+
+	virtual void* Load(const EFK_CHAR* path) override
+	{
+		auto key = std::basic_string<EFK_CHAR>(path);
+
+		auto it = cache.find(key);
+
+		if (it != cache.end())
+		{
+			it->second.Count++;
+			return it->second.DataPtr;
+		}
+
+		CachedModel v;
+		v.DataPtr = modelLoader->Load(path);
+
+		if (v.DataPtr != nullptr)
+		{
+			cache[key] = v;
+			data2key[v.DataPtr] = key;
+		}
+
+		return v.DataPtr;
+	}
+
+	virtual void Unload(void* data) override
+	{
+		if (data == nullptr) return;
+		auto key = data2key[data];
+
+		auto it = cache.find(key);
+
+		if (it != cache.end())
+		{
+			it->second.Count--;
+			if (it->second.Count == 0)
+			{
+				modelLoader->Unload(it->second.DataPtr);
+				data2key.erase(data);
+				cache.erase(key);
+			}
+		}
+	}
+};
+
+class CachedTextureLoader
+	: public ::Effekseer::TextureLoader
+{
+private:
+	struct CachedTexture
+	{
+		::Effekseer::TextureData*	DataPtr;
+		int32_t						Count;
+
+		CachedTexture()
+		{
+			DataPtr = NULL;
+			Count = 1;
+		}
+	};
+
+	::Effekseer::TextureLoader*		textureLoader;
+	std::map<std::basic_string<EFK_CHAR>, CachedTexture>	cache;
+	std::map<::Effekseer::TextureData*, std::basic_string<EFK_CHAR>>	data2key;
+
+public:
+
+	CachedTextureLoader(::Effekseer::TextureLoader* textureLoader)
+	{
+		this->textureLoader = textureLoader;
+	}
+
+	virtual ~CachedTextureLoader()
+	{
+		ES_SAFE_DELETE(textureLoader);
+	}
+
+
+	virtual ::Effekseer::TextureData* Load(const EFK_CHAR* path, ::Effekseer::TextureType textureType) override
+	{ 
+		auto key = std::basic_string<EFK_CHAR>(path);
+
+		auto it = cache.find(key);
+
+		if (it != cache.end())
+		{
+			it->second.Count++;
+			return it->second.DataPtr;
+		}
+
+		CachedTexture v;
+		v.DataPtr = textureLoader->Load(path, textureType);
+		
+		if (v.DataPtr != nullptr)
+		{
+			cache[key] = v;
+			data2key[v.DataPtr] = key;
+		}
+
+		return v.DataPtr;
+	}
+
+	virtual void Unload(::Effekseer::TextureData* data) override
+	{
+		if (data == nullptr) return;
+		auto key = data2key[data];
+
+		auto it = cache.find(key);
+	
+		if (it != cache.end())
+		{
+			it->second.Count--;
+			if (it->second.Count == 0)
+			{
+				textureLoader->Unload(it->second.DataPtr);
+				data2key.erase(data);
+				cache.erase(key);
+			}
+		}
+	}
+};
+
 static bool CopyRenderTargetToBackground()
 {
 	bool ret = false;
@@ -378,14 +533,12 @@ int Effkseer_Init(int particleMax,
 	g_manager3d->SetTrackRenderer(g_renderer3d->CreateTrackRenderer());
 
 	// 描画用インスタンスからテクスチャの読込機能を設定する。(2D)
-	// 独自拡張可能、現在はファイルから読み込んでいる。
-	g_manager2d->SetTextureLoader(g_renderer2d->CreateTextureLoader(g_effectFile));
-	g_manager2d->SetModelLoader(g_renderer2d->CreateModelLoader(g_effectFile));
+	g_manager2d->SetTextureLoader(new CachedTextureLoader(g_renderer2d->CreateTextureLoader(g_effectFile)));
+	g_manager2d->SetModelLoader(new CachedModelLoader(g_renderer2d->CreateModelLoader(g_effectFile)));
 
 	// 描画用インスタンスからテクスチャの読込機能を設定する。(3D)
-	// 独自拡張可能、現在はファイルから読み込んでいる。
-	g_manager3d->SetTextureLoader(g_renderer3d->CreateTextureLoader(g_effectFile));
-	g_manager3d->SetModelLoader(g_renderer3d->CreateModelLoader(g_effectFile));
+	g_manager3d->SetTextureLoader(new  CachedTextureLoader(g_renderer3d->CreateTextureLoader(g_effectFile)));
+	g_manager3d->SetModelLoader(new CachedModelLoader(g_renderer3d->CreateModelLoader(g_effectFile)));
 
 	return 0;
 }
