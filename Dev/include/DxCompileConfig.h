@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.18e
+//				Ver 3.19 
 //
 // ----------------------------------------------------------------------------
 
@@ -323,6 +323,9 @@
 	#ifndef DX_NON_OGGTHEORA
 		#define DX_NON_OGGTHEORA
 	#endif
+	#ifndef DX_NON_MEDIA_FOUNDATION
+		#define DX_NON_MEDIA_FOUNDATION
+	#endif // DX_NON_MEDIA_FOUNDATION
 #endif
 
 #ifdef DX_NON_INPUT
