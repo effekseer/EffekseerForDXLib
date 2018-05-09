@@ -36,8 +36,8 @@ int sample3D()
 	// ただし、DirectX11を使用する場合は実行する必要はない。
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
-	// エフェクトを読み込む。
-	int effectHandle = LoadEffekseerEffect("laser.efk");
+	// エフェクトリソースを読み込む。
+	int effectResourceHandle = LoadEffekseerEffect("laser.efk");
 
 	// 何でもいいので画像を読み込む。
 	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
@@ -78,7 +78,7 @@ int sample3D()
 		if (time % 60 == 0)
 		{
 			// エフェクトを再生する。
-			playingEffectHandle = PlayEffekseer3DEffect(effectHandle);
+			playingEffectHandle = PlayEffekseer3DEffect(effectResourceHandle);
 
 			// エフェクトの位置をリセットする。
 			position_x = 0.0f;
@@ -125,8 +125,8 @@ int sample3D()
 		}
 	}
 
-	// エフェクトを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
-	DeleteEffekseerEffect(effectHandle);
+	// エフェクトリソースを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
+	DeleteEffekseerEffect(effectResourceHandle);
 	
 	// Effekseerを終了する。
 	Effkseer_End();

@@ -39,8 +39,8 @@ int sample2D()
 	// Effekseerに2D描画の設定をする。
 	Effekseer_Set2DSetting(640, 480);
 
-	// エフェクトを読み込む。
-	int effectHandle = LoadEffekseerEffect("laser.efk");
+	// エフェクトリソースを読み込む。
+	int effectResourceHandle = LoadEffekseerEffect("laser.efk");
 
 	// 何でもいいので画像を読み込む。
 	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
@@ -73,7 +73,7 @@ int sample2D()
 		if (time % 60 == 0)
 		{
 			// エフェクトを再生する。
-			playingEffectHandle = PlayEffekseer2DEffect(effectHandle);
+			playingEffectHandle = PlayEffekseer2DEffect(effectResourceHandle);
 
 			// エフェクトの拡大率を設定する。
 			// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大する。
@@ -121,8 +121,8 @@ int sample2D()
 		}
 	}
 
-	// エフェクトを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
-	DeleteEffekseerEffect(effectHandle);
+	// エフェクトリソースを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
+	DeleteEffekseerEffect(effectResourceHandle);
 	
 	// Effekseerを終了する。
 	Effkseer_End();

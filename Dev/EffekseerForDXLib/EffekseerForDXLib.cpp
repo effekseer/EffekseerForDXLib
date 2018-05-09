@@ -725,15 +725,15 @@ int LoadEffekseerEffect(const wchar_t* fileName)
 	return handle;
 }
 
-int DeleteEffekseerEffect(int effectHandle)
+int DeleteEffekseerEffect(int effectResourceHandle)
 {
-	if (effectHandleToEffectFileName.count(effectHandle) > 0)
+	if (effectHandleToEffectFileName.count(effectResourceHandle) > 0)
 	{
-		auto fileName = effectHandleToEffectFileName[effectHandle];
-		auto effect = effectHandleToEffect[effectHandle];
+		auto fileName = effectHandleToEffectFileName[effectResourceHandle];
+		auto effect = effectHandleToEffect[effectResourceHandle];
 		effectFileNameToEffectHandle.erase(fileName);
-		effectHandleToEffect.erase(effectHandle);
-		effectHandleToEffectFileName.erase(effectHandle);
+		effectHandleToEffect.erase(effectResourceHandle);
+		effectHandleToEffectFileName.erase(effectResourceHandle);
 
 		if (g_server != nullptr)
 		{
@@ -746,60 +746,60 @@ int DeleteEffekseerEffect(int effectHandle)
 	return -1;
 }
 
-int PlayEffekseer2DEffect(int effectHandle)
+int PlayEffekseer2DEffect(int effectResourceHandle)
 {
 	if (g_manager2d == nullptr) return -1;
 
-	if (effectHandleToEffect.count(effectHandle) > 0)
+	if (effectHandleToEffect.count(effectResourceHandle) > 0)
 	{
-		auto effect = effectHandleToEffect[effectHandle];
+		auto effect = effectHandleToEffect[effectResourceHandle];
 		return g_manager2d->Play(effect, 0, 0, 0);
 	}
 
 	return -1;
 }
 
-int PlayEffekseer3DEffect(int effectHandle)
+int PlayEffekseer3DEffect(int effectResourceHandle)
 {
 	if (g_manager3d == nullptr) return -1;
 
-	if (effectHandleToEffect.count(effectHandle) > 0)
+	if (effectHandleToEffect.count(effectResourceHandle) > 0)
 	{
-		auto effect = effectHandleToEffect[effectHandle];
+		auto effect = effectHandleToEffect[effectResourceHandle];
 		return g_manager3d->Play(effect, 0, 0, 0);
 	}
 
 	return -1;
 }
 
-int IsEffekseer2DEffectPlaying(int effectHandle)
+int IsEffekseer2DEffectPlaying(int playingEffectHandle)
 {
 	if (g_manager2d == nullptr) return -1;
 	
-	return g_manager2d->Exists(effectHandle) ? 0 : -1;
+	return g_manager2d->Exists(playingEffectHandle) ? 0 : -1;
 }
 
-int IsEffekseer3DEffectPlaying(int effectHandle)
+int IsEffekseer3DEffectPlaying(int playingEffectHandle)
 {
 	if (g_manager3d == nullptr) return -1;
 	
-	return g_manager3d->Exists(effectHandle) ? 0 : -1;
+	return g_manager3d->Exists(playingEffectHandle) ? 0 : -1;
 }
 
-int StopEffekseer2DEffect(int effectHandle)
+int StopEffekseer2DEffect(int playingEffecHandle)
 {
 		if (g_manager2d == nullptr) return -1;
 	
-		g_manager2d->StopEffect(effectHandle);
+		g_manager2d->StopEffect(playingEffecHandle);
 
 		return 0;
 }
 
-int StopEffekseer3DEffect(int effectHandle)
+int StopEffekseer3DEffect(int playingEffecHandle)
 {
 		if (g_manager3d == nullptr) return -1;
 	
-		g_manager3d->StopEffect(effectHandle);
+		g_manager3d->StopEffect(playingEffecHandle);
 
 		return 0;
 }

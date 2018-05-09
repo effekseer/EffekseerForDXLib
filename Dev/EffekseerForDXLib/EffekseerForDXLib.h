@@ -195,55 +195,57 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight);
 void Effekseer_Sync3DSetting();
 
 /**
-	@brief	Effekseerのエフェクトをメモリ上に読み込む。
+	@brief	Effekseerのエフェクトリソースをメモリ上に読み込む。
 	@param	fileName	efkファイルへのパス
-	@return	-1以外:エフェクトのハンドル、-1:失敗
+	@return	-1以外:エフェクトリソースのハンドル、-1:失敗
 */
 int LoadEffekseerEffect(const char* fileName);
 
 /**
-	@brief	Effekseerのエフェクトをメモリ上に読み込む。
+	@brief	Effekseerのエフェクトリソースをメモリ上に読み込む。
 	@param	fileName	efkファイルへのパス
-	@return	-1以外:エフェクトのハンドル、-1:失敗
+	@return	-1以外:エフェクトリソースのハンドル、-1:失敗
 */
 int LoadEffekseerEffect(const wchar_t* fileName);
 
 /**
-	@brief	メモリ上からEffekseerのエフェクトを削除する。
-	@param	effectHandle	エフェクトのハンドル
+	@brief	メモリ上からEffekseerのエフェクトリソースを削除する。
+	@param	effectHandle	エフェクトリソースのハンドル
 	@return	0:成功、-1:失敗
+	@note
+	LoadEffekseerEffectが返したエフェクトリソースのハンドルを引数に指定する。
 */
-int DeleteEffekseerEffect(int effectHandle);
+int DeleteEffekseerEffect(int effectResourceHandle);
 
 /**
-	@brief	メモリ上のEffekseerのエフェクトを2D表示で再生する。
-	@param	effectHandle	エフェクトのハンドル
-	@return	-1以外:再生中のエフェクトのハンドル、-1:失敗
+	@brief	メモリ上のEffekseerのエフェクトリソースを2D表示で再生する。
+	@param	effectHandle	エフェクトリソースのハンドル
+	@return	-1以外:エフェクトのハンドル、-1:失敗
 */
-int PlayEffekseer2DEffect(int effectHandle);
+int PlayEffekseer2DEffect(int effectResourceHandle);
 
 /**
-	@brief	メモリ上のEffekseerのエフェクトを3D表示で再生する。
-	@param	effectHandle	エフェクトのハンドル
-	@return	-1以外:再生中のエフェクトのハンドル、-1:失敗
+	@brief	メモリ上のEffekseerのエフェクトリソースを3D表示で再生する。
+	@param	effectHandle	エフェクトリソースのハンドル
+	@return	-1以外:エフェクトのハンドル、-1:失敗
 */
-int PlayEffekseer3DEffect(int effectHandle);
+int PlayEffekseer3DEffect(int effectResourceHandle);
 
 /**
 	@brief	2D表示のエフェクトが再生中か取得する。
-	@param	effectHandle	エフェクトのハンドル
+	@param	playingEffectHandle	エフェクトのハンドル
 	@return	再生中かどうか?
 	@return	0:再生中、-1:再生されていない、もしくは再生終了
 */
-int IsEffekseer2DEffectPlaying(int effectHandle);
+int IsEffekseer2DEffectPlaying(int playingEffectHandle);
 
 /**
 	@brief	3D表示のエフェクトが再生中か取得する。
-	@param	effectHandle	エフェクトのハンドル
+	@param	playingEffectHandle	エフェクトのハンドル
 	@return	再生中かどうか?
 	@return	0:再生中、-1:再生されていない、もしくは再生終了
 */
-int IsEffekseer3DEffectPlaying(int effectHandle);
+int IsEffekseer3DEffectPlaying(int playingEffectHandle);
 
 /**
 	@brief	2D表示のエフェクトを停止する。
@@ -251,7 +253,7 @@ int IsEffekseer3DEffectPlaying(int effectHandle);
 	@return	成否
 	@return	0:成功、-1:失敗
 */
-int StopEffekseer2DEffect(int effectHandle);
+int StopEffekseer2DEffect(int playingEffecHandle);
 
 /**
 	@brief	3D表示のエフェクトを停止する。
@@ -259,7 +261,7 @@ int StopEffekseer2DEffect(int effectHandle);
 	@return	成否
 	@return	0:成功、-1:失敗
 */
-int StopEffekseer3DEffect(int effectHandle);
+int StopEffekseer3DEffect(int playingEffecHandle);
 
 
 /**
