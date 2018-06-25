@@ -854,6 +854,60 @@ int SetScalePlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, 
 	return 0;
 }
 
+float GetSpeedPlayingEffekseer2DEffect(int playingEffectHandle)
+{
+	if (g_manager2d == nullptr) return 0;
+
+	g_manager2d->GetSpeed(playingEffectHandle);
+
+	return 0;
+}
+
+int SetSpeedPlayingEffekseer2DEffect(int playingEffectHandle, float speed)
+{
+	if (g_manager2d == nullptr) return -1;
+
+	g_manager2d->SetSpeed(playingEffectHandle, speed);
+
+	return 0;
+}
+
+float GetSpeedPlayingEffekseer3DEffect(int playingEffectHandle)
+{
+	if (g_manager3d == nullptr) return 0;
+
+	g_manager3d->GetSpeed(playingEffectHandle);
+
+	return 0;
+}
+
+int SetSpeedPlayingEffekseer3DEffect(int playingEffectHandle, float speed)
+{
+	if (g_manager3d == nullptr) return -1;
+
+	g_manager3d->SetSpeed(playingEffectHandle, speed);
+
+	return 0;
+}
+
+int SetColorPlayingEffekseer2DEffect(int playingEffectHandle, int r, int g, int b, int a)
+{
+	if (g_manager2d == nullptr) return -1;
+
+	g_manager2d->SetAllColor(playingEffectHandle, Effekseer::Color(r, g, b, a));
+
+	return 0;
+}
+
+int SetColorPlayingEffekseer3DEffect(int playingEffectHandle, int r, int g, int b, int a)
+{
+	if (g_manager3d == nullptr) return -1;
+
+	g_manager3d->SetAllColor(playingEffectHandle, Effekseer::Color(r, g, b, a));
+
+	return 0;
+}
+
 int UpdateEffekseer2D()
 {
 	if (g_server != nullptr)

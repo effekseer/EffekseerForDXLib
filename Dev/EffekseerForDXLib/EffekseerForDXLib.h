@@ -340,6 +340,60 @@ int SetScalePlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, 
 int SetScalePlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z);
 
 /**
+	@brief	再生中の2D表示のエフェクトの再生速度を取得する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@return	再生速度
+*/
+float GetSpeedPlayingEffekseer2DEffect(int playingEffectHandle);
+
+/**
+	@brief	再生中の2D表示のエフェクトの再生速度を設定する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@param	speed	再生速度
+	@return	0:成功、-1:失敗
+	@note
+	※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetSpeedPlayingEffekseer2DEffect(int playingEffectHandle, float speed);
+
+/**
+	@brief	再生中の3D表示のエフェクトの再生速度を取得する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@return	再生速度
+*/
+float GetSpeedPlayingEffekseer3DEffect(int playingEffectHandle);
+
+/**
+	@brief	再生中の3D表示のエフェクトの再生速度を設定する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@param	speed	再生速度
+	@return	0:成功、-1:失敗
+	@note
+	※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetSpeedPlayingEffekseer3DEffect(int playingEffectHandle, float speed);
+
+/**
+@brief	再生中の2D表示のエフェクトの色を設定する。
+@param	playingEffectHandle	再生中のエフェクトのハンドル
+@param	speed	再生速度
+@return	0:成功、-1:失敗
+@note
+※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetColorPlayingEffekseer2DEffect(int playingEffectHandle, int r, int g, int b, int a);
+
+/**
+	@brief	再生中の3D表示のエフェクトの色を設定する。
+	@param	playingEffectHandle	再生中のエフェクトのハンドル
+	@param	speed	再生速度
+	@return	0:成功、-1:失敗
+	@note
+	※エフェクトが既に再生終了していても成功を返す。
+*/
+int SetColorPlayingEffekseer3DEffect(int playingEffectHandle, int r, int g, int b, int a);
+
+/**
 	@brief	Effekseerにより再生中の2Dエフェクトを更新する。
 	@return	0:成功、-1:失敗
 */
