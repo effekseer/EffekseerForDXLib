@@ -21,7 +21,7 @@ int sample3D()
 
 	// Effekseerを初期化する。
 	// 引数には画面に表示する最大パーティクル数を設定する。
-	if (Effkseer_Init(2000) == -1)
+	if (Effkseer_Init(8000) == -1)
 	{
 		DxLib_End();
 		return -1;

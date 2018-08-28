@@ -937,7 +937,18 @@ int DrawEffekseer2D()
 	g_renderer2d->BeginRendering();
 
 	// エフェクトの描画を行う。
-	g_manager2d->Draw();
+	g_manager2d->DrawBack();
+
+	if (g_isDistortionEnabled)
+	{
+		g_renderer2d->EndRendering();
+
+		Effekseer_Distort();
+
+		g_renderer2d->BeginRendering();
+	}
+
+	g_manager2d->DrawFront();
 
 	// エフェクトの描画終了処理を行う。
 	g_renderer2d->EndRendering();
@@ -1017,7 +1028,18 @@ int DrawEffekseer3D()
 	g_renderer3d->BeginRendering();
 
 	// エフェクトの描画を行う。
-	g_manager3d->Draw();
+	g_manager3d->DrawBack();
+
+	if (g_isDistortionEnabled)
+	{
+		g_renderer3d->EndRendering();
+
+		Effekseer_Distort();
+
+		g_renderer3d->BeginRendering();
+	}
+
+	g_manager3d->DrawFront();
 
 	// エフェクトの描画終了処理を行う。
 	g_renderer3d->EndRendering();

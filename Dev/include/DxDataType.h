@@ -2,7 +2,7 @@
 // 
 // 		ＤＸライブラリ		データタイプ定義ヘッダファイル
 // 
-// 				Ver 3.19 
+// 				Ver 3.19d
 // 
 // -------------------------------------------------------------------------------
 
@@ -17,21 +17,19 @@
 #include "DxDataTypeWin.h"
 #endif
 
-#ifdef __psp2__
-#include "DxDataTypePSVita.h"
-#endif
-
-#ifdef __ORBIS__
-#include "DxDataTypePS4.h"
-#endif
-
 #ifdef __ANDROID__
 #include "DxDataTypeAndroid.h"
-#endif
+#endif // __ANDROID__
 
-#ifdef NN_NINTENDO_SDK
-#include "DxDataTypeNSW.h"
-#endif
+#ifdef __APPLE__
+    #include "TargetConditionals.h"
+    #if TARGET_OS_IPHONE
+		#include "DxDataTypeiOS.h"
+	#endif
+#endif // __APPLE__
+
+
+
 
 #ifndef DX_NON_NAMESPACE
 

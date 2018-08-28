@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.19 
+//				Ver 3.19d
 //
 // ----------------------------------------------------------------------------
 
@@ -171,13 +171,16 @@
 // 軽量バージョンのＤＸライブラリを生成する場合は次のコメントを外してください
 //#define DX_LIB_LITEVER
 
-#if !defined( __ANDROID__ ) && !defined( __psp2__ ) && !defined( __ORBIS__ ) && !defined( NN_NINTENDO_SDK )
-#define __WINDOWS__
+#ifndef __APPLE__
+#ifndef __ANDROID__
+	#define __WINDOWS__
+#endif // __ANDROID__
+#endif // __APPLE__
+
+#if defined( DX_GCC_COMPILE ) || defined( __ANDROID__ ) || defined( __APPLE__ ) || defined( __BCC2 )
+	#define __USE_ULL__
 #endif
 
-#if defined( DX_GCC_COMPILE ) || defined( __ANDROID__ ) || defined( NN_NINTENDO_SDK ) || defined( __BCC2 )
-#define __USE_ULL__
-#endif
 
 #ifndef __WINDOWS__
 	#ifndef DX_NON_BEEP
@@ -197,7 +200,7 @@
 	#endif // DX_NON_MEDIA_FOUNDATION
 #endif // __WINDOWS__
 
-#if defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ ) || defined( NN_NINTENDO_SDK )
+#if defined( __ANDROID__ ) || defined( __APPLE__ )
 #define DX_NON_2DDRAW
 #define DX_NON_ACM
 #define DX_NON_DSHOW_MP3
@@ -210,6 +213,9 @@
 #define DX_NON_DIRECT3D11
 #define DX_NON_DIRECT3D9
 #endif
+
+
+
 
 #ifdef DX_LIB_LITEVER
 #define DX_NON_ACM
@@ -227,6 +233,9 @@
 #endif
 
 #ifdef DX_NON_GRAPHICS
+	#ifndef DX_NON_FONT
+		#define DX_NON_FONT
+	#endif
 	#ifndef DX_NON_MOVIE
 		#define DX_NON_MOVIE
 	#endif
@@ -349,15 +358,23 @@
 	#endif
 #endif
 
-#if defined( _WIN64 ) || defined( __ORBIS__ )
-	#define __64BIT__
+
+#if defined( _WIN64 ) || defined( __APPLE__ ) || defined( __LP64__ )
+	#ifndef __64BIT__
+		#define __64BIT__
+	#endif
 #endif
 
-#if defined( _WIN64 ) || defined( __psp2__ ) || defined( __ORBIS__ ) || defined( __ANDROID__ ) || defined( NN_NINTENDO_SDK )
+
+
+#if defined( _WIN64 ) || defined( __ANDROID__ ) || defined( __APPLE__ )
 	#ifndef DX_NON_INLINE_ASM
 		#define DX_NON_INLINE_ASM
 	#endif
 #endif
+
+
+
 
 #include "DxDataType.h"
 
