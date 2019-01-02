@@ -8,95 +8,66 @@
 
 #include <string>
 
-#if _MSC_VER >= 1700
+#if _MSC_VER >= 1900
 
-#ifdef _WIN64
-	#error 32bitのみ対応しています。
-#else
+	#ifdef _WIN64
 
-#if _MSC_VER >=1900
+		#if _MSC_VER >=1900
 
-#if _DEBUG
-#pragma comment(lib,"Effekseer_vs2015_x86_d.lib")
-#pragma comment(lib,"EffekseerRendererDX9_vs2015_x86_d.lib")
-#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86_d.lib")
-#else
-#pragma comment(lib,"Effekseer_vs2015_x86.lib")
-#pragma comment(lib,"EffekseerRendererDX9_vs2015_x86.lib")
-#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86.lib")
-#endif
+			#if _DEBUG
+				#pragma comment(lib,"Effekseer_vs2015_x64_d.lib")
+				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x64_d.lib")
+				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x64_d.lib")
+			#else
+				#pragma comment(lib,"Effekseer_vs2015_x64.lib")
+				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x64.lib")
+				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x64.lib")
+			#endif
 
-#endif
+		#endif
+	#else
 
-#if _MSC_VER ==1800
+		#if _MSC_VER >=1900
 
-#if _DEBUG
-#pragma comment(lib,"Effekseer_vs2013_x86_d.lib")
-#pragma comment(lib,"EffekseerRendererDX9_vs2013_x86_d.lib")
-#pragma comment(lib,"EffekseerRendererDX11_vs2013_x86_d.lib")
-#else
-#pragma comment(lib,"Effekseer_vs2013_x86.lib")
-#pragma comment(lib,"EffekseerRendererDX9_vs2013_x86.lib")
-#pragma comment(lib,"EffekseerRendererDX11_vs2013_x86.lib")
-#endif
+			#if _DEBUG
+				#pragma comment(lib,"Effekseer_vs2015_x86_d.lib")
+				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x86_d.lib")
+				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86_d.lib")
+			#else
+				#pragma comment(lib,"Effekseer_vs2015_x86.lib")
+				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x86.lib")
+				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86.lib")
+			#endif
+		#endif
+	#endif
 
-#endif
+	#pragma comment(lib, "d3d9.lib" )
+	#pragma comment(lib, "d3d11.lib" )
 
-#if _MSC_VER == 1700
+	#ifndef _EFFEKSEER_FOR_DXLIB_LIB
 
-#if _DEBUG
-#pragma comment(lib,"Effekseer_vs2012_x86_d.lib")
-#pragma comment(lib,"EffekseerRendererDX9_vs2012_x86_d.lib")
-#pragma comment(lib,"EffekseerRendererDX11_vs2012_x86_d.lib")
-#else
-#pragma comment(lib,"Effekseer_vs2012_x86.lib")
-#pragma comment(lib,"EffekseerRendererDX9_vs2012_x86.lib")
-#pragma comment(lib,"EffekseerRendererDX11_vs2012_x86.lib")
-#endif
+		#ifdef _WIN64
+			#if _MSC_VER >=1900
+				#if _DEBUG
+					#pragma comment(lib,"EffekseerForDXLib_vs2015_x64_d.lib")
+				#else
+					#pragma comment(lib,"EffekseerForDXLib_vs2015_x64.lib")
+				#endif
+			#endif
+		#else
+			#if _MSC_VER >=1900
+				#if _DEBUG
+					#pragma comment(lib,"EffekseerForDXLib_vs2015_x86_d.lib")
+				#else
+					#pragma comment(lib,"EffekseerForDXLib_vs2015_x86.lib")
+				#endif
+			#endif
+		#endif
 
-#endif
-
-#pragma comment(lib, "d3d9.lib" )
-
-#ifndef _EFFEKSEER_FOR_DXLIB_LIB
-
-#if _MSC_VER >=1900
-
-#if _DEBUG
-#pragma comment(lib,"EffekseerForDXLib_vs2015_x86_d.lib")
-#else
-#pragma comment(lib,"EffekseerForDXLib_vs2015_x86.lib")
-#endif
-
-#endif
-
-#if _MSC_VER ==1800
-
-#if _DEBUG
-#pragma comment(lib,"EffekseerForDXLib_vs2013_x86_d.lib")
-#else
-#pragma comment(lib,"EffekseerForDXLib_vs2013_x86.lib")
-#endif
-
-#endif
-
-#if _MSC_VER ==1700
-
-#if _DEBUG
-#pragma comment(lib,"EffekseerForDXLib_vs2012_x86_d.lib")
-#else
-#pragma comment(lib,"EffekseerForDXLib_vs2012_x86.lib")
-#endif
-
-#endif
-
-
-#endif
-
-#endif
+	#endif
 
 #else
-#error VisualStudio(C++)2012,2013,2015のみ対応しています。
+	#error VisualStudio(C++)2015,2017のみ対応しています。
 #endif
 
 // ================================================================================================================================ //

@@ -5,7 +5,7 @@ import utils
 targetDir = 'Dev/'
 dxlibDir = 'DXLib_VC/'
 effekseerDir = '../Effekseer/'
-effekseerVSDir = effekseerDir + 'EffekseerRuntime140/Compiled/'
+effekseerVSDir = effekseerDir + 'EffekseerRuntime141/Compiled/'
 
 utils.cdToScript()
 
@@ -20,13 +20,22 @@ utils.copy(effekseerVSDir+'include/EffekseerRendererDX9.h', targetDir+'include/'
 utils.copy(effekseerVSDir+'include/EffekseerRendererDX11.h', targetDir+'include/')
 
 utils.copy(effekseerVSDir+'lib/VS2015/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2015_x86_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2015WIN64/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2015_x64_d.lib')
+
 utils.copy(effekseerVSDir+'lib/VS2015/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2015_x86_d.lib')
 utils.copy(effekseerVSDir+'lib/VS2015/Debug/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2015_x86_d.lib')
 
+utils.copy(effekseerVSDir+'lib/VS2015WIN64/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2015_x64_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2015WIN64/Debug/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2015_x64_d.lib')
+
 utils.copy(effekseerVSDir+'lib/VS2015/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2015_x86.lib')
+utils.copy(effekseerVSDir+'lib/VS2015WIN64/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2015_x64.lib')
+
 utils.copy(effekseerVSDir+'lib/VS2015/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2015_x86.lib')
 utils.copy(effekseerVSDir+'lib/VS2015/Release/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2015_x86.lib')
 
+utils.copy(effekseerVSDir+'lib/VS2015WIN64/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2015_x64.lib')
+utils.copy(effekseerVSDir+'lib/VS2015WIN64/Release/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2015_x64.lib')
 
 
 
