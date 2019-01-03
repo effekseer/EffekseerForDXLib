@@ -12,8 +12,20 @@
 
 	#ifdef _WIN64
 
-		#if _MSC_VER >=1900
+		#if _MSC_VER >=1910
 
+			#if _DEBUG
+				#pragma comment(lib,"Effekseer_vs2017_x64_d.lib")
+				#pragma comment(lib,"EffekseerRendererDX9_vs2017_x64_d.lib")
+				#pragma comment(lib,"EffekseerRendererDX11_vs2017_x64_d.lib")
+			#else
+				#pragma comment(lib,"Effekseer_vs2017_x64.lib")
+				#pragma comment(lib,"EffekseerRendererDX9_vs2017_x64.lib")
+				#pragma comment(lib,"EffekseerRendererDX11_vs2017_x64.lib")
+			#endif
+
+		#elif _MSC_VER >=1900
+		
 			#if _DEBUG
 				#pragma comment(lib,"Effekseer_vs2015_x64_d.lib")
 				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x64_d.lib")
@@ -23,7 +35,6 @@
 				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x64.lib")
 				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x64.lib")
 			#endif
-
 		#endif
 	#else
 
@@ -47,7 +58,13 @@
 	#ifndef _EFFEKSEER_FOR_DXLIB_LIB
 
 		#ifdef _WIN64
-			#if _MSC_VER >=1900
+			#if _MSC_VER >=1910
+				#if _DEBUG
+					#pragma comment(lib,"EffekseerForDXLib_vs2017_x64_d.lib")
+				#else
+					#pragma comment(lib,"EffekseerForDXLib_vs2017_x64.lib")
+				#endif
+			#elif _MSC_VER >=1900
 				#if _DEBUG
 					#pragma comment(lib,"EffekseerForDXLib_vs2015_x64_d.lib")
 				#else
@@ -55,7 +72,13 @@
 				#endif
 			#endif
 		#else
-			#if _MSC_VER >=1900
+			#if _MSC_VER >=1910
+				#if _DEBUG
+					#pragma comment(lib,"EffekseerForDXLib_vs2017_x86_d.lib")
+				#else
+					#pragma comment(lib,"EffekseerForDXLib_vs2017_x86.lib")
+				#endif
+			#elif _MSC_VER >=1900
 				#if _DEBUG
 					#pragma comment(lib,"EffekseerForDXLib_vs2015_x86_d.lib")
 				#else

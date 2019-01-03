@@ -40,3 +40,21 @@ utils.copy(effekseerVSDir+'lib/VS2015WIN64/Release/EffekseerRendererDX11.lib', t
 
 
 
+utils.copy(effekseerVSDir+'lib/VS2017/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2017_x86_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2017WIN64/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2017_x64_d.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2017/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2017_x86_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2017/Debug/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2017_x86_d.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2017WIN64/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2017_x64_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2017WIN64/Debug/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2017_x64_d.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2017/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2017_x86.lib')
+utils.copy(effekseerVSDir+'lib/VS2017WIN64/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2017_x64.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2017/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2017_x86.lib')
+utils.copy(effekseerVSDir+'lib/VS2017/Release/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2017_x86.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2017WIN64/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2017_x64.lib')
+utils.copy(effekseerVSDir+'lib/VS2017WIN64/Release/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2017_x64.lib')
+
