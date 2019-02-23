@@ -88,6 +88,19 @@ The sample is in 2D and 3D, the shortest source code to display and display one 
 
 <img src="img/ss.jpg"/>
 
+<h2>Network</h2>>
+
+<p>You can edit the playing effect in an application (game etc.) via the network from the outside when application is running.</p>
+
+<img src="img/network.png" width="800">
+
+
+<p>Execute this function with the port to be connected from Effekseer as the argument of this function. Then you can edit the effect from Effekseer. In order to edit the effect from another computer, it is necessary to open the port with the setting of the firewall.</p>
+
+<pre>
+int Effkseer_InitServer(int port);
+</pre>
+
 		<h2>Limitation</h2>
 <p>
 Mask functions such as a CreateMaskScreen are not supported.
