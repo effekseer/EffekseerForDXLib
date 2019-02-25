@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.19f
+//				Ver 3.20a
 //
 // ----------------------------------------------------------------------------
 
@@ -355,6 +355,9 @@
 #ifdef DX_NON_OGGVORBIS
 	#ifndef DX_NON_OGGTHEORA
 		#define DX_NON_OGGTHEORA
+	#endif
+	#ifndef DX_NON_OPUS
+		#define DX_NON_OPUS
 	#endif
 #endif
 
