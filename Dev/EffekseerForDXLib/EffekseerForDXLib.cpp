@@ -86,7 +86,7 @@ public:
 	{
 		this->position = position;
 		if(this->position < 0) this->position = 0;
-		if(this->position > data.size()) this->position = data.size();
+		if(this->position > static_cast<int>(data.size())) this->position = data.size();
 	}
 
 	int GetPosition()
@@ -473,6 +473,13 @@ static void Effekseer_Distort()
 
 }
 
+int Effekseer_Init(int particleMax,
+	EffekseerFileOpenFunc openFunc,
+	EffekseerFileReadSizeFunc readSizeFunc)
+{
+	return Effkseer_Init(particleMax, openFunc, readSizeFunc);
+}
+
 int Effkseer_Init(int particleMax, 
 	EffekseerFileOpenFunc openFunc,
 	EffekseerFileReadSizeFunc readSizeFunc)
@@ -543,6 +550,11 @@ int Effkseer_Init(int particleMax,
 	return 0;
 }
 
+int Effekseer_StartNetwork(int port)
+{
+	return Effkseer_InitServer(port);
+}
+
 int Effkseer_InitServer(int port)
 {
 	if (g_server != NULL) return -1;
@@ -562,8 +574,8 @@ int Effekseer_InitDistortion(float scale)
 
 	if (GetScreenState(&sizeX, &sizeY, &colorBitDepth) != 0) return -1;
 
-	sizeX *= scale;
-	sizeY *= scale;
+	sizeX = static_cast<int32_t>(sizeX * scale);
+	sizeY = static_cast<int32_t>(sizeY * scale);
 
 	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
 	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
@@ -657,7 +669,7 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight)
 
 	// 投影行列を設定を設定する。
 	g_renderer2d->SetProjectionMatrix(
-		::Effekseer::Matrix44().OrthographicLH(windowWidth, windowHeight, 1.0f, 400.0f));
+		::Effekseer::Matrix44().OrthographicLH(static_cast<float>(windowWidth), static_cast<float>(windowHeight), 1.0f, 400.0f));
 
 	// カメラ行列を設定
 	g_renderer2d->SetCameraMatrix(
@@ -719,7 +731,7 @@ int LoadEffekseerEffect(const wchar_t* fileName)
 		wchar_t _fileName[_MAX_FNAME];
 		wchar_t _ext[_MAX_EXT];
 		_wsplitpath_s(fileName, _drive, _dir, _fileName, _ext);
-		g_server->Regist((const EFK_CHAR*) _fileName, effect);
+		g_server->Register((const EFK_CHAR*) _fileName, effect);
 	}
 
 	return handle;
@@ -737,7 +749,7 @@ int DeleteEffekseerEffect(int effectResourceHandle)
 
 		if (g_server != nullptr)
 		{
-			g_server->Unregist(effect);
+			g_server->Unregister(effect);
 		}
 
 		ES_SAFE_RELEASE(effect);

@@ -146,7 +146,14 @@ typedef LONGLONG(*EffekseerFileReadSizeFunc) (const char* filePath);
 	@param	readSizeFunc 	内部処理用(文字コード処理用)のための引数。必ずデフォルト引数を使用する。
 	@return	成功した場合は0、失敗した場合は-1を返す。
 */
-int Effkseer_Init(int particleMax, 
+int Effekseer_Init(int particleMax, 
+	EffekseerFileOpenFunc openFunc = __Effekseer_FileRead_open,
+	EffekseerFileReadSizeFunc readSizeFunc = __Effekseer_FileRead_size);
+
+/**
+	@brief	非推奨(Effekseer_Initを使用してください)
+*/
+int Effkseer_Init(int particleMax,
 	EffekseerFileOpenFunc openFunc = __Effekseer_FileRead_open,
 	EffekseerFileReadSizeFunc readSizeFunc = __Effekseer_FileRead_size);
 
@@ -156,6 +163,11 @@ int Effkseer_Init(int particleMax,
 	@return	成功した場合は0、失敗した場合は-1を返す。
 	@note
 	ネットワーク機能を有効にすると、DXライブラリの起動中にEffekseerのツールからエフェクトを変更できるようになる。
+*/
+int Effekseer_StartNetwork(int port);
+
+/**
+	@brief	非推奨(Effekseer_StartNetworkを使用してください)
 */
 int Effkseer_InitServer(int port);
 
