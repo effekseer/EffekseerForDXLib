@@ -203,16 +203,18 @@ void Effekseer_Sync3DSetting();
 /**
 	@brief	Effekseerのエフェクトリソースをメモリ上に読み込む。
 	@param	fileName	efkファイルへのパス
+	@param	magnification	拡大率、指定された値に拡大してエフェクトが読み込まれる。
 	@return	-1以外:エフェクトリソースのハンドル、-1:失敗
 */
-int LoadEffekseerEffect(const char* fileName);
+int LoadEffekseerEffect(const char* fileName, float magnification = 1.0f);
 
 /**
 	@brief	Effekseerのエフェクトリソースをメモリ上に読み込む。
 	@param	fileName	efkファイルへのパス
+	@param	magnification	拡大率、指定された値に拡大してエフェクトが読み込まれる。
 	@return	-1以外:エフェクトリソースのハンドル、-1:失敗
 */
-int LoadEffekseerEffect(const wchar_t* fileName);
+int LoadEffekseerEffect(const wchar_t* fileName, float magnification = 1.0f);
 
 /**
 	@brief	メモリ上からEffekseerのエフェクトリソースを削除する。

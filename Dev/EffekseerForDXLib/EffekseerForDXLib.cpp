@@ -699,13 +699,13 @@ void Effekseer_Sync3DSetting()
 	g_renderer3d->SetCameraMatrix(efview);
 }
 
-int LoadEffekseerEffect(const char* fileName)
+int LoadEffekseerEffect(const char* fileName, float magnification)
 {
 	auto fileName_ = ToWide(fileName);
-	return LoadEffekseerEffect(fileName_.c_str());
+	return LoadEffekseerEffect(fileName_.c_str(), magnification);
 }
 
-int LoadEffekseerEffect(const wchar_t* fileName)
+int LoadEffekseerEffect(const wchar_t* fileName, float magnification)
 {
 	if (g_manager2d == nullptr) return -1;
 
@@ -714,7 +714,7 @@ int LoadEffekseerEffect(const wchar_t* fileName)
 		return effectFileNameToEffectHandle[fileName];
 	}
 
-	auto effect = Effekseer::Effect::Create(g_manager2d, (const EFK_CHAR*) fileName);
+	auto effect = Effekseer::Effect::Create(g_manager2d, (const EFK_CHAR*) fileName, magnification);
 	if (effect == nullptr) return -1;
 
 	int32_t handle = nextEffectHandle;

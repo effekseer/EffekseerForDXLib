@@ -27,6 +27,9 @@ int sample3D()
 		return -1;
 	}
 
+	// ネットワーク機能を使う場合、ここで起動する。60000番のポートで開始する。
+	// Effekseer_StartNetwork(60000);
+
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);

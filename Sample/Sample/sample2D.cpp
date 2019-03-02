@@ -27,6 +27,9 @@ int sample2D()
 		return -1;
 	}
 
+	// ネットワーク機能を使う場合、ここで起動する。60000番のポートで開始する。
+	// Effekseer_StartNetwork(60000);
+
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
@@ -40,7 +43,8 @@ int sample2D()
 	Effekseer_Set2DSetting(640, 480);
 
 	// エフェクトリソースを読み込む。
-	int effectResourceHandle = LoadEffekseerEffect("laser.efk");
+	// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大して読み込む。
+	int effectResourceHandle = LoadEffekseerEffect("laser.efk", 25.0f);
 
 	// 何でもいいので画像を読み込む。
 	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
@@ -74,10 +78,6 @@ int sample2D()
 		{
 			// エフェクトを再生する。
 			playingEffectHandle = PlayEffekseer2DEffect(effectResourceHandle);
-
-			// エフェクトの拡大率を設定する。
-			// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大する。
-			SetScalePlayingEffekseer2DEffect(playingEffectHandle, 25.0f, 25.0f, 25.0f);
 
 			// エフェクトの位置をリセットする。
 			position_x = 100.0f;
