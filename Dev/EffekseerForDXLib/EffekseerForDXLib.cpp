@@ -58,6 +58,39 @@ static std::string ToMulti(const wchar_t* pText)
 	return Out;
 }
 
+static bool AllocateBackgroundBuffer(int32_t sizeX, int32_t sizeY)
+{
+	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
+	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
+	ID3D11DeviceContext* dx11_device_context = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
+
+	if (dx9_device != NULL)
+	{
+		HRESULT hr;
+
+		hr = dx9_device->CreateTexture(
+			sizeX,
+			sizeY,
+			1,
+			D3DUSAGE_RENDERTARGET,
+			D3DFMT_A8R8G8B8,
+			D3DPOOL_DEFAULT,
+			&g_dx9_backgroundTexture,
+			NULL
+		);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
+		g_dx9_backgroundTexture->GetSurfaceLevel(0, &g_dx9_backgroundSurface);
+
+		return true;
+	}
+
+	return false;
+}
+
 class EffekseerFileReader :
 	public Effekseer::FileReader
 {
@@ -117,8 +150,8 @@ public:
 		
 		auto size = g_readSizeFunc(path_.c_str());
 		std::vector<uint8_t> data;
-		data.resize(size);
-		FileRead_read(data.data(), size, fileHandle);
+		data.resize(static_cast<size_t>(size));
+		FileRead_read(data.data(), static_cast<int>(size), fileHandle);
 		FileRead_close(fileHandle);
 
 		return new EffekseerFileReader(data);
@@ -287,6 +320,9 @@ public:
 
 static bool CopyRenderTargetToBackground()
 {
+	if (g_dx9_backgroundSurface == nullptr)
+		return false;
+
 	bool ret = false;
 
 	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
@@ -586,26 +622,15 @@ int Effekseer_InitDistortion(float scale)
 		ES_SAFE_RELEASE(g_dx9_backgroundTexture);
 		ES_SAFE_RELEASE(g_dx9_backgroundSurface);
 
-		HRESULT hr;
-
-		hr = dx9_device->CreateTexture(
-			sizeX,
-			sizeY,
-			1,
-			D3DUSAGE_RENDERTARGET,
-			D3DFMT_A8R8G8B8,
-			D3DPOOL_DEFAULT,
-			&g_dx9_backgroundTexture,
-			NULL
-			);
-		if (FAILED(hr))
+		if (AllocateBackgroundBuffer(sizeX, sizeY))
+		{
+			g_backgroundWidth = sizeX;
+			g_backgroundHeight = sizeY;
+		}
+		else
 		{
 			return -1;
 		}
-
-		g_backgroundWidth = sizeX;
-		g_backgroundHeight = sizeY;
-		g_dx9_backgroundTexture->GetSurfaceLevel(0, &g_dx9_backgroundSurface);
 	}
 	else if(dx11_device != NULL)
 	{
@@ -674,7 +699,7 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight)
 	// カメラ行列を設定
 	g_renderer2d->SetCameraMatrix(
 		::Effekseer::Matrix44().LookAtLH(
-		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -200.0f), 
+		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -20.0f), 
 		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, 200.0f), 
 		::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
 }
@@ -1136,6 +1161,9 @@ void Effkseer_DeviceLost(void* data)
 {
 	if(GetUseDirect3DDevice9() == NULL) return;
 
+	ES_SAFE_RELEASE(g_dx9_backgroundTexture);
+	ES_SAFE_RELEASE(g_dx9_backgroundSurface);
+
 	// デバイスロストが発生した時に呼ぶ。
 	g_renderer2d->OnLostDevice();
 	g_renderer3d->OnLostDevice();
@@ -1176,4 +1204,12 @@ void Effkseer_DeviceRestore(void* data)
 	// デバイスが復帰するときに呼ぶ
 	g_renderer2d->OnResetDevice();
 	g_renderer3d->OnResetDevice();
+
+	AllocateBackgroundBuffer(g_backgroundWidth, g_backgroundHeight);
+	if (g_dx9_backgroundTexture == nullptr)
+	{
+		g_backgroundWidth = 0;
+		g_backgroundHeight = 0;
+		g_isDistortionEnabled = false;
+	}
 }
