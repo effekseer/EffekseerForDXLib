@@ -699,7 +699,7 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight)
 	// カメラ行列を設定
 	g_renderer2d->SetCameraMatrix(
 		::Effekseer::Matrix44().LookAtLH(
-		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -20.0f), 
+		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -200.0f), 
 		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, 200.0f), 
 		::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
 }
