@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.20a
+//				Ver 3.20f
 //
 // ----------------------------------------------------------------------------
 
@@ -13,8 +13,8 @@
 */
 
 // 多重インクルード防止用マクロ
-#ifndef __DXCOMPILECONFIG_H__
-#define __DXCOMPILECONFIG_H__
+#ifndef DXCOMPILECONFIG_H
+#define DXCOMPILECONFIG_H
 
 // スタティックライブラリ生成時ライブラリ機能制限用定義 -----------------------
 
@@ -171,18 +171,21 @@
 // 軽量バージョンのＤＸライブラリを生成する場合は次のコメントを外してください
 //#define DX_LIB_LITEVER
 
+// コンパイル済みのシェーダーバイナリを使用せず、シェーダーコードの実行時コンパイルを利用する場合は次のコメントを外してください
+//#define DX_NON_SHADERCODE_BINARY
+
 #ifndef __APPLE__
 #ifndef __ANDROID__
-	#define __WINDOWS__
+	#define WINDOWS_DESKTOP_OS
 #endif // __ANDROID__
 #endif // __APPLE__
 
-#if defined( DX_GCC_COMPILE ) || defined( __ANDROID__ ) || defined( __APPLE__ ) || defined( __BCC2 )
-	#define __USE_ULL__
+#if defined( DX_GCC_COMPILE ) || defined( __ANDROID__ ) || defined( __APPLE__ ) || defined( BC2_COMPILER )
+	#define USE_ULL
 #endif
 
 
-#ifndef __WINDOWS__
+#ifndef WINDOWS_DESKTOP_OS
 	#ifndef DX_NON_BEEP
 		#define DX_NON_BEEP
 	#endif // DX_NON_BEEP
@@ -198,10 +201,10 @@
 	#ifndef DX_NON_MEDIA_FOUNDATION
 		#define DX_NON_MEDIA_FOUNDATION
 	#endif // DX_NON_MEDIA_FOUNDATION
-#endif // __WINDOWS__
+#endif // WINDOWS_DESKTOP_OS
 
 #if defined( __ANDROID__ ) || defined( __APPLE__ )
-#define DX_NON_2DDRAW
+//#define DX_NON_2DDRAW
 #define DX_NON_ACM
 #define DX_NON_DSHOW_MP3
 #define DX_NON_DSHOW_MOVIE
@@ -226,10 +229,13 @@
 #define DX_NON_MASK
 #define DX_NON_JPEGREAD
 #define DX_NON_PNGREAD
+#define DX_NON_TIFFREAD
 #define DX_NON_BEEP
 #define DX_NON_OGGVORBIS
+#define DX_NON_OGGTHEORA
 #define DX_NON_OPUS
 #define DX_NON_MODEL
+#define DX_NON_SHADERCODE_BINARY
 #endif
 
 #ifdef DX_NON_GRAPHICS
@@ -362,9 +368,9 @@
 #endif
 
 
-#if defined( _WIN64 ) || defined( __APPLE__ ) || defined( __LP64__ )
-	#ifndef __64BIT__
-		#define __64BIT__
+#if defined( _WIN64 ) || defined( __LP64__ )
+	#ifndef PLATFORM_64BIT
+		#define PLATFORM_64BIT
 	#endif
 #endif
 
@@ -381,4 +387,4 @@
 
 #include "DxDataType.h"
 
-#endif // __DXCOMPILECONFIG_H__
+#endif // DXCOMPILECONFIG_H

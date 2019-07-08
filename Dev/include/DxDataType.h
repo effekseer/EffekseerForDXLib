@@ -2,20 +2,20 @@
 // 
 // 		ＤＸライブラリ		データタイプ定義ヘッダファイル
 // 
-// 				Ver 3.20a
+// 				Ver 3.20f
 // 
 // -------------------------------------------------------------------------------
 
-#ifndef __DXDATATYPE_H__
-#define __DXDATATYPE_H__
+#ifndef DX_DATATYPE_H
+#define DX_DATATYPE_H
 
 // インクルード ------------------------------------------------------------------
 #include "DxCompileConfig.h"
 #include <stdio.h>
 
-#ifdef __WINDOWS__
+#ifdef WINDOWS_DESKTOP_OS
 #include "DxDataTypeWin.h"
-#endif
+#endif // WINDOWS_DESKTOP_OS
 
 #ifdef __ANDROID__
 #include "DxDataTypeAndroid.h"
@@ -46,7 +46,7 @@ namespace DxLib
 	( Dest ).right  = Right ;\
 	( Dest ).bottom = Bottom ;
 
-#ifdef __USE_ULL__
+#ifdef USE_ULL
 #define ULL_NUM( x )				( x##ULL )
 #define LL_NUM( x )					( x##LL  )
 #define ULL_PARAM( x )				x##ULL
@@ -78,4 +78,4 @@ struct RGBCOLOR
 
 #endif // DX_NON_NAMESPACE
 
-#endif // __DXDATATYPE_H__
+#endif // DX_DATATYPE_H

@@ -2,10 +2,10 @@
 
 import utils
 
-targetDir = 'EffekseerForDXLib_143_320f/'
+targetDir = 'EffekseerForDXLib_143d_320f/'
 dxlibDir = 'DXLib_VC/'
 effekseerDir = '../Effekseer/'
-effekseerVSDir = effekseerDir + 'EffekseerRuntime143/Compiled/'
+effekseerVSDir = effekseerDir + 'EffekseerRuntime143d/Compiled/'
 
 utils.cdToScript()
 
