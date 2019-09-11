@@ -10,46 +10,86 @@
 
 #if _MSC_VER >= 1900
 
+
 	#ifdef _WIN64
 
-		#if _MSC_VER >=1910
 
-			#if _DEBUG
-				#pragma comment(lib,"Effekseer_vs2017_x64_d.lib")
-				#pragma comment(lib,"EffekseerRendererDX9_vs2017_x64_d.lib")
-				#pragma comment(lib,"EffekseerRendererDX11_vs2017_x64_d.lib")
-			#else
-				#pragma comment(lib,"Effekseer_vs2017_x64.lib")
-				#pragma comment(lib,"EffekseerRendererDX9_vs2017_x64.lib")
-				#pragma comment(lib,"EffekseerRendererDX11_vs2017_x64.lib")
-			#endif
+#if _MSC_VER >=1920
 
-		#elif _MSC_VER >=1900
-		
-			#if _DEBUG
-				#pragma comment(lib,"Effekseer_vs2015_x64_d.lib")
-				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x64_d.lib")
-				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x64_d.lib")
-			#else
-				#pragma comment(lib,"Effekseer_vs2015_x64.lib")
-				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x64.lib")
-				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x64.lib")
-			#endif
-		#endif
+#if _DEBUG
+#pragma comment(lib,"Effekseer_vs2019_x64_d.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2019_x64_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2019_x64_d.lib")
+#else
+#pragma comment(lib,"Effekseer_vs2019_x64.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2019_x64.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2019_x64.lib")
+#endif
+
+#elif _MSC_VER >=1910
+
+#if _DEBUG
+#pragma comment(lib,"Effekseer_vs2017_x64_d.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2017_x64_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2017_x64_d.lib")
+#else
+#pragma comment(lib,"Effekseer_vs2017_x64.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2017_x64.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2017_x64.lib")
+#endif
+
+#elif _MSC_VER >=1900
+
+#if _DEBUG
+#pragma comment(lib,"Effekseer_vs2015_x64_d.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2015_x64_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2015_x64_d.lib")
+#else
+#pragma comment(lib,"Effekseer_vs2015_x64.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2015_x64.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2015_x64.lib")
+#endif
+#endif
+
 	#else
 
-		#if _MSC_VER >=1900
+#if _MSC_VER >=1920
 
-			#if _DEBUG
-				#pragma comment(lib,"Effekseer_vs2015_x86_d.lib")
-				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x86_d.lib")
-				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86_d.lib")
-			#else
-				#pragma comment(lib,"Effekseer_vs2015_x86.lib")
-				#pragma comment(lib,"EffekseerRendererDX9_vs2015_x86.lib")
-				#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86.lib")
-			#endif
-		#endif
+#if _DEBUG
+#pragma comment(lib,"Effekseer_vs2019_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2019_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2019_x86_d.lib")
+#else
+#pragma comment(lib,"Effekseer_vs2019_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2019_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2019_x86.lib")
+#endif
+
+#elif _MSC_VER >=1910
+
+#if _DEBUG
+#pragma comment(lib,"Effekseer_vs2017_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2017_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2017_x86_d.lib")
+#else
+#pragma comment(lib,"Effekseer_vs2017_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2017_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2017_x86.lib")
+#endif
+
+#elif _MSC_VER >=1900
+
+#if _DEBUG
+#pragma comment(lib,"Effekseer_vs2015_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2015_x86_d.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86_d.lib")
+#else
+#pragma comment(lib,"Effekseer_vs2015_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX9_vs2015_x86.lib")
+#pragma comment(lib,"EffekseerRendererDX11_vs2015_x86.lib")
+#endif
+#endif
+
 	#endif
 
 	#pragma comment(lib, "d3d9.lib" )
@@ -58,39 +98,59 @@
 	#ifndef _EFFEKSEER_FOR_DXLIB_LIB
 
 		#ifdef _WIN64
-			#if _MSC_VER >=1910
-				#if _DEBUG
-					#pragma comment(lib,"EffekseerForDXLib_vs2017_x64_d.lib")
-				#else
-					#pragma comment(lib,"EffekseerForDXLib_vs2017_x64.lib")
-				#endif
-			#elif _MSC_VER >=1900
-				#if _DEBUG
-					#pragma comment(lib,"EffekseerForDXLib_vs2015_x64_d.lib")
-				#else
-					#pragma comment(lib,"EffekseerForDXLib_vs2015_x64.lib")
-				#endif
-			#endif
+
+#if _MSC_VER >=1920
+#if _DEBUG
+#pragma comment(lib,"EffekseerForDXLib_vs2019_x64_d.lib")
+#else
+#pragma comment(lib,"EffekseerForDXLib_vs2019_x64.lib")
+#endif
+#elif _MSC_VER >=1910
+#if _DEBUG
+#pragma comment(lib,"EffekseerForDXLib_vs2017_x64_d.lib")
+#else
+#pragma comment(lib,"EffekseerForDXLib_vs2017_x64.lib")
+#endif
+#elif _MSC_VER >=1900
+#if _DEBUG
+#pragma comment(lib,"EffekseerForDXLib_vs2015_x64_d.lib")
+#else
+#pragma comment(lib,"EffekseerForDXLib_vs2015_x64.lib")
+#endif
+#endif
+
 		#else
-			#if _MSC_VER >=1910
-				#if _DEBUG
-					#pragma comment(lib,"EffekseerForDXLib_vs2017_x86_d.lib")
-				#else
-					#pragma comment(lib,"EffekseerForDXLib_vs2017_x86.lib")
-				#endif
-			#elif _MSC_VER >=1900
-				#if _DEBUG
-					#pragma comment(lib,"EffekseerForDXLib_vs2015_x86_d.lib")
-				#else
-					#pragma comment(lib,"EffekseerForDXLib_vs2015_x86.lib")
-				#endif
-			#endif
+
+
+#if _MSC_VER >=1920
+#if _DEBUG
+#pragma comment(lib,"EffekseerForDXLib_vs2019_x86_d.lib")
+#else
+#pragma comment(lib,"EffekseerForDXLib_vs2019_x86.lib")
+#endif
+#elif _MSC_VER >=1910
+#if _DEBUG
+#pragma comment(lib,"EffekseerForDXLib_vs2017_x86_d.lib")
+#else
+#pragma comment(lib,"EffekseerForDXLib_vs2017_x86.lib")
+#endif
+#elif _MSC_VER >=1900
+#if _DEBUG
+#pragma comment(lib,"EffekseerForDXLib_vs2015_x86_d.lib")
+#else
+#pragma comment(lib,"EffekseerForDXLib_vs2015_x86.lib")
+#endif
+#endif
+
+
 		#endif
 
 	#endif
 
+
+
 #else
-	#error VisualStudio(C++)2015,2017のみ対応しています。
+	#error VisualStudio(C++)2015,2017,2019のみ対応しています。
 #endif
 
 // ================================================================================================================================ //
