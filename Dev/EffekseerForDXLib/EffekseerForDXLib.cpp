@@ -5,34 +5,34 @@
 #include <string>
 #include <vector>
 
-static ::Effekseer::Manager*				g_manager2d = NULL;
-static ::EffekseerRenderer::Renderer*		g_renderer2d = NULL;
+static ::Effekseer::Manager* g_manager2d = NULL;
+static ::EffekseerRenderer::Renderer* g_renderer2d = NULL;
 
-static ::Effekseer::Manager*				g_manager3d = NULL;
-static ::EffekseerRenderer::Renderer*		g_renderer3d = NULL;
+static ::Effekseer::Manager* g_manager3d = NULL;
+static ::EffekseerRenderer::Renderer* g_renderer3d = NULL;
 
-static ::Effekseer::Server*					g_server = NULL;
+static ::Effekseer::Server* g_server = NULL;
 
-static bool									g_isDistortionEnabled = false;
+static bool g_isDistortionEnabled = false;
 
 static int32_t nextEffectHandle = 0;
-static std::map<std::wstring, int32_t>			effectFileNameToEffectHandle;
-static std::map<int32_t, std::wstring>			effectHandleToEffectFileName;
-static std::map<int32_t, ::Effekseer::Effect*>	effectHandleToEffect;
+static std::map<std::wstring, int32_t> effectFileNameToEffectHandle;
+static std::map<int32_t, std::wstring> effectHandleToEffectFileName;
+static std::map<int32_t, ::Effekseer::Effect*> effectHandleToEffect;
 
-static int32_t								g_backgroundWidth = 0;
-static int32_t								g_backgroundHeight = 0;
-static IDirect3DSurface9*					g_dx9_backgroundSurface = nullptr;
-static IDirect3DTexture9*					g_dx9_backgroundTexture = nullptr;
+static int32_t g_backgroundWidth = 0;
+static int32_t g_backgroundHeight = 0;
+static IDirect3DSurface9* g_dx9_backgroundSurface = nullptr;
+static IDirect3DTexture9* g_dx9_backgroundTexture = nullptr;
 
 static ID3D11Texture2D* g_dx11_backGroundTexture = nullptr;
 static ID3D11ShaderResourceView* g_dx11_backGroundTextureSRV = nullptr;
 static D3D11_TEXTURE2D_DESC g_dx11_backGroundTextureDesc;
 
-Effekseer::FileInterface*					g_effectFile = nullptr;
+Effekseer::FileInterface* g_effectFile = nullptr;
 
-static EffekseerFileOpenFunc					g_openFunc = nullptr;
-static EffekseerFileReadSizeFunc				g_readSizeFunc = nullptr;
+static EffekseerFileOpenFunc g_openFunc = nullptr;
+static EffekseerFileReadSizeFunc g_readSizeFunc = nullptr;
 
 static std::wstring ToWide(const char* pText)
 {
@@ -41,19 +41,19 @@ static std::wstring ToWide(const char* pText)
 	wchar_t* pOut = new wchar_t[Len + 1];
 	::MultiByteToWideChar(CP_ACP, 0, pText, -1, pOut, Len);
 	std::wstring Out(pOut);
-	delete [] pOut;
+	delete[] pOut;
 
 	return Out;
 }
 
 static std::string ToMulti(const wchar_t* pText)
 {
-	int Len = ::WideCharToMultiByte(932, 0,  pText, -1, NULL, 0, NULL, NULL);
+	int Len = ::WideCharToMultiByte(932, 0, pText, -1, NULL, 0, NULL, NULL);
 
 	char* pOut = new char[Len + 1];
 	::WideCharToMultiByte(932, 0, pText, -1, pOut, Len, NULL, NULL);
 	std::string Out(pOut);
-	delete [] pOut;
+	delete[] pOut;
 
 	return Out;
 }
@@ -69,15 +69,7 @@ static bool AllocateBackgroundBuffer(int32_t sizeX, int32_t sizeY)
 		HRESULT hr;
 
 		hr = dx9_device->CreateTexture(
-			sizeX,
-			sizeY,
-			1,
-			D3DUSAGE_RENDERTARGET,
-			D3DFMT_A8R8G8B8,
-			D3DPOOL_DEFAULT,
-			&g_dx9_backgroundTexture,
-			NULL
-		);
+			sizeX, sizeY, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &g_dx9_backgroundTexture, NULL);
 		if (FAILED(hr))
 		{
 			return false;
@@ -91,11 +83,11 @@ static bool AllocateBackgroundBuffer(int32_t sizeX, int32_t sizeY)
 	return false;
 }
 
-class EffekseerFileReader :
-	public Effekseer::FileReader
+class EffekseerFileReader : public Effekseer::FileReader
 {
-	std::vector<uint8_t>	data;
-	int32_t					position;
+	std::vector<uint8_t> data;
+	int32_t position;
+
 public:
 	EffekseerFileReader(std::vector<uint8_t>& data)
 	{
@@ -105,11 +97,12 @@ public:
 
 	virtual ~EffekseerFileReader() {}
 
-	size_t Read( void* buffer, size_t size )
+	size_t Read(void* buffer, size_t size)
 	{
 		int32_t readable = size;
-		if(data.size() - position < size) readable = data.size() - position;
-	
+		if (data.size() - position < size)
+			readable = data.size() - position;
+
 		memcpy(buffer, &(data[position]), readable);
 		position += readable;
 		return readable;
@@ -118,36 +111,32 @@ public:
 	void Seek(int position)
 	{
 		this->position = position;
-		if(this->position < 0) this->position = 0;
-		if(this->position > static_cast<int>(data.size())) this->position = data.size();
+		if (this->position < 0)
+			this->position = 0;
+		if (this->position > static_cast<int>(data.size()))
+			this->position = data.size();
 	}
 
-	int GetPosition()
-	{
-		return position;
-	}
+	int GetPosition() { return position; }
 
-	size_t GetLength()
-	{
-		return data.size();
-	}
+	size_t GetLength() { return data.size(); }
 };
 
-class EffekseerFile :
-	public Effekseer::FileInterface
+class EffekseerFile : public Effekseer::FileInterface
 {
 public:
 	EffekseerFile() {}
 	virtual ~EffekseerFile() {}
 
-	Effekseer::FileReader* OpenRead( const EFK_CHAR* path ) 
+	Effekseer::FileReader* OpenRead(const EFK_CHAR* path)
 	{
 		auto path_ = ToMulti((wchar_t*)path);
-		
+
 		auto fileHandle = g_openFunc(path_.c_str());
 
-		if(fileHandle == 0) return 0;
-		
+		if (fileHandle == 0)
+			return 0;
+
 		auto size = g_readSizeFunc(path_.c_str());
 		std::vector<uint8_t> data;
 		data.resize(static_cast<size_t>(size));
@@ -157,21 +146,16 @@ public:
 		return new EffekseerFileReader(data);
 	}
 
-	Effekseer::FileWriter* OpenWrite( const EFK_CHAR* path )
-	{
-		return nullptr;
-	}
+	Effekseer::FileWriter* OpenWrite(const EFK_CHAR* path) { return nullptr; }
 };
 
-
-class CachedModelLoader
-	: public ::Effekseer::ModelLoader
+class CachedModelLoader : public ::Effekseer::ModelLoader
 {
 private:
 	struct CachedModel
 	{
-		void*						DataPtr;
-		int32_t						Count;
+		void* DataPtr;
+		int32_t Count;
 
 		CachedModel()
 		{
@@ -180,22 +164,14 @@ private:
 		}
 	};
 
-	::Effekseer::ModelLoader*		modelLoader;
-	std::map<std::basic_string<EFK_CHAR>, CachedModel>	cache;
-	std::map<void*, std::basic_string<EFK_CHAR>>	data2key;
+	::Effekseer::ModelLoader* modelLoader;
+	std::map<std::basic_string<EFK_CHAR>, CachedModel> cache;
+	std::map<void*, std::basic_string<EFK_CHAR>> data2key;
 
 public:
+	CachedModelLoader(::Effekseer::ModelLoader* modelLoader) { this->modelLoader = modelLoader; }
 
-	CachedModelLoader(::Effekseer::ModelLoader* modelLoader)
-	{
-		this->modelLoader = modelLoader;
-	}
-
-	virtual ~CachedModelLoader()
-	{
-		ES_SAFE_DELETE(modelLoader);
-	}
-
+	virtual ~CachedModelLoader() { ES_SAFE_DELETE(modelLoader); }
 
 	virtual void* Load(const EFK_CHAR* path) override
 	{
@@ -223,7 +199,8 @@ public:
 
 	virtual void Unload(void* data) override
 	{
-		if (data == nullptr) return;
+		if (data == nullptr)
+			return;
 		auto key = data2key[data];
 
 		auto it = cache.find(key);
@@ -241,14 +218,13 @@ public:
 	}
 };
 
-class CachedTextureLoader
-	: public ::Effekseer::TextureLoader
+class CachedTextureLoader : public ::Effekseer::TextureLoader
 {
 private:
 	struct CachedTexture
 	{
-		::Effekseer::TextureData*	DataPtr;
-		int32_t						Count;
+		::Effekseer::TextureData* DataPtr;
+		int32_t Count;
 
 		CachedTexture()
 		{
@@ -257,25 +233,17 @@ private:
 		}
 	};
 
-	::Effekseer::TextureLoader*		textureLoader;
-	std::map<std::basic_string<EFK_CHAR>, CachedTexture>	cache;
-	std::map<::Effekseer::TextureData*, std::basic_string<EFK_CHAR>>	data2key;
+	::Effekseer::TextureLoader* textureLoader;
+	std::map<std::basic_string<EFK_CHAR>, CachedTexture> cache;
+	std::map<::Effekseer::TextureData*, std::basic_string<EFK_CHAR>> data2key;
 
 public:
+	CachedTextureLoader(::Effekseer::TextureLoader* textureLoader) { this->textureLoader = textureLoader; }
 
-	CachedTextureLoader(::Effekseer::TextureLoader* textureLoader)
-	{
-		this->textureLoader = textureLoader;
-	}
-
-	virtual ~CachedTextureLoader()
-	{
-		ES_SAFE_DELETE(textureLoader);
-	}
-
+	virtual ~CachedTextureLoader() { ES_SAFE_DELETE(textureLoader); }
 
 	virtual ::Effekseer::TextureData* Load(const EFK_CHAR* path, ::Effekseer::TextureType textureType) override
-	{ 
+	{
 		auto key = std::basic_string<EFK_CHAR>(path);
 
 		auto it = cache.find(key);
@@ -288,7 +256,7 @@ public:
 
 		CachedTexture v;
 		v.DataPtr = textureLoader->Load(path, textureType);
-		
+
 		if (v.DataPtr != nullptr)
 		{
 			cache[key] = v;
@@ -300,11 +268,12 @@ public:
 
 	virtual void Unload(::Effekseer::TextureData* data) override
 	{
-		if (data == nullptr) return;
+		if (data == nullptr)
+			return;
 		auto key = data2key[data];
 
 		auto it = cache.find(key);
-	
+
 		if (it != cache.end())
 		{
 			it->second.Count--;
@@ -326,7 +295,8 @@ static bool CopyRenderTargetToBackground()
 	bool ret = false;
 
 	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
-	if (device == NULL) return nullptr;
+	if (device == NULL)
+		return nullptr;
 
 	HRESULT hr;
 	IDirect3DSurface9* tempRender = nullptr;
@@ -351,17 +321,11 @@ static bool CopyRenderTargetToBackground()
 	tempRender->GetDesc(&desc);
 	const bool isSame = (desc.Width == g_backgroundWidth && desc.Height == g_backgroundHeight);
 
-	device->StretchRect(
-		tempRender,
-		nullptr,
-		g_dx9_backgroundSurface,
-		nullptr,
-		(isSame ? D3DTEXF_POINT : D3DTEXF_LINEAR)
-		);
+	device->StretchRect(tempRender, nullptr, g_dx9_backgroundSurface, nullptr, (isSame ? D3DTEXF_POINT : D3DTEXF_LINEAR));
 
 	device->SetRenderTarget(0, tempRender);
 	device->SetDepthStencilSurface(tempDepth);
-	
+
 	ret = true;
 
 Exit:;
@@ -374,7 +338,8 @@ Exit:;
 bool PrepareTexture_DX11(uint32_t width, uint32_t height, DXGI_FORMAT format)
 {
 	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
-	if (dx11_device == nullptr) return false;
+	if (dx11_device == nullptr)
+		return false;
 
 	ES_SAFE_RELEASE(g_dx11_backGroundTextureSRV);
 	ES_SAFE_RELEASE(g_dx11_backGroundTexture);
@@ -431,7 +396,8 @@ static void Effekseer_Distort()
 
 	if (dx9_device != nullptr)
 	{
-		if (GetUseDirect3DDevice9() == NULL) return;
+		if (GetUseDirect3DDevice9() == NULL)
+			return;
 		auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
 		auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
 
@@ -480,8 +446,7 @@ static void Effekseer_Distort()
 		uint32_t width = g_backgroundWidth;
 		uint32_t height = g_backgroundHeight;
 
-		if (width == renderTextureDesc.Width &&
-			height == renderTextureDesc.Height)
+		if (width == renderTextureDesc.Width && height == renderTextureDesc.Height)
 		{
 			// 背景テクスチャへコピー
 			dx11_device_context->CopyResource(g_dx11_backGroundTexture, renderTexture);
@@ -506,25 +471,21 @@ static void Effekseer_Distort()
 		renderer2d->SetBackground(g_dx11_backGroundTextureSRV);
 		renderer3d->SetBackground(g_dx11_backGroundTextureSRV);
 	}
-
 }
 
-int Effekseer_Init(int particleMax,
-	EffekseerFileOpenFunc openFunc,
-	EffekseerFileReadSizeFunc readSizeFunc)
+int Effekseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFileReadSizeFunc readSizeFunc)
 {
 	return Effkseer_Init(particleMax, openFunc, readSizeFunc);
 }
 
-int Effkseer_Init(int particleMax, 
-	EffekseerFileOpenFunc openFunc,
-	EffekseerFileReadSizeFunc readSizeFunc)
+int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFileReadSizeFunc readSizeFunc)
 {
-	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
+	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
 	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
 	ID3D11DeviceContext* dx11_device_context = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
 
-	if (dx9_device == NULL && dx11_device == NULL) return -1;
+	if (dx9_device == NULL && dx11_device == NULL)
+		return -1;
 
 	g_openFunc = openFunc;
 	g_readSizeFunc = readSizeFunc;
@@ -532,7 +493,7 @@ int Effkseer_Init(int particleMax,
 	g_effectFile = new EffekseerFile();
 
 	// レンダラー(2D)を生成する。
-	if(dx9_device != NULL)
+	if (dx9_device != NULL)
 	{
 		g_renderer2d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
 	}
@@ -547,7 +508,7 @@ int Effkseer_Init(int particleMax,
 	g_manager2d->SetEffectLoader(Effekseer::Effect::CreateEffectLoader(g_effectFile));
 
 	// レンダラー(3D)を生成する。
-	if(dx9_device != NULL)
+	if (dx9_device != NULL)
 	{
 		g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
 	}
@@ -555,7 +516,7 @@ int Effkseer_Init(int particleMax,
 	{
 		g_renderer3d = ::EffekseerRendererDX11::Renderer::Create(dx11_device, dx11_device_context, particleMax);
 	}
-	
+
 	// マネージャー(3D)を生成する。
 	g_manager3d = ::Effekseer::Manager::Create(particleMax);
 	g_manager3d->SetCoordinateSystem(Effekseer::CoordinateSystem::LH);
@@ -580,20 +541,18 @@ int Effkseer_Init(int particleMax,
 	g_manager2d->SetModelLoader(new CachedModelLoader(g_renderer2d->CreateModelLoader(g_effectFile)));
 
 	// 描画用インスタンスからテクスチャの読込機能を設定する。(3D)
-	g_manager3d->SetTextureLoader(new  CachedTextureLoader(g_renderer3d->CreateTextureLoader(g_effectFile)));
+	g_manager3d->SetTextureLoader(new CachedTextureLoader(g_renderer3d->CreateTextureLoader(g_effectFile)));
 	g_manager3d->SetModelLoader(new CachedModelLoader(g_renderer3d->CreateModelLoader(g_effectFile)));
 
 	return 0;
 }
 
-int Effekseer_StartNetwork(int port)
-{
-	return Effkseer_InitServer(port);
-}
+int Effekseer_StartNetwork(int port) { return Effkseer_InitServer(port); }
 
 int Effkseer_InitServer(int port)
 {
-	if (g_server != NULL) return -1;
+	if (g_server != NULL)
+		return -1;
 	g_server = Effekseer::Server::Create();
 	if (!g_server->Start(port))
 	{
@@ -608,12 +567,13 @@ int Effekseer_InitDistortion(float scale)
 {
 	int sizeX, sizeY, colorBitDepth;
 
-	if (GetScreenState(&sizeX, &sizeY, &colorBitDepth) != 0) return -1;
+	if (GetScreenState(&sizeX, &sizeY, &colorBitDepth) != 0)
+		return -1;
 
 	sizeX = static_cast<int32_t>(sizeX * scale);
 	sizeY = static_cast<int32_t>(sizeY * scale);
 
-	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
+	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
 	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
 	ID3D11DeviceContext* dx11_device_context = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
 
@@ -632,7 +592,7 @@ int Effekseer_InitDistortion(float scale)
 			return -1;
 		}
 	}
-	else if(dx11_device != NULL)
+	else if (dx11_device != NULL)
 	{
 		g_backgroundWidth = sizeX;
 		g_backgroundHeight = sizeY;
@@ -687,34 +647,35 @@ void Effekseer_SetGraphicsDeviceLostCallbackFunctions()
 	SetGraphicsDeviceRestoreCallbackFunction(Effkseer_DeviceRestore, NULL);
 }
 
-
 void Effekseer_Set2DSetting(int windowWidth, int windowHeight)
 {
-	if(g_renderer2d == nullptr) return;
+	if (g_renderer2d == nullptr)
+		return;
 
 	// 投影行列を設定を設定する。
 	g_renderer2d->SetProjectionMatrix(
 		::Effekseer::Matrix44().OrthographicLH(static_cast<float>(windowWidth), static_cast<float>(windowHeight), 1.0f, 400.0f));
 
 	// カメラ行列を設定
-	g_renderer2d->SetCameraMatrix(
-		::Effekseer::Matrix44().LookAtLH(
-		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, -200.0f), 
-		::Effekseer::Vector3D( windowWidth / 2.0f, - windowHeight / 2.0f, 200.0f), 
-		::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
+	g_renderer2d->SetCameraMatrix(::Effekseer::Matrix44().LookAtLH(::Effekseer::Vector3D(windowWidth / 2.0f, -windowHeight / 2.0f, -200.0f),
+																   ::Effekseer::Vector3D(windowWidth / 2.0f, -windowHeight / 2.0f, 200.0f),
+																   ::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
 }
 
 void Effekseer_Sync3DSetting()
 {
-	if(g_renderer3d == nullptr) return;
+	if (g_renderer3d == nullptr)
+		return;
 
 	MATRIX proj = GetCameraProjectionMatrix();
 	MATRIX view = GetCameraViewMatrix();
 
 	Effekseer::Matrix44 efproj, efview;
 
-	for(int i=0;i<4;++i){
-		for(int j=0;j<4;++j){
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
 			efproj.Values[j][i] = proj.m[j][i];
 			efview.Values[j][i] = view.m[j][i];
 		}
@@ -732,15 +693,17 @@ int LoadEffekseerEffect(const char* fileName, float magnification)
 
 int LoadEffekseerEffect(const wchar_t* fileName, float magnification)
 {
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 
 	if (effectFileNameToEffectHandle.count(fileName) > 0)
 	{
 		return effectFileNameToEffectHandle[fileName];
 	}
 
-	auto effect = Effekseer::Effect::Create(g_manager2d, (const EFK_CHAR*) fileName, magnification);
-	if (effect == nullptr) return -1;
+	auto effect = Effekseer::Effect::Create(g_manager2d, (const EFK_CHAR*)fileName, magnification);
+	if (effect == nullptr)
+		return -1;
 
 	int32_t handle = nextEffectHandle;
 	nextEffectHandle++;
@@ -756,7 +719,7 @@ int LoadEffekseerEffect(const wchar_t* fileName, float magnification)
 		wchar_t _fileName[_MAX_FNAME];
 		wchar_t _ext[_MAX_EXT];
 		_wsplitpath_s(fileName, _drive, _dir, _fileName, _ext);
-		g_server->Register((const EFK_CHAR*) _fileName, effect);
+		g_server->Register((const EFK_CHAR*)_fileName, effect);
 	}
 
 	return handle;
@@ -779,13 +742,14 @@ int DeleteEffekseerEffect(int effectResourceHandle)
 
 		ES_SAFE_RELEASE(effect);
 	}
-	
+
 	return -1;
 }
 
 int PlayEffekseer2DEffect(int effectResourceHandle)
 {
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 
 	if (effectHandleToEffect.count(effectResourceHandle) > 0)
 	{
@@ -798,7 +762,8 @@ int PlayEffekseer2DEffect(int effectResourceHandle)
 
 int PlayEffekseer3DEffect(int effectResourceHandle)
 {
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 
 	if (effectHandleToEffect.count(effectResourceHandle) > 0)
 	{
@@ -811,39 +776,44 @@ int PlayEffekseer3DEffect(int effectResourceHandle)
 
 int IsEffekseer2DEffectPlaying(int playingEffectHandle)
 {
-	if (g_manager2d == nullptr) return -1;
-	
+	if (g_manager2d == nullptr)
+		return -1;
+
 	return g_manager2d->Exists(playingEffectHandle) ? 0 : -1;
 }
 
 int IsEffekseer3DEffectPlaying(int playingEffectHandle)
 {
-	if (g_manager3d == nullptr) return -1;
-	
+	if (g_manager3d == nullptr)
+		return -1;
+
 	return g_manager3d->Exists(playingEffectHandle) ? 0 : -1;
 }
 
 int StopEffekseer2DEffect(int playingEffecHandle)
 {
-		if (g_manager2d == nullptr) return -1;
-	
-		g_manager2d->StopEffect(playingEffecHandle);
+	if (g_manager2d == nullptr)
+		return -1;
 
-		return 0;
+	g_manager2d->StopEffect(playingEffecHandle);
+
+	return 0;
 }
 
 int StopEffekseer3DEffect(int playingEffecHandle)
 {
-		if (g_manager3d == nullptr) return -1;
-	
-		g_manager3d->StopEffect(playingEffecHandle);
+	if (g_manager3d == nullptr)
+		return -1;
 
-		return 0;
+	g_manager3d->StopEffect(playingEffecHandle);
+
+	return 0;
 }
 
 int SetPosPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z)
 {
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 
 	g_manager2d->SetLocation(playingEffectHandle, ::Effekseer::Vector3D(x, -y, z));
 
@@ -852,16 +822,18 @@ int SetPosPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, fl
 
 int SetPosPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z)
 {
-	if (g_manager3d == nullptr) return -1;
-	
+	if (g_manager3d == nullptr)
+		return -1;
+
 	g_manager3d->SetLocation(playingEffectHandle, ::Effekseer::Vector3D(x, y, z));
-	
+
 	return 0;
 }
 
 int SetRotationPlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z)
 {
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 
 	g_manager2d->SetRotation(playingEffectHandle, -x, -y, -z);
 
@@ -870,7 +842,8 @@ int SetRotationPlayingEffekseer2DEffect(int playingEffectHandle, float x, float 
 
 int SetRotationPlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z)
 {
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 
 	g_manager3d->SetRotation(playingEffectHandle, x, y, z);
 
@@ -879,21 +852,24 @@ int SetRotationPlayingEffekseer3DEffect(int playingEffectHandle, float x, float 
 
 int SetScalePlayingEffekseer2DEffect(int playingEffectHandle, float x, float y, float z)
 {
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 	g_manager2d->SetScale(playingEffectHandle, x, y, z);
 	return 0;
 }
 
 int SetScalePlayingEffekseer3DEffect(int playingEffectHandle, float x, float y, float z)
 {
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 	g_manager3d->SetScale(playingEffectHandle, x, y, z);
 	return 0;
 }
 
 float GetSpeedPlayingEffekseer2DEffect(int playingEffectHandle)
 {
-	if (g_manager2d == nullptr) return 0;
+	if (g_manager2d == nullptr)
+		return 0;
 
 	g_manager2d->GetSpeed(playingEffectHandle);
 
@@ -902,7 +878,8 @@ float GetSpeedPlayingEffekseer2DEffect(int playingEffectHandle)
 
 int SetSpeedPlayingEffekseer2DEffect(int playingEffectHandle, float speed)
 {
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 
 	g_manager2d->SetSpeed(playingEffectHandle, speed);
 
@@ -911,7 +888,8 @@ int SetSpeedPlayingEffekseer2DEffect(int playingEffectHandle, float speed)
 
 float GetSpeedPlayingEffekseer3DEffect(int playingEffectHandle)
 {
-	if (g_manager3d == nullptr) return 0;
+	if (g_manager3d == nullptr)
+		return 0;
 
 	g_manager3d->GetSpeed(playingEffectHandle);
 
@@ -920,7 +898,8 @@ float GetSpeedPlayingEffekseer3DEffect(int playingEffectHandle)
 
 int SetSpeedPlayingEffekseer3DEffect(int playingEffectHandle, float speed)
 {
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 
 	g_manager3d->SetSpeed(playingEffectHandle, speed);
 
@@ -929,7 +908,8 @@ int SetSpeedPlayingEffekseer3DEffect(int playingEffectHandle, float speed)
 
 int SetColorPlayingEffekseer2DEffect(int playingEffectHandle, int r, int g, int b, int a)
 {
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 
 	g_manager2d->SetAllColor(playingEffectHandle, Effekseer::Color(r, g, b, a));
 
@@ -938,7 +918,8 @@ int SetColorPlayingEffekseer2DEffect(int playingEffectHandle, int r, int g, int 
 
 int SetColorPlayingEffekseer3DEffect(int playingEffectHandle, int r, int g, int b, int a)
 {
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 
 	g_manager3d->SetAllColor(playingEffectHandle, Effekseer::Color(r, g, b, a));
 
@@ -952,15 +933,17 @@ int UpdateEffekseer2D()
 		g_server->Update();
 	}
 
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 	g_manager2d->Update();
 	return 0;
 }
 
 int DrawEffekseer2D()
 {
-	if (g_manager2d == nullptr) return -1;
-	
+	if (g_manager2d == nullptr)
+		return -1;
+
 	// 頂点バッファに溜まった頂点データを吐き出す。
 	RenderVertex();
 
@@ -998,8 +981,9 @@ int DrawEffekseer2D()
 
 int DrawEffekseer2D_Begin()
 {
-	if (g_manager2d == nullptr) return -1;
-	
+	if (g_manager2d == nullptr)
+		return -1;
+
 	// 頂点バッファに溜まった頂点データを吐き出す。
 	RenderVertex();
 
@@ -1011,13 +995,14 @@ int DrawEffekseer2D_Begin()
 
 	// エフェクトの描画開始処理を行う。
 	g_renderer2d->BeginRendering();
-	
+
 	return 0;
 }
 
 int DrawEffekseer2D_Draw(int playingEffectHandle)
 {
-	if (g_manager2d == nullptr) return -1;
+	if (g_manager2d == nullptr)
+		return -1;
 	g_manager2d->DrawHandle(playingEffectHandle);
 
 	return 0;
@@ -1025,8 +1010,9 @@ int DrawEffekseer2D_Draw(int playingEffectHandle)
 
 int DrawEffekseer2D_End()
 {
-	if (g_manager2d == nullptr) return -1;
-	
+	if (g_manager2d == nullptr)
+		return -1;
+
 	// エフェクトの描画終了処理を行う。
 	g_renderer2d->EndRendering();
 
@@ -1043,15 +1029,17 @@ int UpdateEffekseer3D()
 		g_server->Update();
 	}
 
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 	g_manager3d->Update();
 	return 0;
 }
 
 int DrawEffekseer3D()
 {
-	if (g_manager3d == nullptr) return -1;
-	
+	if (g_manager3d == nullptr)
+		return -1;
+
 	// 頂点バッファに溜まった頂点データを吐き出す。
 	RenderVertex();
 
@@ -1089,7 +1077,8 @@ int DrawEffekseer3D()
 
 int DrawEffekseer3D_Begin()
 {
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 
 	// 頂点バッファに溜まった頂点データを吐き出す。
 	RenderVertex();
@@ -1108,7 +1097,8 @@ int DrawEffekseer3D_Begin()
 
 int DrawEffekseer3D_Draw(int playingEffectHandle)
 {
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 	g_manager3d->DrawHandle(playingEffectHandle);
 
 	return 0;
@@ -1116,7 +1106,8 @@ int DrawEffekseer3D_Draw(int playingEffectHandle)
 
 int DrawEffekseer3D_End()
 {
-	if (g_manager3d == nullptr) return -1;
+	if (g_manager3d == nullptr)
+		return -1;
 
 	// エフェクトの描画終了処理を行う。
 	g_renderer3d->EndRendering();
@@ -1127,25 +1118,13 @@ int DrawEffekseer3D_End()
 	return 0;
 }
 
-::Effekseer::Manager* GetEffekseer2DManager()
-{
-	return g_manager2d;
-}
+::Effekseer::Manager* GetEffekseer2DManager() { return g_manager2d; }
 
-::EffekseerRenderer::Renderer* GetEffekseer2DRenderer()
-{
-	return g_renderer2d;
-}
+::EffekseerRenderer::Renderer* GetEffekseer2DRenderer() { return g_renderer2d; }
 
-::Effekseer::Manager* GetEffekseer3DManager()
-{
-	return g_manager3d;
-}
+::Effekseer::Manager* GetEffekseer3DManager() { return g_manager3d; }
 
-::EffekseerRenderer::Renderer* GetEffekseer3DRenderer()
-{
-	return g_renderer3d;
-}
+::EffekseerRenderer::Renderer* GetEffekseer3DRenderer() { return g_renderer3d; }
 
 ::Effekseer::Effect* GetEffekseerEffect(int effectHandle)
 {
@@ -1159,7 +1138,8 @@ int DrawEffekseer3D_End()
 
 void Effkseer_DeviceLost(void* data)
 {
-	if(GetUseDirect3DDevice9() == NULL) return;
+	if (GetUseDirect3DDevice9() == NULL)
+		return;
 
 	ES_SAFE_RELEASE(g_dx9_backgroundTexture);
 	ES_SAFE_RELEASE(g_dx9_backgroundSurface);
@@ -1184,11 +1164,12 @@ void Effkseer_DeviceLost(void* data)
 
 void Effkseer_DeviceRestore(void* data)
 {
-	if(GetUseDirect3DDevice9() == NULL) return;
+	if (GetUseDirect3DDevice9() == NULL)
+		return;
 
 	// DXライブラリは回復時に内部でデバイスを再生成するので新しく設定する。
-	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9) GetUseDirect3DDevice9();
-	
+	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
+
 	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
 	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
 	renderer2d->ChangeDevice(device);
