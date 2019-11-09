@@ -12,12 +12,13 @@ int sample2D()
 	//描画先を裏画面に変更する。
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// DirectX11を使用するようにする。(DirectX9も可)
+	// DirectX11を使用するようにする。(DirectX9も可、一部機能不可)
 	// Effekseerを使用するには必ず設定する。
 	SetUseDirect3DVersion(DX_DIRECT3D_11);
 
 	// DXライブラリを初期化する。
-	if (DxLib_Init() == -1) return -1;
+	if (DxLib_Init() == -1)
+		return -1;
 
 	// Effekseerを初期化する。
 	// 引数には画面に表示する最大パーティクル数を設定する。
@@ -26,9 +27,6 @@ int sample2D()
 		DxLib_End();
 		return -1;
 	}
-
-	// ネットワーク機能を使う場合、ここで起動する。60000番のポートで開始する。
-	// Effekseer_StartNetwork(60000);
 
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
@@ -43,7 +41,7 @@ int sample2D()
 	Effekseer_Set2DSetting(640, 480);
 
 	// エフェクトリソースを読み込む。
-	// Effekseerで作成したエフェクトは2D表示の場合、小さすぎることが殆どなので必ず拡大して読み込む。
+	// 読み込む時に大きさを指定する。
 	int effectResourceHandle = LoadEffekseerEffect("laser.efk", 25.0f);
 
 	// 何でもいいので画像を読み込む。
@@ -123,7 +121,7 @@ int sample2D()
 
 	// エフェクトリソースを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
 	DeleteEffekseerEffect(effectResourceHandle);
-	
+
 	// Effekseerを終了する。
 	Effkseer_End();
 

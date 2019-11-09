@@ -12,12 +12,13 @@ int sample3D()
 	//描画先を裏画面に変更する。
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// DirectX11を使用するようにする。(DirectX9も可)
+	// DirectX11を使用するようにする。(DirectX9も可、一部機能不可)
 	// Effekseerを使用するには必ず設定する。
 	SetUseDirect3DVersion(DX_DIRECT3D_11);
 
 	// DXライブラリを初期化する。
-	if (DxLib_Init() == -1) return -1;
+	if (DxLib_Init() == -1)
+		return -1;
 
 	// Effekseerを初期化する。
 	// 引数には画面に表示する最大パーティクル数を設定する。
@@ -26,9 +27,6 @@ int sample3D()
 		DxLib_End();
 		return -1;
 	}
-
-	// ネットワーク機能を使う場合、ここで起動する。60000番のポートで開始する。
-	// Effekseer_StartNetwork(60000);
 
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
@@ -40,7 +38,8 @@ int sample3D()
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 	// エフェクトリソースを読み込む。
-	int effectResourceHandle = LoadEffekseerEffect("laser.efk");
+	// 読み込む時に大きさを指定する。
+	int effectResourceHandle = LoadEffekseerEffect("laser.efk", 1.0f);
 
 	// 何でもいいので画像を読み込む。
 	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
@@ -70,8 +69,8 @@ int sample3D()
 	while (!ProcessMessage() && !ClearDrawScreen() && !CheckHitKey(KEY_INPUT_ESCAPE))
 	{
 		// DXライブラリのカメラを設定する。
-		SetCameraPositionAndTarget_UpVecY(VGet(10,10,-20),VGet(0,0,0));
-		SetupCamera_Perspective( 60.0f * DX_PI_F / 180.0f ) ;
+		SetCameraPositionAndTarget_UpVecY(VGet(10, 10, -20), VGet(0, 0, 0));
+		SetupCamera_Perspective(60.0f * DX_PI_F / 180.0f);
 		SetCameraNearFar(1.0f, 150.0f);
 
 		// DXライブラリのカメラとEffekseerのカメラを同期する。
@@ -99,7 +98,8 @@ int sample3D()
 		UpdateEffekseer3D();
 
 		// 3Dを表示する。
-		DrawCapsule3D(VGet(0.0f, 100.0f, 0.0f), VGet(0.0f, -100.0f, 0.0f), 6.0f, 16, GetColor(100, 100, 100), GetColor(255, 255, 255), TRUE);
+		DrawCapsule3D(
+			VGet(0.0f, 100.0f, 0.0f), VGet(0.0f, -100.0f, 0.0f), 6.0f, 16, GetColor(100, 100, 100), GetColor(255, 255, 255), TRUE);
 
 		// Effekseerにより再生中のエフェクトを描画する。
 		DrawEffekseer3D();
@@ -130,7 +130,7 @@ int sample3D()
 
 	// エフェクトリソースを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
 	DeleteEffekseerEffect(effectResourceHandle);
-	
+
 	// Effekseerを終了する。
 	Effkseer_End();
 

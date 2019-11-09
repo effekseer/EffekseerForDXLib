@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 
-static ::Effekseer::Manager* g_manager2d = NULL;
-static ::EffekseerRenderer::Renderer* g_renderer2d = NULL;
+static ::Effekseer::Manager* g_manager2d = nullptr;
+static ::EffekseerRenderer::Renderer* g_renderer2d = nullptr;
 
-static ::Effekseer::Manager* g_manager3d = NULL;
-static ::EffekseerRenderer::Renderer* g_renderer3d = NULL;
+static ::Effekseer::Manager* g_manager3d = nullptr;
+static ::EffekseerRenderer::Renderer* g_renderer3d = nullptr;
 
-static ::Effekseer::Server* g_server = NULL;
+static ::Effekseer::Server* g_server = nullptr;
 
 static bool g_isDistortionEnabled = false;
 
@@ -149,6 +149,75 @@ public:
 	Effekseer::FileWriter* OpenWrite(const EFK_CHAR* path) { return nullptr; }
 };
 
+class CachedMaterialLoader : public ::Effekseer::MaterialLoader
+{
+private:
+	struct CachedMaterial
+	{
+		::Effekseer::MaterialData* DataPtr;
+		int32_t Count;
+
+		CachedMaterial()
+		{
+			DataPtr = nullptr;
+			Count = 1;
+		}
+	};
+
+	::Effekseer::MaterialLoader* loader_;
+	std::map<std::basic_string<EFK_CHAR>, CachedMaterial> cache;
+	std::map<void*, std::basic_string<EFK_CHAR>> data2key;
+
+public:
+	CachedMaterialLoader(::Effekseer::MaterialLoader* loader) { this->loader_ = loader; }
+
+	virtual ~CachedMaterialLoader() { ES_SAFE_DELETE(loader_); }
+
+	virtual ::Effekseer::MaterialData* Load(const EFK_CHAR* path) override
+	{
+		auto key = std::basic_string<EFK_CHAR>(path);
+
+		auto it = cache.find(key);
+
+		if (it != cache.end())
+		{
+			it->second.Count++;
+			return it->second.DataPtr;
+		}
+
+		CachedMaterial v;
+		v.DataPtr = loader_->Load(path);
+
+		if (v.DataPtr != nullptr)
+		{
+			cache[key] = v;
+			data2key[v.DataPtr] = key;
+		}
+
+		return v.DataPtr;
+	}
+
+	virtual void Unload(::Effekseer::MaterialData* data) override
+	{
+		if (data == nullptr)
+			return;
+		auto key = data2key[data];
+
+		auto it = cache.find(key);
+
+		if (it != cache.end())
+		{
+			it->second.Count--;
+			if (it->second.Count == 0)
+			{
+				loader_->Unload(it->second.DataPtr);
+				data2key.erase(data);
+				cache.erase(key);
+			}
+		}
+	}
+};
+
 class CachedModelLoader : public ::Effekseer::ModelLoader
 {
 private:
@@ -228,7 +297,7 @@ private:
 
 		CachedTexture()
 		{
-			DataPtr = NULL;
+			DataPtr = nullptr;
 			Count = 1;
 		}
 	};
@@ -540,9 +609,19 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 	g_manager2d->SetTextureLoader(new CachedTextureLoader(g_renderer2d->CreateTextureLoader(g_effectFile)));
 	g_manager2d->SetModelLoader(new CachedModelLoader(g_renderer2d->CreateModelLoader(g_effectFile)));
 
+	if (dx11_device != nullptr)
+	{
+		g_manager2d->SetMaterialLoader(new CachedMaterialLoader(g_renderer2d->CreateMaterialLoader(g_effectFile)));
+	}
+
 	// 描画用インスタンスからテクスチャの読込機能を設定する。(3D)
 	g_manager3d->SetTextureLoader(new CachedTextureLoader(g_renderer3d->CreateTextureLoader(g_effectFile)));
 	g_manager3d->SetModelLoader(new CachedModelLoader(g_renderer3d->CreateModelLoader(g_effectFile)));
+
+	if (dx11_device != nullptr)
+	{
+		g_manager3d->SetMaterialLoader(new CachedMaterialLoader(g_renderer3d->CreateMaterialLoader(g_effectFile)));
+	}
 
 	return 0;
 }
