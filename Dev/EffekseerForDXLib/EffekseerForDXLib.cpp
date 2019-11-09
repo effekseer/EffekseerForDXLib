@@ -7,9 +7,11 @@
 
 static ::Effekseer::Manager* g_manager2d = nullptr;
 static ::EffekseerRenderer::Renderer* g_renderer2d = nullptr;
+static float g_time2d = 0.0f;
 
 static ::Effekseer::Manager* g_manager3d = nullptr;
 static ::EffekseerRenderer::Renderer* g_renderer3d = nullptr;
+static float g_time3d = 0.0f;
 
 static ::Effekseer::Server* g_server = nullptr;
 
@@ -152,12 +154,12 @@ public:
 class CachedMaterialLoader : public ::Effekseer::MaterialLoader
 {
 private:
-	struct CachedMaterial
+	struct Cached
 	{
 		::Effekseer::MaterialData* DataPtr;
 		int32_t Count;
 
-		CachedMaterial()
+		Cached()
 		{
 			DataPtr = nullptr;
 			Count = 1;
@@ -165,8 +167,8 @@ private:
 	};
 
 	::Effekseer::MaterialLoader* loader_;
-	std::map<std::basic_string<EFK_CHAR>, CachedMaterial> cache;
-	std::map<void*, std::basic_string<EFK_CHAR>> data2key;
+	std::map<std::basic_string<EFK_CHAR>, Cached> cache_;
+	std::map<void*, std::basic_string<EFK_CHAR>> data2key_;
 
 public:
 	CachedMaterialLoader(::Effekseer::MaterialLoader* loader) { this->loader_ = loader; }
@@ -177,21 +179,21 @@ public:
 	{
 		auto key = std::basic_string<EFK_CHAR>(path);
 
-		auto it = cache.find(key);
+		auto it = cache_.find(key);
 
-		if (it != cache.end())
+		if (it != cache_.end())
 		{
 			it->second.Count++;
 			return it->second.DataPtr;
 		}
 
-		CachedMaterial v;
+		Cached v;
 		v.DataPtr = loader_->Load(path);
 
 		if (v.DataPtr != nullptr)
 		{
-			cache[key] = v;
-			data2key[v.DataPtr] = key;
+			cache_[key] = v;
+			data2key_[v.DataPtr] = key;
 		}
 
 		return v.DataPtr;
@@ -201,18 +203,18 @@ public:
 	{
 		if (data == nullptr)
 			return;
-		auto key = data2key[data];
+		auto key = data2key_[data];
 
-		auto it = cache.find(key);
+		auto it = cache_.find(key);
 
-		if (it != cache.end())
+		if (it != cache_.end())
 		{
 			it->second.Count--;
 			if (it->second.Count == 0)
 			{
 				loader_->Unload(it->second.DataPtr);
-				data2key.erase(data);
-				cache.erase(key);
+				data2key_.erase(data);
+				cache_.erase(key);
 			}
 		}
 	}
@@ -1015,6 +1017,9 @@ int UpdateEffekseer2D()
 	if (g_manager2d == nullptr)
 		return -1;
 	g_manager2d->Update();
+
+	g_renderer2d->SetTime(g_time2d);
+	g_time2d += 1.0f / 60.0f;
 	return 0;
 }
 
@@ -1111,6 +1116,10 @@ int UpdateEffekseer3D()
 	if (g_manager3d == nullptr)
 		return -1;
 	g_manager3d->Update();
+
+	g_renderer3d->SetTime(g_time3d);
+	g_time3d += 1.0f / 60.0f;
+
 	return 0;
 }
 
