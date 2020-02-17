@@ -450,6 +450,26 @@ int SetColorPlayingEffekseer2DEffect(int playingEffectHandle, int r, int g, int 
 int SetColorPlayingEffekseer3DEffect(int playingEffectHandle, int r, int g, int b, int a);
 
 /**
+	@brief	再生中にエフェクトのパラメーターを変更する動的パラメーターを取得する。
+*/
+float GetDynamicInput2DEffect(int playingEffectHandle, int32_t index);
+
+/**
+	@brief	再生中にエフェクトのパラメーターを変更する動的パラメーターを設定する。
+*/
+void SetDynamicInput2DEffect(int playingEffectHandle, int32_t index, float value);
+
+/**
+	@brief	再生中にエフェクトのパラメーターを変更する動的パラメーターを取得する。
+*/
+float GetDynamicInput3DEffect(int playingEffectHandle, int32_t index);
+
+/**
+	@brief	再生中にエフェクトのパラメーターを変更する動的パラメーターを設定する。
+*/
+void SetDynamicInput3DEffect(int playingEffectHandle, int32_t index, float value);
+
+/**
 	@brief	Effekseerにより再生中の2Dエフェクトを更新する。
 	@return	0:成功、-1:失敗
 */

@@ -1007,6 +1007,38 @@ int SetColorPlayingEffekseer3DEffect(int playingEffectHandle, int r, int g, int 
 	return 0;
 }
 
+float GetDynamicInput2DEffect(int playingEffectHandle, int32_t index)
+{
+	if (g_manager2d == nullptr)
+		return 0.0f;
+
+	return g_manager2d->GetDynamicInput(playingEffectHandle, index);
+}
+
+void SetDynamicInput2DEffect(int playingEffectHandle, int32_t index, float value)
+{
+	if (g_manager2d == nullptr)
+		return;
+
+	g_manager2d->SetDynamicInput(playingEffectHandle, index, value);
+}
+
+float GetDynamicInput3DEffect(int playingEffectHandle, int32_t index)
+{
+	if (g_manager3d == nullptr)
+		return 0.0f;
+
+	return g_manager3d->GetDynamicInput(playingEffectHandle, index);
+}
+
+void SetDynamicInput3DEffect(int playingEffectHandle, int32_t index, float value)
+{
+	if (g_manager3d == nullptr)
+		return;
+
+	g_manager3d->SetDynamicInput(playingEffectHandle, index, value);
+}
+
 int UpdateEffekseer2D()
 {
 	if (g_server != nullptr)
