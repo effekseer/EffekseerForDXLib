@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.21 
+//				Ver 3.21d
 //
 // ----------------------------------------------------------------------------
 
@@ -108,6 +108,9 @@
 // ※DxUseCLib.lib も再コンパイルする必要があります
 //#define DX_NON_OPUS
 
+// ASIO を使用しない方は次のコメントをはずしてください
+//#define DX_NON_ASIO
+
 // 乱数発生器に Mersenne Twister を使用しない場合は以下のコメントを外して下さい
 // ※DxUseCLib.lib も再コンパイルする必要があります
 //#define DX_NON_MERSENNE_TWISTER
@@ -174,8 +177,8 @@
 // コンパイル済みのシェーダーバイナリを使用せず、シェーダーコードの実行時コンパイルを利用する場合は次のコメントを外してください
 //#define DX_NON_SHADERCODE_BINARY
 
-// Live2D Cubism 3 関連の機能を使用しない場合は次のコメントを外してください
-//#define DX_NON_LIVE2D_CUBISM3
+// Live2D Cubism 4 関連の機能を使用しない場合は次のコメントを外してください
+//#define DX_NON_LIVE2D_CUBISM4
 
 #ifndef __APPLE__
 #ifndef __ANDROID__
