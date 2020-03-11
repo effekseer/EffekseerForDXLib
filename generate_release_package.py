@@ -2,17 +2,15 @@
 
 import utils
 
-targetDir = 'EffekseerForDXLib_150b1_321/'
+targetDir = 'EffekseerForDXLib_150_321/'
 dxlibDir = 'DXLib_VC/'
 effekseerDir = '../Effekseer/'
-effekseerVSDir = effekseerDir + 'EffekseerRuntime150RC1/Compiled/'
+effekseerVSDir = effekseerDir + 'EffekseerRuntime150/Compiled/'
 
 utils.cdToScript()
 
 utils.rmdir(targetDir)
 utils.mkdir(targetDir)
-
-utils.copytree('docs/', targetDir+'Help/')
 
 utils.copytree(dxlibDir+'プロジェクトに追加すべきファイル_VC用/', targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
@@ -57,6 +55,8 @@ utils.copy(effekseerVSDir+'lib/VS2019WIN64/Release/EffekseerRendererDX11.lib', t
 
 
 utils.copy('readme.txt',targetDir)
+utils.copy('Help_En.html',targetDir)
+utils.copy('Help_Ja.html',targetDir)
 
 utils.copytreeWithExt('Sample/',targetDir+'Sample/',['.sln','.png','.filters','.vcxproj','.cpp','.efk'])
 

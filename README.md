@@ -35,7 +35,7 @@ DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌÅV”Å‚ğƒ_ƒEƒ“ƒ[ƒh‚µ‚Ä‰ğ“€‚µAEffekseerForDXLib‚Ì’¼‰º‚É”z’u‚µ‚Ü‚
 Effekseer‚ğƒRƒ“ƒpƒCƒ‹‚µ‚Ü‚·B
 
 ```
-(Root)/Effekseer/release.bat
+(Root)/Effekseer/release_dxlib.bat
 ```
 
 ‚ğÀs‚µ‚Ü‚·B
