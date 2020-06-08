@@ -2,7 +2,7 @@
 
 import utils
 
-targetDir = 'EffekseerForDXLib_152b_321d/'
+targetDir = 'EffekseerForDXLib_152g_321f/'
 dxlibDir = 'DXLib_VC/'
 effekseerDir = '../Effekseer/'
 effekseerVSDir = effekseerDir + 'EffekseerRuntime150/Compiled/'
