@@ -4,5 +4,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sample3D.cpp" />
     <ClCompile Include="sample2D.cpp" />
+    <ClCompile Include="network.cpp" />
   </ItemGroup>
 </Project>

@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="network.cpp" />
     <ClCompile Include="sample2D.cpp" />
     <ClCompile Include="sample3D.cpp" />
   </ItemGroup>

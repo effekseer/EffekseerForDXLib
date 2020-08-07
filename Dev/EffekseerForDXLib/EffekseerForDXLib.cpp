@@ -1,9 +1,13 @@
 ﻿
 #include "EffekseerForDXLib.h"
 
+#include <array>
+#include <assert.h>
 #include <map>
 #include <string>
 #include <vector>
+
+static ::Effekseer::Setting* g_setting = nullptr;
 
 static ::Effekseer::Manager* g_manager2d = nullptr;
 static ::EffekseerRenderer::Renderer* g_renderer2d = nullptr;
@@ -563,6 +567,9 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 
 	g_effectFile = new EffekseerFile();
 
+	// 設定ファイルを作成する。
+	g_setting = Effekseer::Setting::Create();
+
 	// レンダラー(2D)を生成する。
 	if (dx9_device != NULL)
 	{
@@ -575,8 +582,6 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 
 	// マネージャー(2D)を生成する。
 	g_manager2d = ::Effekseer::Manager::Create(particleMax);
-	g_manager2d->SetCoordinateSystem(Effekseer::CoordinateSystem::LH);
-	g_manager2d->SetEffectLoader(Effekseer::Effect::CreateEffectLoader(g_effectFile));
 
 	// レンダラー(3D)を生成する。
 	if (dx9_device != NULL)
@@ -590,8 +595,6 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 
 	// マネージャー(3D)を生成する。
 	g_manager3d = ::Effekseer::Manager::Create(particleMax);
-	g_manager3d->SetCoordinateSystem(Effekseer::CoordinateSystem::LH);
-	g_manager3d->SetEffectLoader(Effekseer::Effect::CreateEffectLoader(g_effectFile));
 
 	// 描画方法を設定する。(2D)
 	g_manager2d->SetSpriteRenderer(g_renderer2d->CreateSpriteRenderer());
@@ -607,23 +610,32 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 	g_manager3d->SetModelRenderer(g_renderer3d->CreateModelRenderer());
 	g_manager3d->SetTrackRenderer(g_renderer3d->CreateTrackRenderer());
 
-	// 描画用インスタンスからテクスチャの読込機能を設定する。(2D)
-	g_manager2d->SetTextureLoader(new CachedTextureLoader(g_renderer2d->CreateTextureLoader(g_effectFile)));
-	g_manager2d->SetModelLoader(new CachedModelLoader(g_renderer2d->CreateModelLoader(g_effectFile)));
+	// 設定を用意する。
+	g_setting->SetCoordinateSystem(Effekseer::CoordinateSystem::LH);
+	g_setting->SetEffectLoader(Effekseer::Effect::CreateEffectLoader(g_effectFile));
 
-	if (dx11_device != nullptr)
+	if (dx9_device != nullptr)
 	{
-		g_manager2d->SetMaterialLoader(new CachedMaterialLoader(g_renderer2d->CreateMaterialLoader(g_effectFile)));
+		g_setting->SetTextureLoader(new CachedTextureLoader(EffekseerRendererDX9::CreateTextureLoader(dx9_device, g_effectFile)));
+		g_setting->SetModelLoader(new CachedModelLoader(EffekseerRendererDX9::CreateModelLoader(dx9_device, g_effectFile)));
+	}
+	else if (dx11_device != nullptr)
+	{
+		g_setting->SetTextureLoader(
+			new CachedTextureLoader(EffekseerRendererDX11::CreateTextureLoader(dx11_device, dx11_device_context, g_effectFile)));
+		g_setting->SetModelLoader(new CachedModelLoader(EffekseerRendererDX11::CreateModelLoader(dx11_device, g_effectFile)));
+	}
+	else
+	{
+		assert(0);
 	}
 
-	// 描画用インスタンスからテクスチャの読込機能を設定する。(3D)
-	g_manager3d->SetTextureLoader(new CachedTextureLoader(g_renderer3d->CreateTextureLoader(g_effectFile)));
-	g_manager3d->SetModelLoader(new CachedModelLoader(g_renderer3d->CreateModelLoader(g_effectFile)));
+	// HACK renderer経由でないAPIにいずれ置き換える。
+	g_setting->SetMaterialLoader(new CachedMaterialLoader(g_renderer2d->CreateMaterialLoader(g_effectFile)));
 
-	if (dx11_device != nullptr)
-	{
-		g_manager3d->SetMaterialLoader(new CachedMaterialLoader(g_renderer3d->CreateMaterialLoader(g_effectFile)));
-	}
+	// 設定を適用する。
+	g_manager2d->SetSetting(g_setting);
+	g_manager3d->SetSetting(g_setting);
 
 	return 0;
 }
@@ -719,6 +731,8 @@ void Effkseer_End()
 
 	ES_SAFE_RELEASE(g_dx11_backGroundTexture);
 	ES_SAFE_RELEASE(g_dx11_backGroundTextureSRV);
+
+	ES_SAFE_RELEASE(g_setting);
 }
 
 void Effekseer_SetGraphicsDeviceLostCallbackFunctions()
@@ -774,7 +788,7 @@ int LoadEffekseerEffect(const char* fileName, float magnification)
 
 int LoadEffekseerEffect(const wchar_t* fileName, float magnification)
 {
-	if (g_manager2d == nullptr)
+	if (g_setting == nullptr)
 		return -1;
 
 	if (effectFileNameToEffectHandle.count(fileName) > 0)
@@ -782,7 +796,7 @@ int LoadEffekseerEffect(const wchar_t* fileName, float magnification)
 		return effectFileNameToEffectHandle[fileName];
 	}
 
-	auto effect = Effekseer::Effect::Create(g_manager2d, (const EFK_CHAR*)fileName, magnification);
+	auto effect = Effekseer::Effect::Create(g_setting, (const EFK_CHAR*)fileName, magnification);
 	if (effect == nullptr)
 		return -1;
 
@@ -1043,7 +1057,11 @@ int UpdateEffekseer2D()
 {
 	if (g_server != nullptr)
 	{
-		g_server->Update();
+		std::array<Effekseer::Manager*, 2> managers;
+		managers[0] = g_manager2d;
+		managers[1] = g_manager3d;
+
+		g_server->Update(managers.data(), managers.size());
 	}
 
 	if (g_manager2d == nullptr)
@@ -1142,7 +1160,11 @@ int UpdateEffekseer3D()
 {
 	if (g_server != nullptr)
 	{
-		g_server->Update();
+		std::array<Effekseer::Manager*, 2> managers;
+		managers[0] = g_manager2d;
+		managers[1] = g_manager3d;
+
+		g_server->Update(managers.data(), managers.size());
 	}
 
 	if (g_manager3d == nullptr)
