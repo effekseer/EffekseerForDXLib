@@ -2,7 +2,7 @@
 
 import utils
 
-targetDir = 'EffekseerForDXLib_152j_321f/'
+targetDir = 'EffekseerForDXLib_152k_321f/'
 dxlibDir = 'DXLib_VC/'
 effekseerDir = '../Effekseer/'
 effekseerVSDir = effekseerDir + 'EffekseerRuntime150/Compiled/'
@@ -58,7 +58,7 @@ utils.copy('readme.txt',targetDir)
 utils.copy('Help_En.html',targetDir)
 utils.copy('Help_Ja.html',targetDir)
 
-utils.copytreeWithExt('Sample/',targetDir+'Sample/',['.sln','.png','.filters','.vcxproj','.cpp','.efk'])
+utils.copytreeWithExt('Sample/',targetDir+'Sample/',['.sln','.png','.filters','.vcxproj','.cpp','.efk','.efkefc'])
 
 utils.copy('Dev/EffekseerForDXLib/EffekseerForDXLib.h',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
