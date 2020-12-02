@@ -1,21 +1,23 @@
 ﻿
 #include "EffekseerForDXLib.h"
-
+#include "Effekseer.Modules.h"
 #include <array>
 #include <assert.h>
 #include <map>
 #include <string>
 #include <vector>
 
-static ::Effekseer::Setting* g_setting = nullptr;
+static ::Effekseer::SettingRef g_setting = nullptr;
 
-static ::Effekseer::Manager* g_manager2d = nullptr;
-static ::EffekseerRenderer::Renderer* g_renderer2d = nullptr;
+static ::Effekseer::ManagerRef g_manager2d = nullptr;
+static ::EffekseerRenderer::RendererRef g_renderer2d = nullptr;
 static float g_time2d = 0.0f;
 
-static ::Effekseer::Manager* g_manager3d = nullptr;
-static ::EffekseerRenderer::Renderer* g_renderer3d = nullptr;
+static ::Effekseer::ManagerRef g_manager3d = nullptr;
+static ::EffekseerRenderer::RendererRef g_renderer3d = nullptr;
 static float g_time3d = 0.0f;
+
+static ::Effekseer::Backend::GraphicsDeviceRef g_graphicsDevice = nullptr;
 
 static ::Effekseer::Server* g_server = nullptr;
 
@@ -24,7 +26,7 @@ static bool g_isDistortionEnabled = false;
 static int32_t nextEffectHandle = 0;
 static std::map<std::wstring, int32_t> effectFileNameToEffectHandle;
 static std::map<int32_t, std::wstring> effectHandleToEffectFileName;
-static std::map<int32_t, ::Effekseer::Effect*> effectHandleToEffect;
+static std::map<int32_t, ::Effekseer::EffectRef> effectHandleToEffect;
 
 static int32_t g_backgroundWidth = 0;
 static int32_t g_backgroundHeight = 0;
@@ -170,14 +172,14 @@ private:
 		}
 	};
 
-	::Effekseer::MaterialLoader* loader_;
+	::Effekseer::MaterialLoaderRef loader_;
 	std::map<std::basic_string<EFK_CHAR>, Cached> cache_;
 	std::map<void*, std::basic_string<EFK_CHAR>> data2key_;
 
 public:
-	CachedMaterialLoader(::Effekseer::MaterialLoader* loader) { this->loader_ = loader; }
+	CachedMaterialLoader(::Effekseer::MaterialLoaderRef loader) { this->loader_ = loader; }
 
-	virtual ~CachedMaterialLoader() { ES_SAFE_DELETE(loader_); }
+	~CachedMaterialLoader() override = default;
 
 	virtual ::Effekseer::MaterialData* Load(const EFK_CHAR* path) override
 	{
@@ -229,7 +231,7 @@ class CachedModelLoader : public ::Effekseer::ModelLoader
 private:
 	struct CachedModel
 	{
-		void* DataPtr;
+		Effekseer::Model* DataPtr;
 		int32_t Count;
 
 		CachedModel()
@@ -239,16 +241,16 @@ private:
 		}
 	};
 
-	::Effekseer::ModelLoader* modelLoader;
+	::Effekseer::ModelLoaderRef modelLoader;
 	std::map<std::basic_string<EFK_CHAR>, CachedModel> cache;
 	std::map<void*, std::basic_string<EFK_CHAR>> data2key;
 
 public:
-	CachedModelLoader(::Effekseer::ModelLoader* modelLoader) { this->modelLoader = modelLoader; }
+	CachedModelLoader(::Effekseer::ModelLoaderRef modelLoader) { this->modelLoader = modelLoader; }
 
-	virtual ~CachedModelLoader() { ES_SAFE_DELETE(modelLoader); }
+	~CachedModelLoader() override = default;
 
-	virtual void* Load(const EFK_CHAR* path) override
+	virtual Effekseer::Model* Load(const EFK_CHAR* path) override
 	{
 		auto key = std::basic_string<EFK_CHAR>(path);
 
@@ -272,7 +274,7 @@ public:
 		return v.DataPtr;
 	}
 
-	virtual void Unload(void* data) override
+	virtual void Unload(Effekseer::Model* data) override
 	{
 		if (data == nullptr)
 			return;
@@ -308,14 +310,14 @@ private:
 		}
 	};
 
-	::Effekseer::TextureLoader* textureLoader;
+	::Effekseer::TextureLoaderRef textureLoader;
 	std::map<std::basic_string<EFK_CHAR>, CachedTexture> cache;
 	std::map<::Effekseer::TextureData*, std::basic_string<EFK_CHAR>> data2key;
 
 public:
-	CachedTextureLoader(::Effekseer::TextureLoader* textureLoader) { this->textureLoader = textureLoader; }
+	CachedTextureLoader(::Effekseer::TextureLoaderRef textureLoader) { this->textureLoader = textureLoader; }
 
-	virtual ~CachedTextureLoader() { ES_SAFE_DELETE(textureLoader); }
+	~CachedTextureLoader() override = default;
 
 	virtual ::Effekseer::TextureData* Load(const EFK_CHAR* path, ::Effekseer::TextureType textureType) override
 	{
@@ -473,8 +475,8 @@ static void Effekseer_Distort()
 	{
 		if (GetUseDirect3DDevice9() == NULL)
 			return;
-		auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
-		auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
+		auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d.Get();
+		auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d.Get();
 
 		if (g_dx9_backgroundTexture == NULL)
 		{
@@ -490,8 +492,8 @@ static void Effekseer_Distort()
 
 	if (dx11_device != nullptr)
 	{
-		auto renderer2d = (EffekseerRendererDX11::Renderer*)g_renderer2d;
-		auto renderer3d = (EffekseerRendererDX11::Renderer*)g_renderer3d;
+		auto renderer2d = (EffekseerRendererDX11::Renderer*)g_renderer2d.Get();
+		auto renderer3d = (EffekseerRendererDX11::Renderer*)g_renderer3d.Get();
 
 		if (g_dx11_backGroundTexture == nullptr)
 		{
@@ -570,31 +572,25 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 	// 設定ファイルを作成する。
 	g_setting = Effekseer::Setting::Create();
 
-	// レンダラー(2D)を生成する。
+	// マネージャー(2D)を生成する。
+	g_manager2d = ::Effekseer::Manager::Create(particleMax);
+
+	// マネージャー(3D)を生成する。
+	g_manager3d = ::Effekseer::Manager::Create(particleMax);
+
+	// レンダラーを生成する。
 	if (dx9_device != NULL)
 	{
 		g_renderer2d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
+		g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
+		g_graphicsDevice = ::EffekseerRendererDX9::CreateGraphicsDevice(dx9_device);
 	}
 	else
 	{
 		g_renderer2d = ::EffekseerRendererDX11::Renderer::Create(dx11_device, dx11_device_context, particleMax);
-	}
-
-	// マネージャー(2D)を生成する。
-	g_manager2d = ::Effekseer::Manager::Create(particleMax);
-
-	// レンダラー(3D)を生成する。
-	if (dx9_device != NULL)
-	{
-		g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
-	}
-	else
-	{
 		g_renderer3d = ::EffekseerRendererDX11::Renderer::Create(dx11_device, dx11_device_context, particleMax);
+		g_graphicsDevice = ::EffekseerRendererDX11::CreateGraphicsDevice(dx11_device, dx11_device_context);
 	}
-
-	// マネージャー(3D)を生成する。
-	g_manager3d = ::Effekseer::Manager::Create(particleMax);
 
 	// 描画方法を設定する。(2D)
 	g_manager2d->SetSpriteRenderer(g_renderer2d->CreateSpriteRenderer());
@@ -616,14 +612,17 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 
 	if (dx9_device != nullptr)
 	{
-		g_setting->SetTextureLoader(new CachedTextureLoader(EffekseerRendererDX9::CreateTextureLoader(dx9_device, g_effectFile)));
-		g_setting->SetModelLoader(new CachedModelLoader(EffekseerRendererDX9::CreateModelLoader(dx9_device, g_effectFile)));
+		g_setting->SetTextureLoader(
+			Effekseer::MakeRefPtr<CachedTextureLoader>(EffekseerRendererDX9::CreateTextureLoader(g_graphicsDevice, g_effectFile)));
+		g_setting->SetModelLoader(
+			Effekseer::MakeRefPtr<CachedModelLoader>(EffekseerRendererDX9::CreateModelLoader(g_graphicsDevice, g_effectFile)));
 	}
 	else if (dx11_device != nullptr)
 	{
 		g_setting->SetTextureLoader(
-			new CachedTextureLoader(EffekseerRendererDX11::CreateTextureLoader(dx11_device, dx11_device_context, g_effectFile)));
-		g_setting->SetModelLoader(new CachedModelLoader(EffekseerRendererDX11::CreateModelLoader(dx11_device, g_effectFile)));
+			Effekseer::MakeRefPtr<CachedTextureLoader>(EffekseerRendererDX11::CreateTextureLoader(g_graphicsDevice, g_effectFile)));
+		g_setting->SetModelLoader(
+			Effekseer::MakeRefPtr<CachedModelLoader>(EffekseerRendererDX11::CreateModelLoader(g_graphicsDevice, g_effectFile)));
 	}
 	else
 	{
@@ -631,7 +630,7 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 	}
 
 	// HACK renderer経由でないAPIにいずれ置き換える。
-	g_setting->SetMaterialLoader(new CachedMaterialLoader(g_renderer2d->CreateMaterialLoader(g_effectFile)));
+	g_setting->SetMaterialLoader(Effekseer::MakeRefPtr<CachedMaterialLoader>(g_renderer2d->CreateMaterialLoader(g_effectFile)));
 
 	// 設定を適用する。
 	g_manager2d->SetSetting(g_setting);
@@ -707,22 +706,17 @@ void Effkseer_End()
 	}
 
 	// 読み込まれたエフェクトを削除する。
-	for (auto e : effectHandleToEffect)
-	{
-		auto effect = e.second;
-		ES_SAFE_RELEASE(effect);
-	}
 	effectHandleToEffect.clear();
 
 	// エフェクト管理用インスタンスを破棄する。
-	g_manager2d->Destroy();
+	g_manager2d.Reset();
 
-	g_manager3d->Destroy();
+	g_manager3d.Reset();
 
 	// 描画用インスタンスを破棄する。
-	g_renderer2d->Destroy();
+	g_renderer2d.Reset();
 
-	g_renderer3d->Destroy();
+	g_renderer3d.Reset();
 
 	ES_SAFE_DELETE(g_effectFile);
 
@@ -732,7 +726,9 @@ void Effkseer_End()
 	ES_SAFE_RELEASE(g_dx11_backGroundTexture);
 	ES_SAFE_RELEASE(g_dx11_backGroundTextureSRV);
 
-	ES_SAFE_RELEASE(g_setting);
+	g_graphicsDevice.Reset();
+
+	g_setting.Reset();
 }
 
 void Effekseer_SetGraphicsDeviceLostCallbackFunctions()
@@ -834,8 +830,6 @@ int DeleteEffekseerEffect(int effectResourceHandle)
 		{
 			g_server->Unregister(effect);
 		}
-
-		ES_SAFE_RELEASE(effect);
 	}
 
 	return -1;
@@ -1057,7 +1051,7 @@ int UpdateEffekseer2D()
 {
 	if (g_server != nullptr)
 	{
-		std::array<Effekseer::Manager*, 2> managers;
+		std::array<Effekseer::ManagerRef, 2> managers;
 		managers[0] = g_manager2d;
 		managers[1] = g_manager3d;
 
@@ -1160,7 +1154,7 @@ int UpdateEffekseer3D()
 {
 	if (g_server != nullptr)
 	{
-		std::array<Effekseer::Manager*, 2> managers;
+		std::array<Effekseer::ManagerRef, 2> managers;
 		managers[0] = g_manager2d;
 		managers[1] = g_manager3d;
 
@@ -1260,15 +1254,15 @@ int DrawEffekseer3D_End()
 	return 0;
 }
 
-::Effekseer::Manager* GetEffekseer2DManager() { return g_manager2d; }
+::Effekseer::ManagerRef GetEffekseer2DManager() { return g_manager2d; }
 
-::EffekseerRenderer::Renderer* GetEffekseer2DRenderer() { return g_renderer2d; }
+::EffekseerRenderer::RendererRef GetEffekseer2DRenderer() { return g_renderer2d; }
 
-::Effekseer::Manager* GetEffekseer3DManager() { return g_manager3d; }
+::Effekseer::ManagerRef GetEffekseer3DManager() { return g_manager3d; }
 
-::EffekseerRenderer::Renderer* GetEffekseer3DRenderer() { return g_renderer3d; }
+::EffekseerRenderer::RendererRef GetEffekseer3DRenderer() { return g_renderer3d; }
 
-::Effekseer::Effect* GetEffekseerEffect(int effectHandle)
+::Effekseer::EffectRef GetEffekseerEffect(int effectHandle)
 {
 	if (effectHandleToEffect.count(effectHandle) > 0)
 	{
@@ -1298,8 +1292,8 @@ void Effkseer_DeviceLost(void* data)
 	}
 
 	// DXライブラリは内部でデバイス自体を消去しているのでNULLを設定する。
-	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
-	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
+	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d.Get();
+	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d.Get();
 	renderer2d->ChangeDevice(NULL);
 	renderer3d->ChangeDevice(NULL);
 }
@@ -1312,8 +1306,8 @@ void Effkseer_DeviceRestore(void* data)
 	// DXライブラリは回復時に内部でデバイスを再生成するので新しく設定する。
 	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
 
-	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d;
-	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d;
+	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d.Get();
+	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d.Get();
 	renderer2d->ChangeDevice(device);
 	renderer3d->ChangeDevice(device);
 

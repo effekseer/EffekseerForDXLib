@@ -5,7 +5,7 @@ import utils
 targetDir = 'Dev/'
 dxlibDir = 'DXLib_VC/'
 effekseerDir = '../Effekseer/'
-effekseerVSDir = effekseerDir + 'EffekseerRuntime150/Compiled/'
+effekseerVSDir = effekseerDir + 'EffekseerRuntime_DXLib/Compiled/'
 
 utils.cdToScript()
 
@@ -16,6 +16,8 @@ utils.copytreeWithExt(dxlibDir+'プロジェクトに追加すべきファイル
 utils.copytreeWithExt(dxlibDir+'プロジェクトに追加すべきファイル_VC用/', targetDir+'lib/', ['.lib'])
 
 utils.copy(effekseerVSDir+'include/Effekseer.h', targetDir+'include/')
+utils.copy(effekseerVSDir+'include/Effekseer.Modules.h', targetDir+'include/')
+utils.copy(effekseerVSDir+'include/Effekseer.SIMD.h', targetDir+'include/')
 utils.copy(effekseerVSDir+'include/EffekseerRendererDX9.h', targetDir+'include/')
 utils.copy(effekseerVSDir+'include/EffekseerRendererDX11.h', targetDir+'include/')
 

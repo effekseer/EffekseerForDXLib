@@ -566,7 +566,7 @@ int DrawEffekseer3D();
 	@note
 	Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
-::Effekseer::Manager* GetEffekseer2DManager();
+::Effekseer::ManagerRef GetEffekseer2DManager();
 
 /**
 @brief	Effekseerの2Dエフェクト描画クラスのインスタンスを取得する。
@@ -574,7 +574,7 @@ int DrawEffekseer3D();
 @note
 Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
-::EffekseerRenderer::Renderer* GetEffekseer2DRenderer();
+::EffekseerRenderer::RendererRef GetEffekseer2DRenderer();
 
 /**
 	@brief	Effekseerの3Dエフェクト管理クラスのインスタンスを取得する。
@@ -582,7 +582,7 @@ Effekseerの機能を直接使用しない限り、この関数は使用しな�
 	@note
 	Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
-::Effekseer::Manager* GetEffekseer3DManager();
+::Effekseer::ManagerRef GetEffekseer3DManager();
 
 /**
 @brief	Effekseerの3Dエフェクト描画クラスのインスタンスを取得する。
@@ -590,14 +590,14 @@ Effekseerの機能を直接使用しない限り、この関数は使用しな�
 @note
 Effekseerの機能を直接使用しない限り、この関数は使用しない。
 */
-::EffekseerRenderer::Renderer* GetEffekseer3DRenderer();
+::EffekseerRenderer::RendererRef GetEffekseer3DRenderer();
 
 /**
 @brief	Effekseerのエフェクトクラスのインスタンスを取得する。
 @param	effectHandle	エフェクトのハンドル
 @return	Effekseerのエフェクトクラスのインスタンス
 */
-::Effekseer::Effect* GetEffekseerEffect(int effectHandle);
+::Effekseer::EffectRef GetEffekseerEffect(int effectHandle);
 
 /**
 	@brief	デバイスロストが発生した時に呼ぶ。
