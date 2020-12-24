@@ -157,213 +157,6 @@ public:
 	Effekseer::FileWriter* OpenWrite(const EFK_CHAR* path) { return nullptr; }
 };
 
-class CachedMaterialLoader : public ::Effekseer::MaterialLoader
-{
-private:
-	struct Cached
-	{
-		::Effekseer::MaterialData* DataPtr;
-		int32_t Count;
-
-		Cached()
-		{
-			DataPtr = nullptr;
-			Count = 1;
-		}
-	};
-
-	::Effekseer::MaterialLoaderRef loader_;
-	std::map<std::basic_string<EFK_CHAR>, Cached> cache_;
-	std::map<void*, std::basic_string<EFK_CHAR>> data2key_;
-
-public:
-	CachedMaterialLoader(::Effekseer::MaterialLoaderRef loader) { this->loader_ = loader; }
-
-	~CachedMaterialLoader() override = default;
-
-	virtual ::Effekseer::MaterialData* Load(const EFK_CHAR* path) override
-	{
-		auto key = std::basic_string<EFK_CHAR>(path);
-
-		auto it = cache_.find(key);
-
-		if (it != cache_.end())
-		{
-			it->second.Count++;
-			return it->second.DataPtr;
-		}
-
-		Cached v;
-		v.DataPtr = loader_->Load(path);
-
-		if (v.DataPtr != nullptr)
-		{
-			cache_[key] = v;
-			data2key_[v.DataPtr] = key;
-		}
-
-		return v.DataPtr;
-	}
-
-	virtual void Unload(::Effekseer::MaterialData* data) override
-	{
-		if (data == nullptr)
-			return;
-		auto key = data2key_[data];
-
-		auto it = cache_.find(key);
-
-		if (it != cache_.end())
-		{
-			it->second.Count--;
-			if (it->second.Count == 0)
-			{
-				loader_->Unload(it->second.DataPtr);
-				data2key_.erase(data);
-				cache_.erase(key);
-			}
-		}
-	}
-};
-
-class CachedModelLoader : public ::Effekseer::ModelLoader
-{
-private:
-	struct CachedModel
-	{
-		Effekseer::Model* DataPtr;
-		int32_t Count;
-
-		CachedModel()
-		{
-			DataPtr = NULL;
-			Count = 1;
-		}
-	};
-
-	::Effekseer::ModelLoaderRef modelLoader;
-	std::map<std::basic_string<EFK_CHAR>, CachedModel> cache;
-	std::map<void*, std::basic_string<EFK_CHAR>> data2key;
-
-public:
-	CachedModelLoader(::Effekseer::ModelLoaderRef modelLoader) { this->modelLoader = modelLoader; }
-
-	~CachedModelLoader() override = default;
-
-	virtual Effekseer::Model* Load(const EFK_CHAR* path) override
-	{
-		auto key = std::basic_string<EFK_CHAR>(path);
-
-		auto it = cache.find(key);
-
-		if (it != cache.end())
-		{
-			it->second.Count++;
-			return it->second.DataPtr;
-		}
-
-		CachedModel v;
-		v.DataPtr = modelLoader->Load(path);
-
-		if (v.DataPtr != nullptr)
-		{
-			cache[key] = v;
-			data2key[v.DataPtr] = key;
-		}
-
-		return v.DataPtr;
-	}
-
-	virtual void Unload(Effekseer::Model* data) override
-	{
-		if (data == nullptr)
-			return;
-		auto key = data2key[data];
-
-		auto it = cache.find(key);
-
-		if (it != cache.end())
-		{
-			it->second.Count--;
-			if (it->second.Count == 0)
-			{
-				modelLoader->Unload(it->second.DataPtr);
-				data2key.erase(data);
-				cache.erase(key);
-			}
-		}
-	}
-};
-
-class CachedTextureLoader : public ::Effekseer::TextureLoader
-{
-private:
-	struct CachedTexture
-	{
-		::Effekseer::TextureData* DataPtr;
-		int32_t Count;
-
-		CachedTexture()
-		{
-			DataPtr = nullptr;
-			Count = 1;
-		}
-	};
-
-	::Effekseer::TextureLoaderRef textureLoader;
-	std::map<std::basic_string<EFK_CHAR>, CachedTexture> cache;
-	std::map<::Effekseer::TextureData*, std::basic_string<EFK_CHAR>> data2key;
-
-public:
-	CachedTextureLoader(::Effekseer::TextureLoaderRef textureLoader) { this->textureLoader = textureLoader; }
-
-	~CachedTextureLoader() override = default;
-
-	virtual ::Effekseer::TextureData* Load(const EFK_CHAR* path, ::Effekseer::TextureType textureType) override
-	{
-		auto key = std::basic_string<EFK_CHAR>(path);
-
-		auto it = cache.find(key);
-
-		if (it != cache.end())
-		{
-			it->second.Count++;
-			return it->second.DataPtr;
-		}
-
-		CachedTexture v;
-		v.DataPtr = textureLoader->Load(path, textureType);
-
-		if (v.DataPtr != nullptr)
-		{
-			cache[key] = v;
-			data2key[v.DataPtr] = key;
-		}
-
-		return v.DataPtr;
-	}
-
-	virtual void Unload(::Effekseer::TextureData* data) override
-	{
-		if (data == nullptr)
-			return;
-		auto key = data2key[data];
-
-		auto it = cache.find(key);
-
-		if (it != cache.end())
-		{
-			it->second.Count--;
-			if (it->second.Count == 0)
-			{
-				textureLoader->Unload(it->second.DataPtr);
-				data2key.erase(data);
-				cache.erase(key);
-			}
-		}
-	}
-};
-
 static bool CopyRenderTargetToBackground()
 {
 	if (g_dx9_backgroundSurface == nullptr)
@@ -612,17 +405,13 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 
 	if (dx9_device != nullptr)
 	{
-		g_setting->SetTextureLoader(
-			Effekseer::MakeRefPtr<CachedTextureLoader>(EffekseerRendererDX9::CreateTextureLoader(g_graphicsDevice, g_effectFile)));
-		g_setting->SetModelLoader(
-			Effekseer::MakeRefPtr<CachedModelLoader>(EffekseerRendererDX9::CreateModelLoader(g_graphicsDevice, g_effectFile)));
+		g_setting->SetTextureLoader(EffekseerRendererDX9::CreateTextureLoader(g_graphicsDevice, g_effectFile));
+		g_setting->SetModelLoader(EffekseerRendererDX9::CreateModelLoader(g_graphicsDevice, g_effectFile));
 	}
 	else if (dx11_device != nullptr)
 	{
-		g_setting->SetTextureLoader(
-			Effekseer::MakeRefPtr<CachedTextureLoader>(EffekseerRendererDX11::CreateTextureLoader(g_graphicsDevice, g_effectFile)));
-		g_setting->SetModelLoader(
-			Effekseer::MakeRefPtr<CachedModelLoader>(EffekseerRendererDX11::CreateModelLoader(g_graphicsDevice, g_effectFile)));
+		g_setting->SetTextureLoader(EffekseerRendererDX11::CreateTextureLoader(g_graphicsDevice, g_effectFile));
+		g_setting->SetModelLoader(EffekseerRendererDX11::CreateModelLoader(g_graphicsDevice, g_effectFile));
 	}
 	else
 	{
@@ -630,7 +419,7 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 	}
 
 	// HACK renderer経由でないAPIにいずれ置き換える。
-	g_setting->SetMaterialLoader(Effekseer::MakeRefPtr<CachedMaterialLoader>(g_renderer2d->CreateMaterialLoader(g_effectFile)));
+	g_setting->SetMaterialLoader(g_renderer2d->CreateMaterialLoader(g_effectFile));
 
 	// 設定を適用する。
 	g_manager2d->SetSetting(g_setting);
