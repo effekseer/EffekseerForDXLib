@@ -418,6 +418,8 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 		assert(0);
 	}
 
+	g_setting->SetCurveLoader(Effekseer::MakeRefPtr<Effekseer::CurveLoader>(g_effectFile));
+
 	// HACK renderer経由でないAPIにいずれ置き換える。
 	g_setting->SetMaterialLoader(g_renderer2d->CreateMaterialLoader(g_effectFile));
 
