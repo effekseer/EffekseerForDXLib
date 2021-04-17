@@ -28,6 +28,9 @@ int sample2D()
 		return -1;
 	}
 
+	// 歪みを有効にする。(重くなるので、歪みを使わない場合は必要ない)
+	Effekseer_InitDistortion();
+
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
@@ -42,7 +45,7 @@ int sample2D()
 
 	// エフェクトリソースを読み込む。
 	// 読み込む時に大きさを指定する。
-	int effectResourceHandle = LoadEffekseerEffect("laser.efk", 25.0f);
+	int effectResourceHandle = LoadEffekseerEffect("Laser01.efkefc", 25.0f);
 
 	// 何でもいいので画像を読み込む。
 	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));

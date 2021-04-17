@@ -107,12 +107,12 @@ public:
 
 	size_t Read(void* buffer, size_t size)
 	{
-		int32_t readable = size;
+		auto readable = size;
 		if (data.size() - position < size)
 			readable = data.size() - position;
 
 		memcpy(buffer, &(data[position]), readable);
-		position += readable;
+		position += static_cast<int>(readable);
 		return readable;
 	}
 
@@ -122,7 +122,7 @@ public:
 		if (this->position < 0)
 			this->position = 0;
 		if (this->position > static_cast<int>(data.size()))
-			this->position = data.size();
+			this->position = static_cast<int>(data.size());
 	}
 
 	int GetPosition() { return position; }
@@ -273,8 +273,8 @@ static void Effekseer_Distort()
 
 		if (g_dx9_backgroundTexture == NULL)
 		{
-			renderer2d->SetBackground(NULL);
-			renderer3d->SetBackground(NULL);
+			g_renderer2d->SetBackground(NULL);
+			g_renderer3d->SetBackground(NULL);
 			return;
 		}
 
@@ -290,8 +290,8 @@ static void Effekseer_Distort()
 
 		if (g_dx11_backGroundTexture == nullptr)
 		{
-			renderer2d->SetBackground(NULL);
-			renderer3d->SetBackground(NULL);
+			g_renderer2d->SetBackground(NULL);
+			g_renderer3d->SetBackground(NULL);
 			return;
 		}
 
@@ -338,8 +338,10 @@ static void Effekseer_Distort()
 		ES_SAFE_RELEASE(renderTexture);
 		ES_SAFE_RELEASE(renderTargetView);
 
-		renderer2d->SetBackground(g_dx11_backGroundTextureSRV);
-		renderer3d->SetBackground(g_dx11_backGroundTextureSRV);
+		auto backgroundTexture = EffekseerRendererDX11::CreateTexture(g_graphicsDevice, g_dx11_backGroundTextureSRV, nullptr, nullptr);
+
+		g_renderer2d->SetBackground(backgroundTexture);
+		g_renderer3d->SetBackground(backgroundTexture);
 	}
 }
 
@@ -403,20 +405,8 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 	g_setting->SetCoordinateSystem(Effekseer::CoordinateSystem::LH);
 	g_setting->SetEffectLoader(Effekseer::Effect::CreateEffectLoader(g_effectFile));
 
-	if (dx9_device != nullptr)
-	{
-		g_setting->SetTextureLoader(EffekseerRendererDX9::CreateTextureLoader(g_graphicsDevice, g_effectFile));
-		g_setting->SetModelLoader(EffekseerRendererDX9::CreateModelLoader(g_graphicsDevice, g_effectFile));
-	}
-	else if (dx11_device != nullptr)
-	{
-		g_setting->SetTextureLoader(EffekseerRendererDX11::CreateTextureLoader(g_graphicsDevice, g_effectFile));
-		g_setting->SetModelLoader(EffekseerRendererDX11::CreateModelLoader(g_graphicsDevice, g_effectFile));
-	}
-	else
-	{
-		assert(0);
-	}
+	g_setting->SetTextureLoader(EffekseerRenderer::CreateTextureLoader(g_graphicsDevice, g_effectFile));
+	g_setting->SetModelLoader(EffekseerRenderer::CreateModelLoader(g_graphicsDevice, g_effectFile));
 
 	g_setting->SetCurveLoader(Effekseer::MakeRefPtr<Effekseer::CurveLoader>(g_effectFile));
 
@@ -846,7 +836,7 @@ int UpdateEffekseer2D()
 		managers[0] = g_manager2d;
 		managers[1] = g_manager3d;
 
-		g_server->Update(managers.data(), managers.size());
+		g_server->Update(managers.data(), static_cast<int>(managers.size()));
 	}
 
 	if (g_manager2d == nullptr)
@@ -949,7 +939,7 @@ int UpdateEffekseer3D()
 		managers[0] = g_manager2d;
 		managers[1] = g_manager3d;
 
-		g_server->Update(managers.data(), managers.size());
+		g_server->Update(managers.data(), static_cast<int>(managers.size()));
 	}
 
 	if (g_manager3d == nullptr)
