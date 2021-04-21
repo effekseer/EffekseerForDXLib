@@ -68,9 +68,12 @@ static std::string ToMulti(const wchar_t* pText)
 
 static bool AllocateBackgroundBuffer(int32_t sizeX, int32_t sizeY)
 {
+	if (sizeX == 0 || sizeY == 0)
+	{
+		return false;
+	}
+
 	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
-	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
-	ID3D11DeviceContext* dx11_device_context = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
 
 	if (dx9_device != NULL)
 	{
@@ -89,6 +92,12 @@ static bool AllocateBackgroundBuffer(int32_t sizeX, int32_t sizeY)
 	}
 
 	return false;
+}
+
+static void DeallocateBackgroundBuffer()
+{
+	ES_SAFE_RELEASE(g_dx9_backgroundTexture);
+	ES_SAFE_RELEASE(g_dx9_backgroundSurface);
 }
 
 class EffekseerFileReader : public Effekseer::FileReader
@@ -376,9 +385,9 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 	// レンダラーを生成する。
 	if (dx9_device != NULL)
 	{
-		g_renderer2d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
-		g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(dx9_device, particleMax);
 		g_graphicsDevice = ::EffekseerRendererDX9::CreateGraphicsDevice(dx9_device);
+		g_renderer2d = ::EffekseerRendererDX9::Renderer::Create(g_graphicsDevice, particleMax);
+		g_renderer3d = ::EffekseerRendererDX9::Renderer::Create(g_graphicsDevice, particleMax);
 	}
 	else
 	{
@@ -452,8 +461,7 @@ int Effekseer_InitDistortion(float scale)
 
 	if (dx9_device != NULL)
 	{
-		ES_SAFE_RELEASE(g_dx9_backgroundTexture);
-		ES_SAFE_RELEASE(g_dx9_backgroundSurface);
+		DeallocateBackgroundBuffer();
 
 		if (AllocateBackgroundBuffer(sizeX, sizeY))
 		{
@@ -501,8 +509,7 @@ void Effkseer_End()
 
 	ES_SAFE_DELETE(g_effectFile);
 
-	ES_SAFE_RELEASE(g_dx9_backgroundTexture);
-	ES_SAFE_RELEASE(g_dx9_backgroundSurface);
+	DeallocateBackgroundBuffer();
 
 	ES_SAFE_RELEASE(g_dx11_backGroundTexture);
 	ES_SAFE_RELEASE(g_dx11_backGroundTextureSRV);
@@ -1058,8 +1065,10 @@ void Effkseer_DeviceLost(void* data)
 	if (GetUseDirect3DDevice9() == NULL)
 		return;
 
-	ES_SAFE_RELEASE(g_dx9_backgroundTexture);
-	ES_SAFE_RELEASE(g_dx9_backgroundSurface);
+	g_renderer2d->SetBackground(nullptr);
+	g_renderer3d->SetBackground(nullptr);
+
+	DeallocateBackgroundBuffer();
 
 	// デバイスロストが発生した時に呼ぶ。
 	g_renderer2d->OnLostDevice();
@@ -1109,5 +1118,10 @@ void Effkseer_DeviceRestore(void* data)
 		g_backgroundWidth = 0;
 		g_backgroundHeight = 0;
 		g_isDistortionEnabled = false;
+	}
+	else
+	{
+		renderer2d->SetBackground(g_dx9_backgroundTexture);
+		renderer3d->SetBackground(g_dx9_backgroundTexture);
 	}
 }
