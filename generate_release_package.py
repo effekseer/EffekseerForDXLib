@@ -16,6 +16,7 @@ utils.copytree(dxlibDir+'プロジェクトに追加すべきファイル_VC用/
 
 utils.copy(effekseerVSDir+'include/Effekseer.h', targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy(effekseerVSDir+'include/Effekseer.Modules.h', targetDir+'プロジェクトに追加すべきファイル_VC用/')
+utils.copy(effekseerVSDir+'include/Effekseer.SIMD.h', targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy(effekseerVSDir+'include/EffekseerRendererDX9.h', targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy(effekseerVSDir+'include/EffekseerRendererDX11.h', targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
