@@ -42,7 +42,7 @@ int sample2D()
 
 	// エフェクトリソースを読み込む。
 	// 読み込む時に大きさを指定する。
-	int effectResourceHandle = LoadEffekseerEffect("laser.efk", 25.0f);
+	int effectResourceHandle = LoadEffekseerEffect("Laser01.efkefc", 25.0f);
 
 	// 何でもいいので画像を読み込む。
 	int grBackgroundHandle = LoadGraph(_T("Texture/Background.png"));
