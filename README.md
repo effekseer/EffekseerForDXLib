@@ -6,9 +6,11 @@ DXライブラリ向けEffekseerのラッパーです。
 
 ### 環境構築
 
-VisaulStudio2015, 2017をインストールします。
+VisaulStudio2017, 2019をインストールします。
 
 pythonの3系列をインストールします。
+
+Cmake(3.15以上)をインストールします。
 
 ### ファイルの準備
 
@@ -54,7 +56,7 @@ Effekseerをコンパイルします。
 
 
 ```
-(Root)/EffekseerForDXLib/Dev/EffekseerForDXLib_vs2013.sln
+(Root)/EffekseerForDXLib/Dev/EffekseerForDXLib_vs2019.sln
 ```
 
 で、ラッパーの開発ができるようになります。
