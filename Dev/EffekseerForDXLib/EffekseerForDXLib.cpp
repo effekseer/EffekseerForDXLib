@@ -19,7 +19,7 @@ static float g_time3d = 0.0f;
 
 static ::Effekseer::Backend::GraphicsDeviceRef g_graphicsDevice = nullptr;
 
-static ::Effekseer::Server* g_server = nullptr;
+static ::Effekseer::ServerRef g_server = nullptr;
 
 static bool g_isDistortionEnabled = false;
 
@@ -37,7 +37,7 @@ static ID3D11Texture2D* g_dx11_backGroundTexture = nullptr;
 static ID3D11ShaderResourceView* g_dx11_backGroundTextureSRV = nullptr;
 static D3D11_TEXTURE2D_DESC g_dx11_backGroundTextureDesc;
 
-Effekseer::FileInterface* g_effectFile = nullptr;
+Effekseer::FileInterfaceRef g_effectFile = nullptr;
 
 static EffekseerFileOpenFunc g_openFunc = nullptr;
 static EffekseerFileReadSizeFunc g_readSizeFunc = nullptr;
@@ -112,7 +112,7 @@ public:
 		position = 0;
 	}
 
-	virtual ~EffekseerFileReader() {}
+	virtual ~EffekseerFileReader() override = default;
 
 	size_t Read(void* buffer, size_t size)
 	{
@@ -134,18 +134,18 @@ public:
 			this->position = static_cast<int>(data.size());
 	}
 
-	int GetPosition() { return position; }
+	int GetPosition() const override { return position; }
 
-	size_t GetLength() { return data.size(); }
+	size_t GetLength() const override { return data.size(); }
 };
 
 class EffekseerFile : public Effekseer::FileInterface
 {
 public:
-	EffekseerFile() {}
-	virtual ~EffekseerFile() {}
+	EffekseerFile() = default;
+	virtual ~EffekseerFile() override = default;
 
-	Effekseer::FileReader* OpenRead(const EFK_CHAR* path)
+	Effekseer::FileReaderRef OpenRead(const EFK_CHAR* path) override
 	{
 		auto path_ = ToMulti((wchar_t*)path);
 
@@ -160,10 +160,10 @@ public:
 		FileRead_read(data.data(), static_cast<int>(size), fileHandle);
 		FileRead_close(fileHandle);
 
-		return new EffekseerFileReader(data);
+		return Effekseer::MakeRefPtr<EffekseerFileReader>(data);
 	}
 
-	Effekseer::FileWriter* OpenWrite(const EFK_CHAR* path) { return nullptr; }
+	Effekseer::FileWriterRef OpenWrite(const EFK_CHAR* path) override { return nullptr; }
 };
 
 static bool CopyRenderTargetToBackground()
@@ -371,7 +371,7 @@ int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFile
 	g_openFunc = openFunc;
 	g_readSizeFunc = readSizeFunc;
 
-	g_effectFile = new EffekseerFile();
+	g_effectFile = Effekseer::MakeRefPtr<EffekseerFile>();
 
 	// 設定ファイルを作成する。
 	g_setting = Effekseer::Setting::Create();
@@ -438,7 +438,7 @@ int Effkseer_InitServer(int port)
 	g_server = Effekseer::Server::Create();
 	if (!g_server->Start(port))
 	{
-		ES_SAFE_DELETE(g_server);
+		g_server.Reset();
 		return -1;
 	}
 
@@ -491,7 +491,7 @@ void Effkseer_End()
 	if (g_server != NULL)
 	{
 		g_server->Stop();
-		ES_SAFE_DELETE(g_server);
+		g_server.Reset();
 	}
 
 	// 読み込まれたエフェクトを削除する。
@@ -507,7 +507,7 @@ void Effkseer_End()
 
 	g_renderer3d.Reset();
 
-	ES_SAFE_DELETE(g_effectFile);
+	g_effectFile.Reset();
 
 	DeallocateBackgroundBuffer();
 
