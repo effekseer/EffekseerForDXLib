@@ -42,6 +42,23 @@ Effekseer::FileInterfaceRef g_effectFile = nullptr;
 static EffekseerFileOpenFunc g_openFunc = nullptr;
 static EffekseerFileReadSizeFunc g_readSizeFunc = nullptr;
 
+static void
+CalculateCameraDirectionAndPosition(const Effekseer::Matrix44& matrix, Effekseer::Vector3D& direction, Effekseer::Vector3D& position)
+{
+	const auto& mat = matrix;
+
+	direction = -::Effekseer::Vector3D(matrix.Values[0][2], matrix.Values[1][2], matrix.Values[2][2]);
+
+	{
+		auto localPos = ::Effekseer::Vector3D(-mat.Values[3][0], -mat.Values[3][1], -mat.Values[3][2]);
+		auto f = ::Effekseer::Vector3D(mat.Values[0][2], mat.Values[1][2], mat.Values[2][2]);
+		auto r = ::Effekseer::Vector3D(mat.Values[0][0], mat.Values[1][0], mat.Values[2][0]);
+		auto u = ::Effekseer::Vector3D(mat.Values[0][1], mat.Values[1][1], mat.Values[2][1]);
+
+		position = r * localPos.X + u * localPos.Y + f * localPos.Z;
+	}
+}
+
 static std::wstring ToWide(const char* pText)
 {
 	int Len = ::MultiByteToWideChar(CP_ACP, 0, pText, -1, NULL, 0);
@@ -539,6 +556,14 @@ void Effekseer_Set2DSetting(int windowWidth, int windowHeight)
 	g_renderer2d->SetCameraMatrix(::Effekseer::Matrix44().LookAtLH(::Effekseer::Vector3D(windowWidth / 2.0f, -windowHeight / 2.0f, -200.0f),
 																   ::Effekseer::Vector3D(windowWidth / 2.0f, -windowHeight / 2.0f, 200.0f),
 																   ::Effekseer::Vector3D(0.0f, 1.0f, 0.0f)));
+
+	::Effekseer::Vector3D cameraPosition;
+	::Effekseer::Vector3D cameraFrontDirection;
+	CalculateCameraDirectionAndPosition(g_renderer2d->GetCameraMatrix(), cameraFrontDirection, cameraPosition);
+
+	Effekseer::Manager::LayerParameter layerParam;
+	layerParam.ViewerPosition = cameraPosition;
+	g_manager2d->SetLayerParameter(0, layerParam);
 }
 
 void Effekseer_Sync3DSetting()
@@ -562,6 +587,14 @@ void Effekseer_Sync3DSetting()
 
 	g_renderer3d->SetProjectionMatrix(efproj);
 	g_renderer3d->SetCameraMatrix(efview);
+
+	::Effekseer::Vector3D cameraPosition;
+	::Effekseer::Vector3D cameraFrontDirection;
+	CalculateCameraDirectionAndPosition(g_renderer3d->GetCameraMatrix(), cameraFrontDirection, cameraPosition);
+
+	Effekseer::Manager::LayerParameter layerParam;
+	layerParam.ViewerPosition = cameraPosition;
+	g_manager3d->SetLayerParameter(0, layerParam);
 }
 
 int LoadEffekseerEffect(const char* fileName, float magnification)
