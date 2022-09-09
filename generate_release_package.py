@@ -2,7 +2,7 @@
 
 import utils
 
-targetDir = 'EffekseerForDXLib_170Alpha4_322c/'
+targetDir = 'EffekseerForDXLib_170Beta3_322d/'
 dxlibDir = 'DXLib_VC/'
 effekseerDir = '../Effekseer/'
 effekseerVSDir = effekseerDir + 'EffekseerRuntime_DXLib/Compiled/'
@@ -20,21 +20,6 @@ utils.copy(effekseerVSDir+'include/Effekseer.SIMD.h', targetDir+'プロジェク
 utils.copy(effekseerVSDir+'include/EffekseerRendererDX9.h', targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy(effekseerVSDir+'include/EffekseerRendererDX11.h', targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
-utils.copy(effekseerVSDir+'lib/VS2017/Debug/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2017_x86_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2017/Debug/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2017_x86_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2017/Debug/EffekseerRendererDX11.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX11_vs2017_x86_d.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2017/Release/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2017_x86.lib')
-utils.copy(effekseerVSDir+'lib/VS2017/Release/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2017_x86.lib')
-utils.copy(effekseerVSDir+'lib/VS2017/Release/EffekseerRendererDX11.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX11_vs2017_x86.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2017WIN64/Debug/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2017_x64_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2017WIN64/Debug/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2017_x64_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2017WIN64/Debug/EffekseerRendererDX11.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX11_vs2017_x64_d.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2017WIN64/Release/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2017_x64.lib')
-utils.copy(effekseerVSDir+'lib/VS2017WIN64/Release/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2017_x64.lib')
-utils.copy(effekseerVSDir+'lib/VS2017WIN64/Release/EffekseerRendererDX11.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX11_vs2017_x64.lib')
 
 
 utils.copy(effekseerVSDir+'lib/VS2019/Debug/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2019_x86_d.lib')
@@ -55,6 +40,23 @@ utils.copy(effekseerVSDir+'lib/VS2019WIN64/Release/EffekseerRendererDX11.lib', t
 
 
 
+utils.copy(effekseerVSDir+'lib/VS2022/Debug/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2022_x86_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2022/Debug/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2022_x86_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2022/Debug/EffekseerRendererDX11.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX11_vs2022_x86_d.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2022/Release/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2022_x86.lib')
+utils.copy(effekseerVSDir+'lib/VS2022/Release/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2022_x86.lib')
+utils.copy(effekseerVSDir+'lib/VS2022/Release/EffekseerRendererDX11.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX11_vs2022_x86.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2022WIN64/Debug/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2022_x64_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2022WIN64/Debug/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2022_x64_d.lib')
+utils.copy(effekseerVSDir+'lib/VS2022WIN64/Debug/EffekseerRendererDX11.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX11_vs2022_x64_d.lib')
+
+utils.copy(effekseerVSDir+'lib/VS2022WIN64/Release/Effekseer.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/Effekseer_vs2022_x64.lib')
+utils.copy(effekseerVSDir+'lib/VS2022WIN64/Release/EffekseerRendererDX9.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX9_vs2022_x64.lib')
+utils.copy(effekseerVSDir+'lib/VS2022WIN64/Release/EffekseerRendererDX11.lib', targetDir+'プロジェクトに追加すべきファイル_VC用/EffekseerRendererDX11_vs2022_x64.lib')
+
+
 
 utils.copy('readme.txt',targetDir)
 utils.copy('Help_En.html',targetDir)
@@ -64,16 +66,14 @@ utils.copytreeWithExt('Sample/',targetDir+'Sample/',['.sln','.png','.filters','.
 
 utils.copy('Dev/EffekseerForDXLib/EffekseerForDXLib.h',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
-utils.copy('Dev/lib/EffekseerForDXLib_vs2017_x86_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
-utils.copy('Dev/lib/EffekseerForDXLib_vs2017_x86.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
-utils.copy('Dev/lib/EffekseerForDXLib_vs2017_x64_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
-utils.copy('Dev/lib/EffekseerForDXLib_vs2017_x64.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
-
 
 utils.copy('Dev/lib/EffekseerForDXLib_vs2019_x86_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy('Dev/lib/EffekseerForDXLib_vs2019_x86.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy('Dev/lib/EffekseerForDXLib_vs2019_x64_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy('Dev/lib/EffekseerForDXLib_vs2019_x64.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
-
+utils.copy('Dev/lib/EffekseerForDXLib_vs2022_x86_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
+utils.copy('Dev/lib/EffekseerForDXLib_vs2022_x86.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
+utils.copy('Dev/lib/EffekseerForDXLib_vs2022_x64_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
+utils.copy('Dev/lib/EffekseerForDXLib_vs2022_x64.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 

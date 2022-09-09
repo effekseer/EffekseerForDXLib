@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EffekseerForDXLib_vs2017", "EffekseerForDXLib\EffekseerForDXLib_vs2017.vcxproj", "{B348040F-F270-4A6E-939D-464C67A2F2DD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EffekseerForDXLib_vs2022", "EffekseerForDXLib\EffekseerForDXLib_vs2022.vcxproj", "{B348040F-F270-4A6E-939D-464C67A2F2DD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample_vs2017", "Sample\Sample_vs2017.vcxproj", "{35F2F15B-446C-45A8-B157-24E15BE8A7E7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample_vs2022", "Sample\Sample_vs2022.vcxproj", "{35F2F15B-446C-45A8-B157-24E15BE8A7E7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B348040F-F270-4A6E-939D-464C67A2F2DD} = {B348040F-F270-4A6E-939D-464C67A2F2DD}
 	EndProjectSection
