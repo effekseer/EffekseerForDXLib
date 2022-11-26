@@ -2,7 +2,7 @@
 //
 //		ＤＸライブラリ　コンパイルコンフィグヘッダファイル
 //
-//				Ver 3.23d
+//				Ver 3.24 
 //
 // ----------------------------------------------------------------------------
 
@@ -260,6 +260,7 @@
 #define DX_NON_OPUS
 #define DX_NON_MODEL
 #define DX_NON_SHADERCODE_BINARY
+#define DX_NON_INPUTSTRING
 #endif
 
 #ifdef DX_NON_WINDOW
