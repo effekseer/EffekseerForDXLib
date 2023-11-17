@@ -12,7 +12,19 @@
 
 #ifdef _WIN64
 
-#if _MSC_VER >= 1920
+#if _MSC_VER >= 1930
+
+#if _DEBUG
+#pragma comment(lib, "Effekseer_vs2022_x64_d.lib")
+#pragma comment(lib, "EffekseerRendererDX9_vs2022_x64_d.lib")
+#pragma comment(lib, "EffekseerRendererDX11_vs2022_x64_d.lib")
+#else
+#pragma comment(lib, "Effekseer_vs2022_x64.lib")
+#pragma comment(lib, "EffekseerRendererDX9_vs2022_x64.lib")
+#pragma comment(lib, "EffekseerRendererDX11_vs2022_x64.lib")
+#endif
+
+#elif _MSC_VER >= 1920
 
 #if _DEBUG
 #pragma comment(lib, "Effekseer_vs2019_x64_d.lib")
@@ -51,7 +63,19 @@
 
 #else
 
-#if _MSC_VER >= 1920
+#if _MSC_VER >= 1930
+
+#if _DEBUG
+#pragma comment(lib, "Effekseer_vs2022_x86_d.lib")
+#pragma comment(lib, "EffekseerRendererDX9_vs2022_x86_d.lib")
+#pragma comment(lib, "EffekseerRendererDX11_vs2022_x86_d.lib")
+#else
+#pragma comment(lib, "Effekseer_vs2022_x86.lib")
+#pragma comment(lib, "EffekseerRendererDX9_vs2022_x86.lib")
+#pragma comment(lib, "EffekseerRendererDX11_vs2022_x86.lib")
+#endif
+
+#elif _MSC_VER >= 1920
 
 #if _DEBUG
 #pragma comment(lib, "Effekseer_vs2019_x86_d.lib")
@@ -97,7 +121,13 @@
 
 #ifdef _WIN64
 
-#if _MSC_VER >= 1920
+#if _MSC_VER >= 1930
+#if _DEBUG
+#pragma comment(lib, "EffekseerForDXLib_vs2022_x64_d.lib")
+#else
+#pragma comment(lib, "EffekseerForDXLib_vs2022_x64.lib")
+#endif
+#elif _MSC_VER >= 1920
 #if _DEBUG
 #pragma comment(lib, "EffekseerForDXLib_vs2019_x64_d.lib")
 #else
@@ -119,7 +149,13 @@
 
 #else
 
-#if _MSC_VER >= 1920
+#if _MSC_VER >= 1930
+#if _DEBUG
+#pragma comment(lib, "EffekseerForDXLib_vs2022_x86_d.lib")
+#else
+#pragma comment(lib, "EffekseerForDXLib_vs2022_x86.lib")
+#endif
+#elif _MSC_VER >= 1920
 #if _DEBUG
 #pragma comment(lib, "EffekseerForDXLib_vs2019_x86_d.lib")
 #else
@@ -471,9 +507,10 @@ void SetDynamicInput3DEffect(int playingEffectHandle, int32_t index, float value
 
 /**
 	@brief	Effekseerにより再生中の2Dエフェクトを更新する。
+	@param	deltaFrame	進行するフレーム数(60fps換算)
 	@return	0:成功、-1:失敗
 */
-int UpdateEffekseer2D();
+int UpdateEffekseer2D(float deltaFrame = 1.0f);
 
 /**
 	@brief	Effekseerにより再生中の2Dエフェクトを全て描画する。
@@ -517,9 +554,10 @@ int DrawEffekseer2D_Draw(int playingEffectHandle);
 int DrawEffekseer2D_End();
 /**
 	@brief	Effekseerにより再生中の3Dエフェクトを更新する。
+	@param	deltaFrame	進行するフレーム数(60fps換算)
 	@return	0:成功、-1:失敗
 */
-int UpdateEffekseer3D();
+int UpdateEffekseer3D(float deltaFrame = 1.0f);
 
 /**
 @brief	Effekseerにより再生中の3Dエフェクトの描画を開始する。

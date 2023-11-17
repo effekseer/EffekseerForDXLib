@@ -868,7 +868,7 @@ void SetDynamicInput3DEffect(int playingEffectHandle, int32_t index, float value
 	g_manager3d->SetDynamicInput(playingEffectHandle, index, value);
 }
 
-int UpdateEffekseer2D()
+int UpdateEffekseer2D(float deltaFrame)
 {
 	if (g_server != nullptr)
 	{
@@ -881,10 +881,12 @@ int UpdateEffekseer2D()
 
 	if (g_manager2d == nullptr)
 		return -1;
-	g_manager2d->Update();
+	Effekseer::Manager::UpdateParameter updateParameter;
+	updateParameter.DeltaFrame = deltaFrame;
+	g_manager2d->Update(updateParameter);
 
 	g_renderer2d->SetTime(g_time2d);
-	g_time2d += 1.0f / 60.0f;
+	g_time2d += deltaFrame / 60.0f;
 	return 0;
 }
 
@@ -971,7 +973,7 @@ int DrawEffekseer2D_End()
 	return 0;
 }
 
-int UpdateEffekseer3D()
+int UpdateEffekseer3D(float deltaFrame)
 {
 	if (g_server != nullptr)
 	{
@@ -984,10 +986,12 @@ int UpdateEffekseer3D()
 
 	if (g_manager3d == nullptr)
 		return -1;
-	g_manager3d->Update();
+	Effekseer::Manager::UpdateParameter updateParameter;
+	updateParameter.DeltaFrame = deltaFrame;
+	g_manager3d->Update(updateParameter);
 
 	g_renderer3d->SetTime(g_time3d);
-	g_time3d += 1.0f / 60.0f;
+	g_time3d += deltaFrame / 60.0f;
 
 	return 0;
 }
