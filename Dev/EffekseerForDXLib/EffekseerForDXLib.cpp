@@ -1,6 +1,7 @@
 ﻿
 #include "EffekseerForDXLib.h"
 #include "Effekseer.Modules.h"
+#include "EffekseerRendererCommon/TextureLoader.h"
 #include <array>
 #include <assert.h>
 #include <map>

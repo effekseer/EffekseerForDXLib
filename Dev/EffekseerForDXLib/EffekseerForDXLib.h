@@ -18,10 +18,12 @@
 #pragma comment(lib, "Effekseer_vs2022_x64_d.lib")
 #pragma comment(lib, "EffekseerRendererDX9_vs2022_x64_d.lib")
 #pragma comment(lib, "EffekseerRendererDX11_vs2022_x64_d.lib")
+#pragma comment(lib, "EffekseerRendererCommon_vs2022_x64_d.lib")
 #else
 #pragma comment(lib, "Effekseer_vs2022_x64.lib")
 #pragma comment(lib, "EffekseerRendererDX9_vs2022_x64.lib")
 #pragma comment(lib, "EffekseerRendererDX11_vs2022_x64.lib")
+#pragma comment(lib, "EffekseerRendererCommon_vs2022_x64.lib")
 #endif
 
 #elif _MSC_VER >= 1920
@@ -30,35 +32,15 @@
 #pragma comment(lib, "Effekseer_vs2019_x64_d.lib")
 #pragma comment(lib, "EffekseerRendererDX9_vs2019_x64_d.lib")
 #pragma comment(lib, "EffekseerRendererDX11_vs2019_x64_d.lib")
+#pragma comment(lib, "EffekseerRendererCommon_vs2019_x64_d.lib")
 #else
 #pragma comment(lib, "Effekseer_vs2019_x64.lib")
 #pragma comment(lib, "EffekseerRendererDX9_vs2019_x64.lib")
 #pragma comment(lib, "EffekseerRendererDX11_vs2019_x64.lib")
+#pragma comment(lib, "EffekseerRendererCommon_vs2019_x64.lib")
+
 #endif
 
-#elif _MSC_VER >= 1910
-
-#if _DEBUG
-#pragma comment(lib, "Effekseer_vs2017_x64_d.lib")
-#pragma comment(lib, "EffekseerRendererDX9_vs2017_x64_d.lib")
-#pragma comment(lib, "EffekseerRendererDX11_vs2017_x64_d.lib")
-#else
-#pragma comment(lib, "Effekseer_vs2017_x64.lib")
-#pragma comment(lib, "EffekseerRendererDX9_vs2017_x64.lib")
-#pragma comment(lib, "EffekseerRendererDX11_vs2017_x64.lib")
-#endif
-
-#elif _MSC_VER >= 1900
-
-#if _DEBUG
-#pragma comment(lib, "Effekseer_vs2015_x64_d.lib")
-#pragma comment(lib, "EffekseerRendererDX9_vs2015_x64_d.lib")
-#pragma comment(lib, "EffekseerRendererDX11_vs2015_x64_d.lib")
-#else
-#pragma comment(lib, "Effekseer_vs2015_x64.lib")
-#pragma comment(lib, "EffekseerRendererDX9_vs2015_x64.lib")
-#pragma comment(lib, "EffekseerRendererDX11_vs2015_x64.lib")
-#endif
 #endif
 
 #else
@@ -69,10 +51,12 @@
 #pragma comment(lib, "Effekseer_vs2022_x86_d.lib")
 #pragma comment(lib, "EffekseerRendererDX9_vs2022_x86_d.lib")
 #pragma comment(lib, "EffekseerRendererDX11_vs2022_x86_d.lib")
+#pragma comment(lib, "EffekseerRendererCommon_vs2022_x86_d.lib")
 #else
 #pragma comment(lib, "Effekseer_vs2022_x86.lib")
 #pragma comment(lib, "EffekseerRendererDX9_vs2022_x86.lib")
 #pragma comment(lib, "EffekseerRendererDX11_vs2022_x86.lib")
+#pragma comment(lib, "EffekseerRendererCommon_vs2022_x86.lib")
 #endif
 
 #elif _MSC_VER >= 1920
@@ -81,35 +65,14 @@
 #pragma comment(lib, "Effekseer_vs2019_x86_d.lib")
 #pragma comment(lib, "EffekseerRendererDX9_vs2019_x86_d.lib")
 #pragma comment(lib, "EffekseerRendererDX11_vs2019_x86_d.lib")
+#pragma comment(lib, "EffekseerRendererCommon_vs2019_x86_d.lib")
 #else
 #pragma comment(lib, "Effekseer_vs2019_x86.lib")
 #pragma comment(lib, "EffekseerRendererDX9_vs2019_x86.lib")
 #pragma comment(lib, "EffekseerRendererDX11_vs2019_x86.lib")
+#pragma comment(lib, "EffekseerRendererCommon_vs2019_x86.lib")
 #endif
 
-#elif _MSC_VER >= 1910
-
-#if _DEBUG
-#pragma comment(lib, "Effekseer_vs2017_x86_d.lib")
-#pragma comment(lib, "EffekseerRendererDX9_vs2017_x86_d.lib")
-#pragma comment(lib, "EffekseerRendererDX11_vs2017_x86_d.lib")
-#else
-#pragma comment(lib, "Effekseer_vs2017_x86.lib")
-#pragma comment(lib, "EffekseerRendererDX9_vs2017_x86.lib")
-#pragma comment(lib, "EffekseerRendererDX11_vs2017_x86.lib")
-#endif
-
-#elif _MSC_VER >= 1900
-
-#if _DEBUG
-#pragma comment(lib, "Effekseer_vs2015_x86_d.lib")
-#pragma comment(lib, "EffekseerRendererDX9_vs2015_x86_d.lib")
-#pragma comment(lib, "EffekseerRendererDX11_vs2015_x86_d.lib")
-#else
-#pragma comment(lib, "Effekseer_vs2015_x86.lib")
-#pragma comment(lib, "EffekseerRendererDX9_vs2015_x86.lib")
-#pragma comment(lib, "EffekseerRendererDX11_vs2015_x86.lib")
-#endif
 #endif
 
 #endif

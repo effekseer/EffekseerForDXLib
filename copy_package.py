@@ -5,7 +5,7 @@ import utils
 targetDir = 'Dev/'
 dxlibDir = 'DXLib_VC/'
 effekseerDir = '../Effekseer/'
-effekseerVSDir = effekseerDir + 'EffekseerRuntime_DXLib/Compiled/'
+effekseerVSDir = effekseerDir + 'EffekseerRuntime_DXLib/'
 
 utils.cdToScript()
 
@@ -15,48 +15,15 @@ utils.mkdir(targetDir+'lib/')
 utils.copytreeWithExt(dxlibDir+'プロジェクトに追加すべきファイル_VC用/', targetDir+'include/', ['.h'])
 utils.copytreeWithExt(dxlibDir+'プロジェクトに追加すべきファイル_VC用/', targetDir+'lib/', ['.lib'])
 
-utils.copy(effekseerVSDir+'include/Effekseer.h', targetDir+'include/')
-utils.copy(effekseerVSDir+'include/Effekseer.Modules.h', targetDir+'include/')
-utils.copy(effekseerVSDir+'include/Effekseer.SIMD.h', targetDir+'include/')
-utils.copy(effekseerVSDir+'include/EffekseerRendererDX9.h', targetDir+'include/')
-utils.copy(effekseerVSDir+'include/EffekseerRendererDX11.h', targetDir+'include/')
+utils.copytreeWithExt(effekseerVSDir+'vs2022_x64/install/include/', targetDir+'include/', ['.h'])
 
+vs_types = ['vs2019', 'vs2022']
+cpu_types = ['x86', 'x64']
+suffix_types = ['_d', '']
+libs = ['Effekseer', 'EffekseerRendererDX9', 'EffekseerRendererDX11', 'EffekseerRendererCommon']
 
-
-utils.copy(effekseerVSDir+'lib/VS2019/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2019_x86_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2019WIN64/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2019_x64_d.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2019/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2019_x86_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2019/Debug/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2019_x86_d.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2019WIN64/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2019_x64_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2019WIN64/Debug/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2019_x64_d.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2019/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2019_x86.lib')
-utils.copy(effekseerVSDir+'lib/VS2019WIN64/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2019_x64.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2019/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2019_x86.lib')
-utils.copy(effekseerVSDir+'lib/VS2019/Release/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2019_x86.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2019WIN64/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2019_x64.lib')
-utils.copy(effekseerVSDir+'lib/VS2019WIN64/Release/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2019_x64.lib')
-
-
-
-utils.copy(effekseerVSDir+'lib/VS2022/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2022_x86_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2022WIN64/Debug/Effekseer.lib', targetDir+'lib/Effekseer_vs2022_x64_d.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2022/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2022_x86_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2022/Debug/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2022_x86_d.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2022WIN64/Debug/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2022_x64_d.lib')
-utils.copy(effekseerVSDir+'lib/VS2022WIN64/Debug/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2022_x64_d.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2022/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2022_x86.lib')
-utils.copy(effekseerVSDir+'lib/VS2022WIN64/Release/Effekseer.lib', targetDir+'lib/Effekseer_vs2022_x64.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2022/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2022_x86.lib')
-utils.copy(effekseerVSDir+'lib/VS2022/Release/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2022_x86.lib')
-
-utils.copy(effekseerVSDir+'lib/VS2022WIN64/Release/EffekseerRendererDX9.lib', targetDir+'lib/EffekseerRendererDX9_vs2022_x64.lib')
-utils.copy(effekseerVSDir+'lib/VS2022WIN64/Release/EffekseerRendererDX11.lib', targetDir+'lib/EffekseerRendererDX11_vs2022_x64.lib')
+for lib in libs:
+    for vs_type in vs_types:
+        for cpu_type in cpu_types:
+            for suffix_type in suffix_types:
+                utils.copy(effekseerVSDir+f'{vs_type}_{cpu_type}/install/lib/{lib}{suffix_type}.lib', targetDir+f'lib/{lib}_{vs_type}_{cpu_type}{suffix_type}.lib')
