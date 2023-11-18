@@ -175,8 +175,17 @@ public:
 		auto size = g_readSizeFunc(path_.c_str());
 		std::vector<uint8_t> data;
 		data.resize(static_cast<size_t>(size));
+		const auto useASyncLoadFlag = GetUseASyncLoadFlag();
+		if (useASyncLoadFlag)
+		{
+			SetUseASyncLoadFlag(false);
+		}
 		FileRead_read(data.data(), static_cast<int>(size), fileHandle);
 		FileRead_close(fileHandle);
+		if (useASyncLoadFlag)
+		{
+			SetUseASyncLoadFlag(true);
+		}
 
 		return Effekseer::MakeRefPtr<EffekseerFileReader>(data);
 	}
@@ -869,7 +878,27 @@ void SetDynamicInput3DEffect(int playingEffectHandle, int32_t index, float value
 	g_manager3d->SetDynamicInput(playingEffectHandle, index, value);
 }
 
-int UpdateEffekseer2D(float deltaFrame)
+int UpdateEffekseer2D()
+{
+	if (g_server != nullptr)
+	{
+		std::array<Effekseer::ManagerRef, 2> managers;
+		managers[0] = g_manager2d;
+		managers[1] = g_manager3d;
+
+		g_server->Update(managers.data(), static_cast<int>(managers.size()));
+	}
+
+	if (g_manager2d == nullptr)
+		return -1;
+	g_manager2d->Update();
+
+	g_renderer2d->SetTime(g_time2d);
+	g_time2d += 1.0f / 60.0f;
+	return 0;
+}
+
+int UpdateEffekseer2D(const float deltaTime)
 {
 	if (g_server != nullptr)
 	{
@@ -883,11 +912,11 @@ int UpdateEffekseer2D(float deltaFrame)
 	if (g_manager2d == nullptr)
 		return -1;
 	Effekseer::Manager::UpdateParameter updateParameter;
-	updateParameter.DeltaFrame = deltaFrame;
+	updateParameter.DeltaFrame = deltaTime * 60;
 	g_manager2d->Update(updateParameter);
 
 	g_renderer2d->SetTime(g_time2d);
-	g_time2d += deltaFrame / 60.0f;
+	g_time2d += deltaTime;
 	return 0;
 }
 
@@ -974,7 +1003,28 @@ int DrawEffekseer2D_End()
 	return 0;
 }
 
-int UpdateEffekseer3D(float deltaFrame)
+int UpdateEffekseer3D()
+{
+	if (g_server != nullptr)
+	{
+		std::array<Effekseer::ManagerRef, 2> managers;
+		managers[0] = g_manager2d;
+		managers[1] = g_manager3d;
+
+		g_server->Update(managers.data(), static_cast<int>(managers.size()));
+	}
+
+	if (g_manager3d == nullptr)
+		return -1;
+	g_manager3d->Update();
+
+	g_renderer3d->SetTime(g_time3d);
+	g_time3d += 1.0f / 60.0f;
+
+	return 0;
+}
+
+int UpdateEffekseer3D(const float deltaTime)
 {
 	if (g_server != nullptr)
 	{
@@ -988,11 +1038,11 @@ int UpdateEffekseer3D(float deltaFrame)
 	if (g_manager3d == nullptr)
 		return -1;
 	Effekseer::Manager::UpdateParameter updateParameter;
-	updateParameter.DeltaFrame = deltaFrame;
+	updateParameter.DeltaFrame = deltaTime * 60;
 	g_manager3d->Update(updateParameter);
 
 	g_renderer3d->SetTime(g_time3d);
-	g_time3d += deltaFrame / 60.0f;
+	g_time3d += deltaTime;
 
 	return 0;
 }
