@@ -24,6 +24,7 @@
 [Oo]bj/
 
 DxLib_VC/
+.vs/
 *.lib
 *.sdf
 *.exe

@@ -93,7 +93,7 @@ int sample2D()
 		position_x += 2.0f;
 
 		// Effekseerにより再生中のエフェクトを更新する。
-		UpdateEffekseer2D(1.0f);
+		UpdateEffekseer2D();
 
 		// Effekseerにより再生中のエフェクトを描画する。
 		DrawEffekseer2D();

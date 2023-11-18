@@ -470,10 +470,18 @@ void SetDynamicInput3DEffect(int playingEffectHandle, int32_t index, float value
 
 /**
 	@brief	Effekseerにより再生中の2Dエフェクトを更新する。
-	@param	deltaFrame	進行するフレーム数(60fps換算)
+	@note 60fpsを想定
 	@return	0:成功、-1:失敗
 */
-int UpdateEffekseer2D(float deltaFrame = 1.0f);
+int UpdateEffekseer2D();
+
+/**
+	@brief	Effekseerにより再生中の2Dエフェクトを更新する。
+	@param	deltaTime	進行する1フレーム当たりの時間
+	@note 60fpsの場合は1.0f/60.0fを指定する。
+	@return	0:成功、-1:失敗
+*/
+int UpdateEffekseer2D(float deltaTime);
 
 /**
 	@brief	Effekseerにより再生中の2Dエフェクトを全て描画する。
@@ -515,12 +523,21 @@ int DrawEffekseer2D_Draw(int playingEffectHandle);
 	DrawEffekseer2Dとは併用できない。
 */
 int DrawEffekseer2D_End();
+
 /**
 	@brief	Effekseerにより再生中の3Dエフェクトを更新する。
-	@param	deltaFrame	進行するフレーム数(60fps換算)
+	@note　60fpsを想定
 	@return	0:成功、-1:失敗
 */
-int UpdateEffekseer3D(float deltaFrame = 1.0f);
+int UpdateEffekseer3D();
+
+/**
+	@brief	Effekseerにより再生中の3Dエフェクトを更新する。
+	@param	deltaTime	進行する1フレーム当たりの時間
+	@note 60fpsの場合は1.0f/60.0fを指定する。
+	@return	0:成功、-1:失敗
+*/
+int UpdateEffekseer3D(float deltaTime);
 
 /**
 @brief	Effekseerにより再生中の3Dエフェクトの描画を開始する。
