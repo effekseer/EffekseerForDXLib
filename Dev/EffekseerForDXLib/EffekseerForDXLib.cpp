@@ -167,6 +167,11 @@ public:
 	{
 		auto path_ = ToMulti((wchar_t*)path);
 
+		const auto useASyncLoadFlag = GetUseASyncLoadFlag();
+		if (useASyncLoadFlag)
+		{
+			SetUseASyncLoadFlag(false);
+		}
 		auto fileHandle = g_openFunc(path_.c_str());
 
 		if (fileHandle == 0)
@@ -175,11 +180,7 @@ public:
 		auto size = g_readSizeFunc(path_.c_str());
 		std::vector<uint8_t> data;
 		data.resize(static_cast<size_t>(size));
-		const auto useASyncLoadFlag = GetUseASyncLoadFlag();
-		if (useASyncLoadFlag)
-		{
-			SetUseASyncLoadFlag(false);
-		}
+
 		FileRead_read(data.data(), static_cast<int>(size), fileHandle);
 		FileRead_close(fileHandle);
 		if (useASyncLoadFlag)
