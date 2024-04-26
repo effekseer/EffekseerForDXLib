@@ -203,7 +203,7 @@ static bool CopyRenderTargetToBackground()
 
 	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
 	if (device == NULL)
-		return nullptr;
+		return false;
 
 	HRESULT hr;
 	IDirect3DSurface9* tempRender = nullptr;
@@ -221,19 +221,21 @@ static bool CopyRenderTargetToBackground()
 		goto Exit;
 	}
 
-	device->SetRenderTarget(0, g_dx9_backgroundSurface);
-	device->SetDepthStencilSurface(nullptr);
+	{
+		device->SetRenderTarget(0, g_dx9_backgroundSurface);
+		device->SetDepthStencilSurface(nullptr);
 
-	D3DSURFACE_DESC desc;
-	tempRender->GetDesc(&desc);
-	const bool isSame = (desc.Width == g_backgroundWidth && desc.Height == g_backgroundHeight);
+		D3DSURFACE_DESC desc;
+		tempRender->GetDesc(&desc);
+		const bool isSame = (desc.Width == g_backgroundWidth && desc.Height == g_backgroundHeight);
 
-	device->StretchRect(tempRender, nullptr, g_dx9_backgroundSurface, nullptr, (isSame ? D3DTEXF_POINT : D3DTEXF_LINEAR));
+		device->StretchRect(tempRender, nullptr, g_dx9_backgroundSurface, nullptr, (isSame ? D3DTEXF_POINT : D3DTEXF_LINEAR));
 
-	device->SetRenderTarget(0, tempRender);
-	device->SetDepthStencilSurface(tempDepth);
+		device->SetRenderTarget(0, tempRender);
+		device->SetDepthStencilSurface(tempDepth);
 
-	ret = true;
+		ret = true;
+	}
 
 Exit:;
 	ES_SAFE_RELEASE(tempRender);
@@ -297,9 +299,9 @@ bool PrepareTexture_DX11(uint32_t width, uint32_t height, DXGI_FORMAT format)
 
 static void Effekseer_Distort()
 {
-	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
-	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
-	ID3D11DeviceContext* dx11_device_context = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
+	LPDIRECT3DDEVICE9 dx9_device = __Effekseer_DxLib_GetDirect3DDevice9();
+	ID3D11Device* dx11_device = __Effekseer_DxLib_GetDirect3DDevice11();
+	ID3D11DeviceContext* dx11_device_context = __Effekseer_DxLib_Get3D11DeviceContext();
 
 	if (dx9_device != nullptr)
 	{
@@ -483,9 +485,9 @@ int Effekseer_InitDistortion(float scale)
 	sizeX = static_cast<int32_t>(sizeX * scale);
 	sizeY = static_cast<int32_t>(sizeY * scale);
 
-	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
-	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
-	ID3D11DeviceContext* dx11_device_context = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
+	LPDIRECT3DDEVICE9 dx9_device = __Effekseer_DxLib_GetDirect3DDevice9();
+	ID3D11Device* dx11_device = __Effekseer_DxLib_GetDirect3DDevice11();
+	ID3D11DeviceContext* dx11_device_context = __Effekseer_DxLib_Get3D11DeviceContext();
 
 	if (dx9_device != NULL)
 	{
