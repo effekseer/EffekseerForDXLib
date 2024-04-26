@@ -91,7 +91,7 @@ static bool AllocateBackgroundBuffer(int32_t sizeX, int32_t sizeY)
 		return false;
 	}
 
-	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
+	LPDIRECT3DDEVICE9 dx9_device = __Effekseer_DxLib_GetDirect3DDevice9();
 
 	if (dx9_device != NULL)
 	{
@@ -201,7 +201,7 @@ static bool CopyRenderTargetToBackground()
 
 	bool ret = false;
 
-	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
+	LPDIRECT3DDEVICE9 device = __Effekseer_DxLib_GetDirect3DDevice9();
 	if (device == NULL)
 		return false;
 
@@ -246,7 +246,7 @@ Exit:;
 
 bool PrepareTexture_DX11(uint32_t width, uint32_t height, DXGI_FORMAT format)
 {
-	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
+	ID3D11Device* dx11_device = __Effekseer_DxLib_GetDirect3DDevice11();
 	if (dx11_device == nullptr)
 		return false;
 
@@ -305,7 +305,7 @@ static void Effekseer_Distort()
 
 	if (dx9_device != nullptr)
 	{
-		if (GetUseDirect3DDevice9() == NULL)
+		if (__Effekseer_DxLib_GetDirect3DDevice9() == NULL)
 			return;
 		auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d.Get();
 		auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d.Get();
@@ -391,9 +391,9 @@ int Effekseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFil
 
 int Effkseer_Init(int particleMax, EffekseerFileOpenFunc openFunc, EffekseerFileReadSizeFunc readSizeFunc)
 {
-	LPDIRECT3DDEVICE9 dx9_device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
-	ID3D11Device* dx11_device = (ID3D11Device*)GetUseDirect3D11Device();
-	ID3D11DeviceContext* dx11_device_context = (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
+	LPDIRECT3DDEVICE9 dx9_device = __Effekseer_DxLib_GetDirect3DDevice9();
+	ID3D11Device* dx11_device = __Effekseer_DxLib_GetDirect3DDevice11();
+	ID3D11DeviceContext* dx11_device_context = __Effekseer_DxLib_Get3D11DeviceContext();
 
 	if (dx9_device == NULL && dx11_device == NULL)
 		return -1;
@@ -1153,7 +1153,7 @@ int DrawEffekseer3D_End()
 
 void Effkseer_DeviceLost(void* data)
 {
-	if (GetUseDirect3DDevice9() == NULL)
+	if (__Effekseer_DxLib_GetDirect3DDevice9() == NULL)
 		return;
 
 	g_renderer2d->SetBackground(nullptr);
@@ -1181,11 +1181,11 @@ void Effkseer_DeviceLost(void* data)
 
 void Effkseer_DeviceRestore(void* data)
 {
-	if (GetUseDirect3DDevice9() == NULL)
+	if (__Effekseer_DxLib_GetDirect3DDevice9() == NULL)
 		return;
 
 	// DXライブラリは回復時に内部でデバイスを再生成するので新しく設定する。
-	LPDIRECT3DDEVICE9 device = (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
+	LPDIRECT3DDEVICE9 device = __Effekseer_DxLib_GetDirect3DDevice9();
 
 	auto renderer2d = (EffekseerRendererDX9::Renderer*)g_renderer2d.Get();
 	auto renderer3d = (EffekseerRendererDX9::Renderer*)g_renderer3d.Get();
