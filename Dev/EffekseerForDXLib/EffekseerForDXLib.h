@@ -1,6 +1,4 @@
-﻿
-#pragma once
-
+﻿#pragma once
 #include "DxLib.h"
 #include "Effekseer.h"
 #include "EffekseerRendererDX11.h"
@@ -179,6 +177,31 @@ inline int __Effekseer_FileRead_open(const char* filePath) { return FileRead_ope
 
 inline LONGLONG __Effekseer_FileRead_size(const char* FilePath) { return FileRead_size(FilePath); }
 #endif
+
+inline LPDIRECT3DDEVICE9 __Effekseer_DxLib_GetDirect3DDevice9() { 
+#ifndef DX_NON_DIRECT3D9
+	return (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
+#else // DX_NON_DIRECT3D9
+	return NULL;
+#endif
+}
+
+inline ID3D11Device* __Effekseer_DxLib_GetDirect3DDevice11() { 
+#ifndef DX_NON_DIRECT3D11
+	return (ID3D11Device*)GetUseDirect3D11Device();
+#else // DX_NON_DIRECT3D11
+	return NULL:
+#endif
+} 
+
+inline ID3D11DeviceContext* __Effekseer_DxLib_Get3D11DeviceContext()
+{
+#ifndef DX_NON_DIRECT3D11
+	return (ID3D11DeviceContext*)GetUseDirect3D11DeviceContext();
+#else // DX_NON_DIRECT3D11
+	return NULL:
+#endif
+}
 
 typedef int (*EffekseerFileOpenFunc)(const char* filePath);
 typedef LONGLONG (*EffekseerFileReadSizeFunc)(const char* filePath);
