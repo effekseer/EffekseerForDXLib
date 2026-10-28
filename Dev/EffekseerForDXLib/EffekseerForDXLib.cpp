@@ -1156,7 +1156,7 @@ int DrawEffekseer3D_End()
 	return NULL;
 }
 
-void Effkseer_DeviceLost(void* data)
+void Effekseer_DeviceLost(void* data)
 {
 	if (__Effekseer_DxLib_GetDirect3DDevice9() == NULL)
 		return;
@@ -1184,7 +1184,12 @@ void Effkseer_DeviceLost(void* data)
 	renderer3d->ChangeDevice(NULL);
 }
 
-void Effkseer_DeviceRestore(void* data)
+void Effkseer_DeviceLost(void* data)
+{
+	Effekseer_DeviceLost(data);
+}
+
+void Effekseer_DeviceRestore(void* data)
 {
 	if (__Effekseer_DxLib_GetDirect3DDevice9() == NULL)
 		return;
@@ -1220,4 +1225,9 @@ void Effkseer_DeviceRestore(void* data)
 		renderer2d->SetBackground(g_dx9_backgroundTexture);
 		renderer3d->SetBackground(g_dx9_backgroundTexture);
 	}
+}
+
+void Effkseer_DeviceRestore(void* data)
+{
+	Effekseer_DeviceRestore(data);
 }
