@@ -654,6 +654,11 @@ Effekseerの機能を直接使用しない限り、この関数は使用しな�
 	Effekseer_SetGraphicsDeviceLostCallbackFunctionsを使用しない時に、
 	この関数を呼び出されるように実装する必要がある。
 */
+void Effekseer_DeviceLost(void* Data);
+
+/**
+	@brief	非推奨(Effekseer_DeviceLostを使用してください)
+*/
 void Effkseer_DeviceLost(void* Data);
 
 /**
@@ -661,5 +666,10 @@ void Effkseer_DeviceLost(void* Data);
 	@param	Data	コールバックデータ
 	Effekseer_SetGraphicsDeviceLostCallbackFunctionsを使用しない時に、
 	この関数を呼び出されるように実装する必要がある。
+*/
+void Effekseer_DeviceRestore(void* Data);
+
+/**
+	@brief	非推奨(Effekseer_DeviceRestoreを使用してください)
 */
 void Effkseer_DeviceRestore(void* Data);
