@@ -515,7 +515,7 @@ int Effekseer_InitDistortion(float scale)
 	return 0;
 }
 
-void Effkseer_End()
+void Effekseer_End()
 {
 	// サーバーを停止する
 	if (g_server != NULL)
@@ -547,6 +547,11 @@ void Effkseer_End()
 	g_graphicsDevice.Reset();
 
 	g_setting.Reset();
+}
+
+void Effkseer_End()
+{
+	Effekseer_End();
 }
 
 void Effekseer_SetGraphicsDeviceLostCallbackFunctions()

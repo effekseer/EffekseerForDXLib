@@ -178,7 +178,8 @@ inline int __Effekseer_FileRead_open(const char* filePath) { return FileRead_ope
 inline LONGLONG __Effekseer_FileRead_size(const char* FilePath) { return FileRead_size(FilePath); }
 #endif
 
-inline LPDIRECT3DDEVICE9 __Effekseer_DxLib_GetDirect3DDevice9() { 
+inline LPDIRECT3DDEVICE9 __Effekseer_DxLib_GetDirect3DDevice9()
+{
 #ifndef DX_NON_DIRECT3D9
 	return (LPDIRECT3DDEVICE9)GetUseDirect3DDevice9();
 #else // DX_NON_DIRECT3D9
@@ -186,13 +187,14 @@ inline LPDIRECT3DDEVICE9 __Effekseer_DxLib_GetDirect3DDevice9() {
 #endif
 }
 
-inline ID3D11Device* __Effekseer_DxLib_GetDirect3DDevice11() { 
+inline ID3D11Device* __Effekseer_DxLib_GetDirect3DDevice11()
+{
 #ifndef DX_NON_DIRECT3D11
 	return (ID3D11Device*)GetUseDirect3D11Device();
 #else // DX_NON_DIRECT3D11
 	return NULL:
 #endif
-} 
+}
 
 inline ID3D11DeviceContext* __Effekseer_DxLib_Get3D11DeviceContext()
 {
@@ -251,6 +253,11 @@ int Effekseer_InitDistortion(float scale = 1.0f);
 
 /**
 	@brief	Effekseerを終了する。
+*/
+void Effekseer_End();
+
+/**
+	@brief	非推奨(Effekseer_Endを使用してください)
 */
 void Effkseer_End();
 
