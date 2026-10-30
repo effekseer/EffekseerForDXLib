@@ -16,7 +16,7 @@ utils.copytree(dxlibDir+'プロジェクトに追加すべきファイル_VC用/
 
 utils.copytreeWithExt(effekseerVSDir+'vs2022_x64/install/include/', targetDir+'プロジェクトに追加すべきファイル_VC用/', ['.h'])
 
-vs_types = ['vs2019', 'vs2022']
+vs_types = ['vs2019', 'vs2022', 'vs2026']
 cpu_types = ['x86', 'x64']
 suffix_types = ['_d', '']
 libs = ['Effekseer', 'EffekseerRendererDX9', 'EffekseerRendererDX11', 'EffekseerRendererCommon']
@@ -47,3 +47,7 @@ utils.copy('Dev/lib/EffekseerForDXLib_vs2022_x86.lib',targetDir+'プロジェク
 utils.copy('Dev/lib/EffekseerForDXLib_vs2022_x64_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 utils.copy('Dev/lib/EffekseerForDXLib_vs2022_x64.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
 
+utils.copy('Dev/lib/EffekseerForDXLib_vs2026_x86_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
+utils.copy('Dev/lib/EffekseerForDXLib_vs2026_x86.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
+utils.copy('Dev/lib/EffekseerForDXLib_vs2026_x64_d.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')
+utils.copy('Dev/lib/EffekseerForDXLib_vs2026_x64.lib',targetDir+'プロジェクトに追加すべきファイル_VC用/')

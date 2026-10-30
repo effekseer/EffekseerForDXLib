@@ -17,7 +17,7 @@ utils.copytreeWithExt(dxlibDir+'プロジェクトに追加すべきファイル
 
 utils.copytreeWithExt(effekseerVSDir+'vs2022_x64/install/include/', targetDir+'include/', ['.h'])
 
-vs_types = ['vs2019', 'vs2022']
+vs_types = ['vs2019', 'vs2022', 'vs2026']
 cpu_types = ['x86', 'x64']
 suffix_types = ['_d', '']
 libs = ['Effekseer', 'EffekseerRendererDX9', 'EffekseerRendererDX11', 'EffekseerRendererCommon']
